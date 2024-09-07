@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="sm:scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="../images/telemenicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Playwrite+NL:wght@100..400&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <title>Telemensagem Rosa de Sarom</title>
+</head>
+<body class="bg-custom-gradient text-white font-IBM">
+  <header class="flex flex-col justify-center p-0 md:p-5">
+    <nav class="hidden md:block bg-transparent p-4 shadow-md" aria-label="header">
+      <ul class="flex flex-row justify-center gap-20">
+        <li><a href="#sobre">Sobre nós</a></li>
+        <li><a href="#modelos">Modelos de serviço</a></li>
+        <li><a href="#funciona">Como funciona</a></li>
+        <li><a href="#redes">Nossas redes</a></li>
+        <li><a href="#formulario">Agendamento</a></li>
+      </ul>
+    </nav>
+
+    <div class="flex flex-row justify-center p-5">
+      <div id="user-card" class="flex flex-row bg-red-600 text-2xl justify-center p-5 rounded-2xl w-1/3 h-1/2 gap-5">
+        <div>
+          <img src="#img" alt="Perfil do usuário">
+          <h2>Nome do usuário</h2>
+        </div>
+        <div>
+          <p>Telefone: <span id="users-tel"></span></p>
+          <p>Endereço: <span id="users-adress"></span></p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <hr>
+
+  <main class="p-5 w-full">
+    <section id="users-section" class="flex flex-col gap-5">
+      <div class="flex flex-row justify-center gap-5 text-2xl">
+        <div id="mensagem-atual" class="flex flex-col bg-red-600 p-5 rounded-2xl">
+          <p>Mensagem em andamento</p>
+          <p>Agendada para a data: <span id="data-agendada"></span></p>
+          <div id="informacoes-atuais">Clique para ver as informações</div>
+        </div>
+        <div id="mensagens-passadas" class="flex flex-col bg-red-600 p-5 rounded-2xl">
+          <p>Última mesagem agendada em: <span id="data-feita">data</span></p>
+          <div id="informacoes-passadas">Clique para ver as informações</div>
+        </div>
+      </div>
+
+      <div id="avaliacao" class="flex flex-row justify-center bg-red-600 p-5 rounded-2xl w-1/3 h-1/2">
+
+      </div>
+    </section>
+  </main>
+
+  <hr>
+  <footer class="bg-transparent p-5 flex flex-col md:flex-row justify-between gap-10">
+    <address>
+      Tel. 68999111571 <br>
+      R. Cumaru, Portal da Amazônia, Rio Branco, Acre
+    </address>
+    <nav class="flex flex-row md:flex-col" aria-label="Footer">
+      <ul class="flex flex-col justify-center gap-2">
+        <li><a href="#sobre">Sobre nós</a></li>
+        <li><a href="#modelos">Modelos de serviço</a></li>
+        <li><a href="#funciona">Como funciona</a></li>
+      </ul>
+    </nav>
+
+    <div class="flex flex-col gap-3 text-center">
+      <h2 class="text-xl">Nossas redes socias</h2>
+      <ul class="flex flex-row gap-10">
+        <li class="w-10"><a href="https://www.facebook.com/telemensagem.rosadesarom" target="_blank">
+          <img src="../SVG/facebook_logo.svg" alt="Facebook"></a>
+        </li>
+        <li class="w-10"><a href="https://www.instagram.com/telemensagem_rosadesarom_acre/" target="_blank">
+          <img src="../SVG/instagram_logo.svg" alt="Instagram"></a>
+        </li>
+        <li class="w-10"><a href=""><img src="../images/tik-tok.png" alt="Tik Tok"></a></li>
+      </ul>
+    </div>
+  </footer>
+  <script src="../js/user.js" type="text/javascript"></script>
+</body>
+</html>

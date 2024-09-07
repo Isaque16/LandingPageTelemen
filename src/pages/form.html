@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="sm:scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="../../public/telemenicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Playwrite+NL:wght@100..400&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../assets/styles/style.css">
+  <title>Agendamento - Telemensagem</title>
+</head>
+<body id="pageBody" class="bg-custom-gradient text-white font-IBM">
+  <header class="flex flex-col p-5 w-full h-full" id="cabecalho">
+    <a href="../../index.html">
+      <div class="p-2">
+        <h1 class="text-4xl md:text-6xl text-center p-2 font-IBM font-bold">TELEMENSAGEM <br> ROSA DE SAROM</h1>
+        <p class="text-center text-lg font-playWrite">💌 Palavras que viram presentes 🎁</p>
+      </div>
+    </a>
+  </header>
+  <hr>
+
+  <main class="p-5 w-full">
+    <div class="flex justify-center">
+      <a href="https://wa.me/556899111571" target="blank"><div class="bg-green-500 fixed bottom-4 right-4 rounded-full p-4 shadow-lg font-semibold z-50"><img src="../assets/SVG/whatsapp.svg" alt="Whatsapp" class="w-9"></div></a>
+    </div>
+    <section class="flex flex-col my-10" id="formulario">
+      <h2 class="text-center text-4xl my-10 bg-transparent p-3 rounded-3xl font-bold">AGENDAMENTO</h2>
+        <form id="form" class="flex flex-col gap-2 w-full relative" action="/submit" method="post">
+          <div class="flex flex-col gap-3 text-xl px-4">
+            <h2 class="bg-red-600 p-2 rounded-xl w-fit text-2xl font-bold">Modelo de mensagem</h2>
+            <div class="bg-red-600 p-2 w-fit rounded-b-xl rounded-tr-xl">
+              <label class="text-2xl" for="aovivo">R$180 | Ao vivo</label>
+              <input type="radio" name="modelo" value="aovivo" checked>
+            </div>
+            <div class="bg-gray-500 p-2 w-fit rounded-b-xl rounded-tr-xl">
+              <label class="text-2xl" for="portelefone">R$20 | Telefone <br> | Indisponível</label>
+            </div>
+          </div>
+          
+          <div class="flex flex-col gap-5">
+            <div id="cont-nome" class="flex flex-col p-2">
+              <div name="input-header" class="flex flex-row gap-5"><label for="nome" class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center">Quem envia</label></div>
+              <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"><input type="text" id="nome" class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50"
+                required
+                placeholder="Nome"
+                autocomplete="name"
+                autocapitalize="words">
+              </div>
+            </div>
+
+            <div id="cont-para" class="flex flex-col p-2">
+              <div name="input-header" class="flex flex-row gap-5"><label for="para" class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center">Para quem</label></div>
+              <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"><input type="text" id="para" class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50"
+                required
+                placeholder="Quem vai receber a mensagem"
+                autocomplete="family-name"
+                autocapitalize="words">
+              </div>
+            </div>
+
+            <div id="cont-hora" class="flex flex-col p-2">
+              <div name="input-header" class="flex flex-row gap-5"><label for="hora" class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center">Horário da mensagem</label></div>
+              <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"><input type="time" id="hora" class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50"
+                required>
+              </div>
+            </div>
+
+            <div id="cont-data" class="flex flex-col p-2">
+              <div name="input-header" class="flex flex-row gap-5"><label for="data" class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center">Data da mensagem</label></div>
+              <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"><input type="date" id="data" class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50"
+                required>
+              </div>
+            </div>
+            
+            <div id="cont-ocasiao" class="flex flex-col p-2">
+              <div name="input-header" class="flex flex-row gap-5"><label for="ocasiao" class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center">Ocasião da mensagem</label></div>
+              <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl">
+                <select id="ocasiao" class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50" required>
+                  <optgroup label="Aniversário">
+                    <option value="Aniversário de mãe">Aniversário de Mãe</option>
+                    <option value="Aniversário de pai">Aniversário de Pai</option>
+                    <option value="Aniversário de irmã">Aniversário de Irmã</option>
+                    <option value="Aniversário de irmão">Aniversário de Irmão</option>
+                    <option value="Aniversário de filha">Aniversário de Filha</option>
+                    <option value="Aniversário de filho">Aniversário de Filho</option>
+                    <option value="Aniversário de namorda">Aniversário de Namorada</option>
+                    <option value="Aniversário de namorado">Aniversário de Namorado</option>
+                    <option value="Aniversário de noiva">Aniversário de Noiva</option>
+                    <option value="Aniversário de noivo">Aniversário de Noivo</option>
+                    <option value="Aniversário de marido">Aniversário de Marido</option>
+                    <option value="Aniversário de esposa">Aniversário de Esposa</option>
+                    <option value="Aniversário de sogra">Aniversário de Sogra</option>
+                    <option value="Aniversário de sogro">Aniversário de Sogro</option>
+                    <option value="Aniversário de cunhada">Aniversário de Cunhada</option>
+                    <option value="Aniversário de cunhado">Aniversário de Cunhado</option>
+                    <option value="Aniversário de amiga">Aniversário de Amiga</option>
+                    <option value="Aniversário de amigo">Aniversário de Amigo</option>
+                  </optgroup>
+                  <optgroup label="Datas comemorativas">
+                    <option value="Dia das mães">Dia das Mães</option>
+                    <option value="Dia dos pais">Dia dos Pais</option>
+                    <option value="Dia dos namorados">Dia dos Namorados</option>
+                    <option value="Dia da mulher">Dia da Mulher</option>
+                    <option value="natal">Natal</option>
+                    <option value="ano novo">Ano Novo</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+
+            <div id="cont-music" class="p-2 hidden">
+              <div name="input-header" class="flex flex-row gap-5"><label for="music" class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center">Nome da música</label></div>
+              <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl flex flex-row"><input type="text" id="music" class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50" 
+                placeholder="ex: Esse cara sou eu - Roberto Carlos"
+                autocapitalize="words">
+                <button type="button" id="search-button" class="p-2 text-xl font-bold"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg></button>
+              </div>
+              <div id="search-container" class="bg-white text-black p-5 w-fit rounded-xl empty:hidden overflow-y-auto"></div>
+            </div>
+
+            <div id="cont-seutelefone" class="flex flex-col p-2">
+              <div name="input-header" class="flex flex-row gap-5"><label for="seutelefone" class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center">Telefone para contato</label></div>
+              <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"><input type="tel" class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50" id="seutelefone" 
+                placeholder="ex: 68 12345678" 
+                autocomplete="tel-local">
+              </div>
+            </div>
+            
+            <div id="cont-destinatariotel" class="p-2 hidden">
+              <div name="input-header" class="flex flex-row gap-5"><label for="destinatariotel" class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center">Número do destinatário</label></div>
+              <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"><input type="tel" id="destinatariotel" class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50" 
+                placeholder="ex: 68 12345678" 
+                autocomplete="tel-local">
+              </div>
+            </div>
+
+            <div id="cont-endereco" class="p-2">
+              <div name="input-header" class="flex flex-row gap-5"><label for="endereco" class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center">Endereço da comemoração</label></div>
+              <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"><input type="text" id="endereco" class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50" 
+                required placeholder="ex: R. Cumaru, Portal da Amazônia, Rio Branco, Acre"
+                autocomplete="address-level4"
+                autocapitalize="words">
+              </div>
+            </div>
+
+            <div class="flex flex-col p-2 rounded-xl text-center gap-2"><input type="button" class="p-2 bg-red-700 hover:bg-red-600 rounded-xl cursor-pointer text-2xl font-workSans w-full md:w-1/2 font-bold" id="agendar" value="AGENDAR"></div>
+
+          </div>
+        </form>
+
+          <div id="overlay" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 z-50 hidden">
+            <div id="confirm-container" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 p-4 rounded-lg shadow-lg z-50 max-w-full max-h-full backdrop:bg-black hidden">
+              <h1 class="text-2xl text-center p-2 font-bold">Confime suas informações antes de enviar</h1>
+              <div id="confirmation-screen" class="bg-white p-5 rounded-2xl text-black text-2xl text-center flex flex-col gap-5 overflow-y-auto max-h-[70vh]">
+                <div name="cont-show-data">
+                  <p>Modelo de Mensagem:</p>
+                  <span name="show-data" class="font-bold text-black"></span>
+                </div>
+                <div name="cont-show-data">
+                  <p>Nome de Quem Envia:</p>
+                  <span name="show-data" class="font-bold text-black"></span>
+                </div>
+                <div name="cont-show-data">
+                  <p>Nome de Quem Receberá:</p>
+                  <span name="show-data" class="font-bold text-black"></span>
+                </div>
+                <div name="cont-show-data">
+                  <p>Horário da Mensagem:</p>
+                  <span name="show-data" class="font-bold text-black"></span>
+                </div>
+                <div name="cont-show-data">
+                  <p>Data da Mensagem:</p>
+                  <span name="show-data" class="font-bold text-black"></span>
+                </div>
+                <div name="cont-show-data">
+                  <p>Ocasião da Mensagem:</p>
+                  <span name="show-data" class="font-bold text-black"></span>
+                </div>
+                <div name="cont-show-data">
+                  <p>Telefone para Contato:</p>
+                  <span name="show-data" class="font-bold text-black"></span>
+                </div>
+                <div name="cont-show-data">
+                  <p>Telefone do Destinatário:</p>
+                  <span name="show-data" class="font-bold text-black"></span>
+                </div>
+                <div name="cont-show-data">
+                  <p>Nome da Música:</p>
+                  <span name="show-data" class="font-bold text-black"></span>
+                </div>
+                <div name="cont-show-data">
+                  <p>Endereço da Comemoração:</p>
+                  <span name="show-data" class="font-bold text-black"></span>
+                </div>
+              </div>
+              <div class="flex flex-row p-2 rounded-xl gap-2">
+                <input type="button" class="p-2 bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer text-2xl font-workSans w-1/2" id="cancelar-agendamento" value="Cancelar">
+                <input type="button" class="p-2 bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer text-2xl font-workSans w-1/2" id="confirmar-agendamento" value="Confirmar">
+              </div>
+            </div>
+          </div>
+
+        <div id="confirm-screen" class="bg-red-600 opacity-70 p-5 text-2xl rounded-xl text-center hidden">
+          <div class="flex flex-col items-center p-5 text-center">
+            <h1 class="font-bold text-5xl">Agendamento realizado!</h1>
+            <p class="text-2xl font-bold">O pagamento é feito no local da mensagem ao vivo</p>
+            <p class="text-2xl">Agora basta confiar e aguardar</p>
+            <div><img src="../../public/images/check-icon-gif.gif" alt="Check" class="w-40"></div>
+          </div>
+          <p><a href="../../index.html" class="hover:underline hover:text-blue-400">Voltar</a></p>
+          <div>Qualquer dúvida, entre em contato através do nosso <a href="https://wa.me/556899111571" class="text-green-400 underline" target="_blank">Whatsapp</a></div>
+          <div class="flex flex-col gap-3 items-center">
+            <h2 class="text-xl">Aproveite e veja mais sobre nosso trabalho!</h2>
+            <ul class="flex flex-row gap-10">
+              <li class="w-10"><a href="https://www.facebook.com/telemensagem.rosadesarom" target="_blank">
+                <img src="../assets/SVG/facebook_logo.svg" alt="Facebook"></a>
+              </li>
+              <li class="w-10"><a href="https://www.instagram.com/telemensagem_rosadesarom_acre/" target="_blank">
+                <img src="../assets/SVG/instagram_logo.svg" alt="Instagram"></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </section>
+  </main>
+
+  <hr>
+  <footer class="bg-transparent p-5 flex flex-col-reverse md:flex-row justify-between gap-10">
+    <address>
+      Tel. 68999111571 <br>
+      Email. rosadesarom_ac2@hotmail.com <br>
+      CNPJ. 
+    </address>
+
+    <nav class="p-4" aria-label="footer">
+      <ul class="flex flex-col md:justify-center gap-5">
+        <li><a href="../../index.html#cabecalho">Início</a></li>
+        <li><a href="../../index.html#modelos">Modelos de serviço</a></li>
+        <li><a href="../../index.html#funciona">Como funciona</a></li>
+        <li><a href="./form.html">Agendamentos</a></li>
+      </ul>
+    </nav>
+
+    <div class="flex flex-col gap-3 text-center">
+      <h2 class="text-xl">Nossas redes socias</h2>
+      <ul class="flex flex-row justify-center gap-10">
+        <li class="w-10"><a href="https://www.facebook.com/telemensagem.rosadesarom" target="_blank">
+          <img src="./../assets/SVG/facebook_logo.svg" alt="Facebook"></a>
+        </li>
+        <li class="w-10"><a href="https://www.instagram.com/telemensagem_rosadesarom_acre/" target="_blank">
+          <img src="./../assets/SVG/instagram_logo.svg" alt="Instagram"></a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="../services/API/youtubeAPI.js"></script>
+  <script type="module" src="../dist/form.js"></script>
+</body>
+</html>

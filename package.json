@@ -1,0 +1,27 @@
+{
+  "name": "landingpagetelemen",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "server": "node ./backend/server.cjs",
+    "live": "nodemon ./backend/server.cjs",
+    "tailwind": "npx tailwindcss -i ./src/assets/styles/input.css -o ./src/assets/styles/style.css --watch",
+    "prettier": "npx prettier --write ./index.html"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3",
+    "vite": "^5.4.1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.14",
+    "nodemon": "^3.1.4",
+    "uuid": "^10.0.0"
+  }
+}
