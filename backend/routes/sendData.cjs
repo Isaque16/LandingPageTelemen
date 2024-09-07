@@ -46,8 +46,7 @@ async function sendData(req, res) {
 
   const message = {
     from: process.env.SendersEmail,
-    to: 'clubpenguinganball14@gmail.com',
-    // to: 'rosadesarom_ac2@hotmail.com',
+    to: 'rosadesarom_ac2@hotmail.com',
     subject: `Mensagem ${content.Modelo} de ${content.De} para ${content.DataDeEnvio}`,
     text: sendMessage
   };
