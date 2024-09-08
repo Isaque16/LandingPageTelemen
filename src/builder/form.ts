@@ -29,7 +29,7 @@ confirmBtn.addEventListener('click', () => submitInputValues())
 cancelBtn.addEventListener('click', () => cancelSubmition())
 
 // Adiciona um info sob cada input text ao focar
-formData.forEach(data => data.id.addEventListener('focus', () => {
+formData.forEach((data: any) => data.id.addEventListener('focus', () => {
   const spanInfo = document.createElement('span') as HTMLSpanElement
   data.cont.appendChild(spanInfo)
   spanInfo.classList.add('opacity-70')
