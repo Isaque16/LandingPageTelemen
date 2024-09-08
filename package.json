@@ -10,7 +10,7 @@
     "server": "node ./backend/server.cjs",
     "live": "nodemon ./backend/server.cjs",
     "tailwind": "npx tailwindcss -i ./src/assets/styles/input.css -o ./src/assets/styles/style.css --watch",
-    "prettier": "npx prettier --write ./index.html"
+    "prettier": "npx prettier --write ./index.html ./src/pages/*.html"
   },
   "devDependencies": {
     "typescript": "^5.5.3",
