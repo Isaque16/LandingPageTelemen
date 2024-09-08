@@ -956,7 +956,7 @@ video {
 }
 
 .bg-backheadercell {
-  background-image: url('../../../public/images/fotodefundocelular.jpg');
+  background-image: url('/images/fotodefundocelular.jpg');
 }
 
 .bg-custom-gradient {
@@ -964,7 +964,7 @@ video {
 }
 
 .bg-divOne {
-  background-image: url('../../../public/images/fotocarro1.jpg');
+  background-image: url('/images/fotocarro1.jpg');
 }
 
 .bg-cover {
@@ -1209,7 +1209,7 @@ video {
   }
 
   .md\:bg-backheaderdt {
-    background-image: url('../../../public/images/fotodefundo.jpg');
+    background-image: url('/images/fotodefundo.jpg');
   }
 
   .md\:p-5 {

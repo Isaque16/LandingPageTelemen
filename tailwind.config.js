@@ -55,10 +55,10 @@ module.exports = {
       },
       backgroundImage: {
         'custom-gradient': 'linear-gradient(45deg, #5F2981, #F1BC4A, #F01823)',
-        'backheaderdt': "url('../../../public/images/fotodefundo.jpg')",
-        'backheadercell': "url('../../../public/images/fotodefundocelular.jpg')",
-        'divOne': "url('../../../public/images/fotocarro1.jpg')",
-        'divTwo': "url('../../../public/images/fotocarro2.jpg')",
+        'backheaderdt': "url('/images/fotodefundo.jpg')",
+        'backheadercell': "url('/images/fotodefundocelular.jpg')",
+        'divOne': "url('/images/fotocarro1.jpg')",
+        'divTwo': "url('/images/fotocarro2.jpg')",
       },
       fontFamily: {
         workSans: ['Work Sans'],

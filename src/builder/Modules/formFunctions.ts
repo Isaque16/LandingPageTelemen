@@ -1,4 +1,4 @@
-import { formData } from "./formData.js" // Importa os dados do formulário
+import { formData } from "./formData" // Importa os dados do formulário
 
 // Elementos a serem manipulados
 const pageBody = document.getElementById('pageBody') as HTMLBodyElement
