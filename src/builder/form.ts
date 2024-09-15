@@ -1,7 +1,7 @@
 // Importações das funções necessárias
-import { updateForm, verifyInput, cancelSubmition, submitInputValues, popupInputData } from "./modules/formFunctions" // Funções que fazem o form funcionar
-import { setCurrentTime, setCurrentDate } from "./modules/setToday" // Funções que mostram o tempo no placeholder do formulário
-import { formData } from "./modules/formData"
+import { updateForm, verifyInput, cancelSubmition, submitInputValues, popupInputData } from "./modules/formFunctions.ts" // Funções que fazem o form funcionar
+import { setCurrentTime, setCurrentDate } from "./modules/setToday.ts" // Funções que mostram o tempo no placeholder do formulário
+import { formData } from "./modules/formData.ts"
 
 const tipoMensagem = document.getElementsByName('modelo') as NodeListOf<HTMLInputElement>
 // Função que passa o número do radio selecionado
