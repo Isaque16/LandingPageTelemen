@@ -1,20 +1,11 @@
-// Importando módulos necessários
-require('dotenv').config();
-const express      = require('express');
-const app          = express();
-const { v4: uuid } = require('uuid');
-const nodemailer   = require('nodemailer');
-const { setCurrentTime, setCurrentDate } = require('../setCronos.cjs');
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv')
 
-app.use(express.urlencoded({ extended: true })); // Middleware para parsear o corpo das requisições como JSON
-app.use(express.json()); // Middleware para parsear requisições URl-encoded
+dotenv.config(); // Carrega as variáveis de ambiente
 
-const timeRegis = `Hora: ${setCurrentTime()} Data: ${setCurrentDate()}`;
-
-// Rota para lidar com os dados do formulário
-async function sendData(req, res, next) {
-  console.log('sendData')
-  const result = req.body
+async function sendData(req, res) {
+  console.log('sendData');
+  const result = req.body;
 
   // Configure o transportador de e-mail
   const transporter = nodemailer.createTransport({
@@ -33,7 +24,6 @@ async function sendData(req, res, next) {
   
   const message = {
     from: process.env.SendersEmail,
-    // to: 'rosadesarom_ac2@hotmail.com',
     to: 'clubpenguinganball14@gmail.com',
     subject: `Mensagem ${result["Modelo de Mensagem"]} de ${result["Nome de Quem Envia"]} para ${result["Horário da Mensagem"]}`,
     text: sendMessage
@@ -42,10 +32,10 @@ async function sendData(req, res, next) {
   try {
     await transporter.sendMail(message); // Envia o e-mail
     console.log('Email enviado com sucesso!');
-    return res.status(200);
+    return res.status(200).send('Email enviado com sucesso!'); // Envia resposta ao cliente
   } catch (error) {
-    console.error('Erro ao salvar os dados', error);
-    return res.status(400).set('Content-Type', 'text/plain').send('Erro agendar, tente novamente');
+    console.error('Erro ao enviar o email:', error);
+    return res.status(400).set('Content-Type', 'text/plain').send('Erro ao agendar, tente novamente');
   }
 }
 

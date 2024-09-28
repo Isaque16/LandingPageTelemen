@@ -34,7 +34,7 @@
       <servico
         :div1-class="'aovivo'"
         :div2-class="'aovivo'"
-        :div-image-class="'aovivo'"
+        :div-image="'aovivo'"
         modelo="Ao Vivo"
         :items="[
           '🚗 Carro com balões metalizados 🎈',
@@ -54,7 +54,7 @@
       <servico
         :div1-class="'portelefone'"
         :div2-class="'portelefone'"
-        :div-image-class="'portelefone'"
+        :div-image="'portelefone'"
         modelo="Por Telefone"
         :items="[
           '📞 Ligação personalizada com mensagem',
@@ -136,19 +136,19 @@
       </section>
     </div>
 
-    <router-link to="/agendamento" class="flex justify-center my-5">
+    <nuxt-link to="/agendamento" class="flex justify-center my-5">
       <div
         name="container"
         class="text-center p-2 bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer text-2xl md:text-3xl font-workSans w-fit font-bold"
       >
         FAÇA JÁ SEU AGENDAMENTO!
       </div>
-    </router-link>
+    </nuxt-link>
   </main>
 </template>
 
 <script setup lang="ts">
-import anime from "animejs";
+import anime from 'animejs'
 import { onMounted } from "vue";
 
 onMounted(() => {

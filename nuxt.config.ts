@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: [ '@nuxtjs/tailwindcss' ],
+  modules: ['@nuxtjs/tailwindcss', "@nuxt/image", "@pinia/nuxt"],
   app: {
     head: {
       title: "Telemensagem Rosa de Sarom",

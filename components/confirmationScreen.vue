@@ -21,7 +21,7 @@
         Cancelar
       </button>
       <button
-        @click="agendar()"
+        @click.prevent="handleAgendar()"
         class="p-2 bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer text-2xl font-workSans w-1/2"
       >
         {{ confirmBtn }}
@@ -32,6 +32,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from "vue";
+import { useFetch } from "#app";
 
 const emit = defineEmits([
   "closeDialog",
@@ -89,7 +90,7 @@ const showContent = computed(() => {
 
 // Agendamento
 const confirmBtn = ref<string>("Confirmar");
-async function agendar() {
+async function handleAgendar() {
   const result = showContent.value.reduce((acc: any, item: any) => {
     acc[item.contentTitle] = item.data; // Atualiza o acumulador
     return acc; // Retorna o acumulador atualizado
@@ -99,7 +100,7 @@ async function agendar() {
 
   // Primeiro tenta enviar os dados para a url da rota POST
   try {
-    await fetch("http://localhost:3500/submit", {
+    await fetch('/submit', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(result),

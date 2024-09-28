@@ -3,10 +3,6 @@ const express = require('express');
 const app = express();
 const fs = require('fs/promises'); // Usando o módulo de promessas do fs
 const path = require('path');
-const { v4: uuid } = require('uuid');
-const { setCurrentTime, setCurrentDate } = require('../setCronos.cjs');
-
-const timeRegis = `Hora: ${setCurrentTime()} Data: ${setCurrentDate()}`;
 
 app.use(express.urlencoded({ extended: true })); // Middleware para parsear o corpo das requisições como JSON
 app.use(express.json()); // Middleware para parsear requisições URl-encoded
