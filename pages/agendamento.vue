@@ -68,7 +68,7 @@
             v-model="form.nome"
             placeholder="Nome(s)"
             autocomplete="name"
-            info-message="Neste campo você deve preencher com o nome de quem está enviando, podendo ser somente o seu ou de várias pessoas em conjunto"
+            info-message="Preencha com o nome do remetente, que pode ser seu ou de várias pessoas."
             error-message="Informe pelo menos o primeiro nome de quem está enviando!"
           ></input-component>
 
@@ -78,7 +78,7 @@
             inputType="text"
             v-model="form.para"
             placeholder="Nome da homenagiada(o)"
-            info-message="Aqui, você deve preencher com o nome da pessoa que será homenagiada(o)"
+            info-message="Preencha com o nome da pessoa a ser homenageada."
             error-message="Informe pelo menos o primeiro nome da pessoa que vai receber"
           ></input-component>
 
@@ -87,7 +87,7 @@
             inputTitle="Horário da mensagem"
             inputType="time"
             v-model="form.hora"
-            info-message="Agora você deve preencher este campo com a horá que a mensagem deve ocorrer, podendo estar ou não disponível no dia"
+            info-message="Preencha este campo com a hora em que a mensagem deve ser enviada"
             error-message="É preciso informar o horário de envio da mensagem"
           ></input-component>
 
@@ -96,7 +96,7 @@
             inputTitle="Data de envio"
             inputType="date"
             v-model="form.data"
-            info-message="Da mesma forma a data de envio da mensagem. Por favor, sempre agende com antecedencia"
+            info-message="Preencha a data de envio da mensagem e agende com antecedência."
             error-message="É preciso informar a data de envio da mensagem"
           ></input-component>
 
@@ -172,12 +172,24 @@
                   </option>
                 </optgroup>
                 <optgroup label="Datas comemorativas">
-                  <option value="Dia das Mães">Dia das Mães</option>
-                  <option value="Dia dos Pais">Dia dos Pais</option>
-                  <option value="Dia dos Namorados">Dia dos Namorados</option>
-                  <option value="Dia da Mulher">Dia da Mulher</option>
-                  <option value="Natal">Natal</option>
-                  <option value="Ano Novo">Ano Novo</option>
+                  <option value="Dia das Mães">
+                    Dia das Mães
+                  </option>
+                  <option value="Dia dos Pais">
+                    Dia dos Pais
+                  </option>
+                  <option value="Dia dos Namorados">
+                    Dia dos Namorados
+                  </option>
+                  <option value="Dia da Mulher">
+                    Dia da Mulher
+                  </option>
+                  <option value="Natal">
+                    Natal
+                  </option>
+                  <option value="Ano Novo">
+                    Ano Novo
+                  </option>
                 </optgroup>
               </select>
             </div>
@@ -189,7 +201,7 @@
             inputType="text"
             v-model="form.contato"
             placeholder="ex: 68 12345678"
-            info-message="Digite aqui o seu número de telefone para mantermos contato"
+            info-message="Digite seu número de telefone para mantermos contato"
             error-message="Precisamos manter contato! Nos informe seu número"
           ></input-component>
 
@@ -200,7 +212,7 @@
             inputType="text"
             v-model="form.destinatariotel"
             placeholder="ex: 68 12345678"
-            info-message="Digite aqui o número de telefone da pessoa que vai receber a mensagem"
+            info-message="Digite o número de telefone do homenagiada(o)"
             error-message="Precisamos do contato para o envio da mensagem"
           ></input-component>
 
@@ -223,7 +235,7 @@
             inputType="text"
             v-model="form.musica"
             placeholder="ex: Esse cara sou eu - Roberto Carlos"
-            info-message="Escreva o nome da música da preferencia de quem vai receber a mensagem, pois essa chegará tocando na chegada ao local"
+            info-message="Escreva o nome da música preferida do destinatário, pois ela tocará na chegada ao local."
             error-message="A escolha de uma música de sua preferencia é necessário"
           ></input-component>
 
@@ -234,8 +246,8 @@
             inputType="text"
             v-model="form.endereco"
             placeholder="ex: R. Cumaru, Portal da Amazônia, Rio Branco, Acre"
-            info-message="Por último, escreva ou cole neste campo o endereço do local onde ocorrerá a comemoração da data em questão"
-            error-message="Por favor, digite o endereço/local da comemoração corretamente"
+            info-message="Por último, insira o endereço do local da comemoração."
+            error-message="Por favor, digite o endereço da comemoração corretamente"
           ></input-component>
 
           <div class="flex flex-col p-2 rounded-xl text-center gap-2">
