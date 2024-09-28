@@ -100,14 +100,14 @@ async function handleAgendar() {
 
   // Primeiro tenta enviar os dados para a url da rota POST
   try {
-    await fetch('/submit', {
+    await $fetch("/api/submitData", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(result),
     });
 
     emit("agendadoResponse", true);
-  } catch (error: any) {
+  } catch (error) {
     // Caso ocorra um erro, mostra no botão do formulário
     emit("agendarBtnBadRequest");
     console.error("Houve um erro ao enviar os dados: ", error);

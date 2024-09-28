@@ -5,11 +5,10 @@ Site de Lading Page para a empresa Telemensagem Rosa de Sarom AC. Este site foi 
 ## Foram utilizadas as tecnologias: 
 - HTML;
 - Tailwind CSS;
+- AnimeJs;
 - TypeScript;
-- VueJs
-- AnimeJs
-- Node JS;
-- Express.
+- VueJs;
+- NuxtJS.
 
 ## Funcionalidades
 - Apresenta uma página HTML com estilos e animações;

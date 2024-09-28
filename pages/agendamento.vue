@@ -116,8 +116,12 @@
                 v-model="form.ocasiao"
               >
                 <optgroup label="Aniversário">
-                  <option value="Aniversário de Mãe">Aniversário de Mãe</option>
-                  <option value="Aniversário de Pai">Aniversário de Pai</option>
+                  <option value="Aniversário de Mãe">
+                    Aniversário de Mãe
+                  </option>
+                  <option value="Aniversário de Pai">
+                    Aniversário de Pai
+                  </option>
                   <option value="Aniversário de Irmã">
                     Aniversário de Irmã
                   </option>
@@ -279,6 +283,7 @@ import { useRoute } from "vue-router";
 import { onMounted, ref, watch } from "vue";
 import { useFormStore } from "~/store/userFormStore";
 
+// Utilizando Pinia
 const formStore = useFormStore();
 const form = formStore.formData;
 
@@ -308,7 +313,8 @@ function sendInputValues() {
     !form.ocasiao ||
     !form.contato;
   const aovivoSet: boolean =
-    form.radioValue === "Ao Vivo" && (!form.musica || !form.endereco);
+    form.radioValue === "Ao Vivo" && 
+    (!form.musica || !form.endereco);
   const portelefoneSet: boolean =
     form.radioValue === "Por Telefone" &&
     (!form.destinatariotel || !form.mensagem);

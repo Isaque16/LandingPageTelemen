@@ -8,7 +8,9 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3">
       <div
-        class="bg-gray-100 flex flex-row items-center justify-between text-black text-center rounded-2xl border-black border-2 m-10" v-for="(mensagem, index) of mensagens" :key="index"
+        class="bg-gray-100 flex flex-row items-center justify-between text-black text-center rounded-2xl border-black border-2 m-10"
+        v-for="(mensagem, index) of mensagens"
+        :key="index"
       >
         <p class="text-xl pl-5">
           {{ mensagem.nome }}
@@ -39,8 +41,10 @@
         >
           Outro
         </button>
-        <button class="bg-red-700 hover:vermelho px-5 py-1 rounded-2xl text-white text-2xl" 
-        @click="sendSelectedMensagem">
+        <button
+          class="bg-red-700 hover:vermelho px-5 py-1 rounded-2xl text-white text-2xl"
+          @click="sendSelectedMensagem"
+        >
           Selecionar
         </button>
       </div>
@@ -50,15 +54,15 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import mensagens from '../../backend/database/mensagens.json'
+import mensagens from "../../server/database/mensagens.json";
 import { useFormStore } from "~/store/userFormStore";
 
 const route = useRouter();
 
 const dialogScreen = ref<HTMLDialogElement>();
-const dialogTitle = ref<string>('');
+const dialogTitle = ref<string>("");
 const setDialog = (title: string) => {
-  dialogTitle.value = title
+  dialogTitle.value = title;
   dialogScreen.value?.showModal();
 };
 const closeDialog = () => dialogScreen.value?.close();
@@ -66,5 +70,5 @@ const closeDialog = () => dialogScreen.value?.close();
 const sendSelectedMensagem = () => {
   useFormStore().formData.mensagem = dialogTitle.value;
   route.go(-1);
-}
+};
 </script>
