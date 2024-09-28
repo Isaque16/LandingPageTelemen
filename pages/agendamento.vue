@@ -297,12 +297,11 @@ onMounted(() => {
   else if (modeloParams === 'Por Telefone' || modeloParams === 'Por+Telefone') form.radioValue = "Por Telefone";
 });
 
-const updateForm = () => form.radioValue;
+const updateForm = () => form.radioValue; // Altera o valor do formulário quando alterado
 
-// Input refs
 const agendarBtn = ref("AGENDAR");
-
 const dialogScreen = ref<HTMLDialogElement | null>();
+
 // Verifica o preenchimento dos inputs
 function sendInputValues() {
   const formDefaultSet: boolean =

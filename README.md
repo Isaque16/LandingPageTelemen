@@ -1,25 +1,26 @@
 # Landing Page Telemensagem
-## Descrição:
-Site de Lading Page para a empresa Telemensagem Rosa de Sarom AC. Este site foi desenvolvida com a finalidade de receber clientes, diminuindo as perguntas e aumentando os agendamentos.
 
-## Foram utilizadas as tecnologias: 
-- HTML;
-- Tailwind CSS;
-- AnimeJs;
-- TypeScript;
-- VueJs;
-- NuxtJS.
+## Descrição:
+Site de Landing Page para a empresa **Telemensagem Rosa de Sarom AC**. Este site foi desenvolvido com a finalidade de atrair clientes, automatizando respostas e aumentando a eficiência nos agendamentos.
+
+## Tecnologias Utilizadas: 
+- HTML
+- Tailwind CSS
+- AnimeJs
+- TypeScript
+- Vue.js
+- Nuxt.js
 
 ## Funcionalidades
-- Apresenta uma página HTML com estilos e animações;
-- Formulário de agendamentos automático.
+- Apresenta uma página HTML estilizada com **Tailwind CSS** e animações feitas com **AnimeJs**;
+- Formulário de agendamentos automático, incluindo validação de dados;
+<!-- - Integração com a API do YouTube para sugerir vídeos no campo de músicas do formulário. -->
 
 ### Front-end
-Foram utilizados **HTML** na estrutura de todo o site, além do **Tailwind CSS**, um framework que facilita a utilzação do **CSS** durante o desenvolvimento. 
-Funcionalidades de animação da página inicial e validação de dados do formulário foram desenvolvidas utilizando **TypeScript**. Além da utilização da API do Youtube para sugestão de vídeos para o input de músicas do formulário.
+Foi utilizada a combinação de **HTML** para estruturação, **Tailwind CSS** para estilização rápida e eficiente, e **AnimeJs** para as animações dinâmicas da página inicial. A validação de dados do formulário e outras funcionalidades foram desenvolvidas com **TypeScript**. A API do YouTube é utilizada para sugestões de vídeos no formulário.
 
 ### Back-end
-Foi utilizado **Node JS** com o framework **Express** para a verificação de dados duplicados, armazenamento de agendamentos anteriores e envio automático de e-mails através do Gmail.
+O back-end foi desenvolvido utilizando **Node.js** com o framework **Nuxt 3**. A verificação de dados duplicados e o armazenamento de agendamentos são realizados através de middlewares personalizados no diretório `server/middleware`. O envio automático de e-mails é realizado utilizando o **Nodemailer**, com integração via Gmail, dentro de rotas API no diretório `server/api`.
 
 ## Autor
-Isaque16 - Isaque Costa
+**Isaque16** - Isaque Costa

@@ -41,7 +41,7 @@
     </div>
     <div
       v-if="forLabel === 'musica'"
-      id="search-container"
+      ref="search-container"
       class="bg-white text-black p-5 w-fit rounded-xl empty:hidden overflow-y-auto"
     ></div>
     <p v-if="isFocused && isValid" class="opacity-70 text-xl w-full md:w-1/2">
