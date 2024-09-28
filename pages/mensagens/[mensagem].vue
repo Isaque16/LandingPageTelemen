@@ -1,7 +1,7 @@
 <template>
   <main class="bg-transparent text-black text-2xl text-center p-5">
     <h1
-      class="px-10 py-1 border-black border-2 w-1/2 mx-auto rounded-xl bg-slate-100 font-bold"
+      class="px-10 py-1 border-black border-2 w-full md:w-1/2 mx-auto rounded-xl bg-slate-100 font-bold"
     >
       {{ $route.params.mensagem }}
     </h1>
@@ -24,15 +24,15 @@
   </main>
 
   <dialog
-    class="bg-zinc-100 text-black text-2xl w-1/2 h-1/2 flex justify-center rounded-2xl"
+    class="bg-transparent text-black text-2xl w-full md:w-1/2 h-1/2 flex justify-center rounded-2xl"
     ref="dialogScreen"
   >
     <div
-      class="bg-white text-black p-5 text-center flex flex-col justify-center rounded-xl w-1/2 border-black border-2 m-10"
+      class="bg-white text-black p-5 text-center flex flex-col justify-center rounded-xl w-full border-black border-2 m-10"
     >
-      <p class="text-3xl">{{ dialogTitle }}</p>
+      <p class="text-3xl p-2">{{ dialogTitle }}</p>
       <p class="py-5">audio</p>
-      <div class="flex flex-row justify-around">
+      <div class="flex flex-col py-5 md:flex-row justify-center gap-10">
         <button
           class="bg-red-700 hover:vermelho px-5 py-1 rounded-2xl text-white text-2xl"
           @click="closeDialog"
