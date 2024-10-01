@@ -24,7 +24,10 @@ export default defineEventHandler(async (event: H3Event) => {
     console.log(isDuplicated);
 
     // Retorna erro 400 se houver duplicidade
-    if (isDuplicated) createError({ status: 400, message: 'Esse horário está indisponível nessa data'});
+    if (isDuplicated) throw createError({ 
+      statusCode: 400, 
+      message: 'Horário indisponível nessa data'
+    });
 
   } catch (err: any) {
     if (err instanceof SyntaxError) {

@@ -149,7 +149,6 @@
 
 <script setup lang="ts">
 import anime from "animejs";
-import { onMounted } from "vue";
 
 onMounted(() => {
   // Função chamada quando o elemento entra ou sai da viewport

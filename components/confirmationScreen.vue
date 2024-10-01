@@ -97,25 +97,21 @@ async function handleAgendar() {
 
   // Primeiro tenta enviar os dados para a url da rota POST
   try {
-    let response = await $fetch("/api/submitData", {
+    await $fetch("/api/submitData", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(result),
     });
-    const data = response.status;
-    
-    if (data !== 200) 
-      emit("agendadoResponse", 'Esse horário está indisponível nessa data');
-    else 
-      emit("agendadoResponse", true);
+
+    emit("agendadoResponse");
   } catch (error) {
     // Caso ocorra um erro, mostra no botão do formulário
     emit("agendarBtnBadRequest");
     console.error("Houve um erro ao enviar os dados: ", error);
-    confirmBtn.value = "Confirmar";
   } finally {
     // Qualquer que seja o resultado fecha a tela de confirmação
     emit("closeDialog");
+    confirmBtn.value = "Confirmar";
   }
 }
 </script>

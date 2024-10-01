@@ -41,7 +41,7 @@ export default defineEventHandler(async (event: H3Event) => {
   try {
     await transporter.sendMail(message);
     console.log('Email enviado com sucesso!');
-    return { status: 200, message: 'Email enviado com sucesso!' };
+    return { status: 200 };
   } catch (error) {
     console.error('Erro ao enviar o email:', error);
     throw createError({

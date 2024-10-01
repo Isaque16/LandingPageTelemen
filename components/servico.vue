@@ -25,7 +25,7 @@
     </div>
     <nuxt-img
       :src="`./images/${toggleImage}.jpg`"
-      class="bg-center bg-cover w-full md:w-1/3 h-full md:h-1/2"
+      class="bg-center bg-cover w-full md:w-1/3 h-full"
     ></nuxt-img>
   </div>
 </template>

@@ -12,7 +12,9 @@
       </div>
     </div>
     <p>
-      <NuxtLink to="/" class="hover:underline hover:text-blue-400">Voltar</NuxtLink>
+      <NuxtLink to="/" class="hover:underline hover:text-blue-400"
+        >Voltar</NuxtLink
+      >
     </p>
     <div>
       Em caso de dúvida, entre em contato através do nosso
@@ -70,8 +72,7 @@ function updateTimeRemaining(): string {
     emit("agendamentoAtivo", false);
     localStorage.clear();
     return "0d 0h 0m 0s"; // Se o tempo acabou, retorna zero
-  }
-  else emit("agendamentoAtivo", true)
+  } else emit("agendamentoAtivo", true);
 
   const days: number = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours: number = Math.floor(
