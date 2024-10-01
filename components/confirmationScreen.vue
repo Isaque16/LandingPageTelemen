@@ -31,9 +31,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue";
-import { useFetch } from "#app";
-
 const emit = defineEmits([
   "closeDialog",
   "agendarBtnBadRequest",
@@ -100,13 +97,17 @@ async function handleAgendar() {
 
   // Primeiro tenta enviar os dados para a url da rota POST
   try {
-    await $fetch("/api/submitData", {
+    let response = await $fetch("/api/submitData", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(result),
     });
-
-    emit("agendadoResponse", true);
+    const data = response.status;
+    
+    if (data !== 200) 
+      emit("agendadoResponse", 'Esse horário está indisponível nessa data');
+    else 
+      emit("agendadoResponse", true);
   } catch (error) {
     // Caso ocorra um erro, mostra no botão do formulário
     emit("agendarBtnBadRequest");

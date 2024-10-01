@@ -252,8 +252,9 @@
 
           <div class="flex flex-col p-2 rounded-xl text-center gap-2">
             <button
-              @click.prevent="sendInputValues()"
-              class="p-2 bg-red-700 hover:bg-red-600 rounded-xl cursor-pointer text-2xl font-workSans w-full md:w-1/2 font-bold"
+              @click.prevent="dialogScreen?.showModal();"
+              :disabled="(isThereEmptyFields)"
+              :class="`${toggleButtonClass} p-2 rounded-xl text-2xl font-workSans w-full md:w-1/2 font-bold`"
             >
               {{ agendarBtn }}
             </button>
@@ -263,9 +264,9 @@
 
       <dialog ref="dialogScreen" class="rounded-lg">
         <confirmation-screen
-          @closeDialog="closeDialog"
-          @agendadoResponse="agendadoResponse"
-          @agendarBtnBadRequest="agendarBadRequest"
+          @closeDialog="(dialogScreen?.close())"
+          @agendarBtnBadRequest="agendarBtn = 'Houve um erro ao enviar os dados'"
+          @agendadoResponse="agendamentoResponse"
           :prop-input-radio="form.radioValue"
           :prop-nome="form.nome"
           :prop-para="form.para"
@@ -282,7 +283,7 @@
 
       <confirmed-screen
         v-if="isAgendado"
-        @agendamentoAtivo="agendamentoAtivo"
+        @agendamentoAtivo="((isAtivado: boolean) => isAgendado = isAtivado)"
         :prop-sent-time="form.hora"
         :prop-sent-date="form.data"
       ></confirmed-screen>
@@ -291,19 +292,14 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
-import { onMounted, ref, watch } from "vue";
 import { useFormStore } from "~/store/userFormStore";
 
-// Utilizando Pinia
+// Armazenando variáveis globais com Pinia
 const formStore = useFormStore();
 const form = formStore.formData;
 
-// Muda os inputs mostrados no form de acordo com o radio
-const route = useRoute();
-const modeloParams = route.query.modelo;
-
-// Executa a lógica quando o componente é montado
+const modeloParams = useRoute().query.modelo; // Muda os inputs mostrados no form de acordo com o radio
+// Verifica a query do header quando a página é carregada
 onMounted(() => {
   if (modeloParams === 'Ao Vivo' || modeloParams === 'Ao+Vivo') form.radioValue = "Ao Vivo";
   else if (modeloParams === 'Por Telefone' || modeloParams === 'Por+Telefone') form.radioValue = "Por Telefone";
@@ -314,41 +310,34 @@ const updateForm = () => form.radioValue; // Altera o valor do formulário quand
 const agendarBtn = ref("AGENDAR");
 const dialogScreen = ref<HTMLDialogElement | null>();
 
-// Verifica o preenchimento dos inputs
-function sendInputValues() {
-  const formDefaultSet: boolean =
-    !form.nome ||
-    !form.para ||
-    !form.hora ||
-    !form.data ||
-    !form.ocasiao ||
-    !form.contato;
-  const aovivoSet: boolean =
-    form.radioValue === "Ao Vivo" && 
-    (!form.musica || !form.endereco);
-  const portelefoneSet: boolean =
-    form.radioValue === "Por Telefone" &&
-    (!form.destinatariotel || !form.mensagem);
+// Lógica da verificação do preenchimento dos inputs
+const formDefaultSet = computed(() => !form.nome || !form.para || !form.hora || !form.data || !form.ocasiao || !form.contato);
+const aovivoSet = computed(() => form.radioValue === "Ao Vivo" && (!form.musica || !form.endereco));
+const portelefoneSet = computed(() => form.radioValue === "Por Telefone" && (!form.destinatariotel || !form.mensagem));
 
-  // Verifica se há algum campo obrigatório não preenchido
-  if (formDefaultSet || aovivoSet || portelefoneSet) {
-    agendarBtn.value = "Verifique os campos vazios!";
-    setTimeout(() => (agendarBtn.value = "AGENDAR"), 5000);
-  } else dialogScreen.value?.showModal();
-}
+// Lógica de verificação: será falso se qualquer um deles for falso
+const isThereEmptyFields = computed(() => formDefaultSet.value || aovivoSet.value || portelefoneSet.value);
+console.log(isThereEmptyFields.value);
 
-// Respostas do agendamento
-const closeDialog = () => dialogScreen.value?.close();
-const agendarBadRequest = () => {
-  closeDialog();
-  agendarBtn.value = "Houve um erro ao enviar os dados";
-  setTimeout(() => (agendarBtn.value = "AGENDAR"), 5000);
-};
+// Verifica se há algum campo não preenchido
+const toggleButtonClass = computed(() => {
+  if (isThereEmptyFields.value) return 'bg-gray-500 opacity-70 cursor-not-allowed';
+  return 'bg-red-700 hover:bg-red-600';
+});
 
-// Define o estado do formulário como agendado ou não
+watch(agendarBtn, (agendarBtnValue: string) => {
+  if (agendarBtnValue != "AGENDAR") setTimeout(() => {
+    agendarBtn.value = "AGENDAR"
+  }, 5000);
+})
+
 const isAgendado = ref<boolean>(false); // Status de agendamento
-const agendamentoAtivo = (isAtivo: boolean) => (isAgendado.value = isAtivo);
-const agendadoResponse = (res: boolean) => (isAgendado.value = res);
+const agendamentoResponse = (response: string | boolean) => {
+  if (typeof response == 'string')
+    agendarBtn.value = response;
+  else 
+    isAgendado.value = true;
+}
 
 // Verifica se já houve agendamento ou não
 onMounted(() => {
@@ -356,7 +345,5 @@ onMounted(() => {
   if (isAgendadoActive !== null) isAgendado.value = isAgendadoActive == "true";
 });
 
-watch(isAgendado, (newAgendado: boolean) =>
-  localStorage.setItem("agendado", String(newAgendado)),
-); // Observa o valor do isAgendado
+watch(isAgendado, (newAgendado: boolean) => localStorage.setItem("agendado", String(newAgendado))); // Observa o valor do isAgendado
 </script>

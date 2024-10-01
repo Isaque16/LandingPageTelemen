@@ -22,7 +22,10 @@
         @blur="verifyInput"
       />
     </div>
-    <p v-if="isFocused && isValid" class="opacity-70 text-xl font-bold w-full md:w-1/2">
+    <p
+      v-if="isFocused && isValid"
+      class="opacity-70 text-xl font-bold w-full md:w-1/2"
+    >
       {{ infoMessage }}
     </p>
     <p
@@ -35,8 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-
 // Manda os dados o input para o father
 defineProps<{
   forLabel: string;

@@ -15,20 +15,23 @@
         name="greenbtn"
         class="bg-green-400 text-center p-2 mt-6 rounded-xl w-40 cursor-pointer mx-auto"
       >
-        <nuxt-link :to="{ path: '/agendamento', query: { modelo: props.modelo } }"
+        <nuxt-link
+          :to="{ path: '/agendamento', query: { modelo: props.modelo } }"
           ><span class="text-white text-xl"
             >💸 Valor: R${{ preco }},00</span
           ></nuxt-link
         >
       </div>
     </div>
-    <nuxt-img :src="`./images/${toggleImage}.jpg`" class="bg-center bg-cover w-full md:w-1/3 h-full md:h-1/2"></nuxt-img>
+    <nuxt-img
+      :src="`./images/${toggleImage}.jpg`"
+      class="bg-center bg-cover w-full md:w-1/3 h-full md:h-1/2"
+    ></nuxt-img>
   </div>
 </template>
 
 <script setup lang="ts">
 import anime from "animejs";
-import { computed, onMounted } from "vue";
 
 const props = defineProps<{
   div1Class: string;
@@ -41,18 +44,14 @@ const props = defineProps<{
 
 const toggleDiv1Class = computed<string>(() =>
   props.div1Class === "aovivo"
-  ? "md:flex-row md:w-full"
-  : "md:flex-row-reverse",
+    ? "md:flex-row md:w-full"
+    : "md:flex-row-reverse",
 );
 const toggleDiv2Class = computed<string>(() =>
-  props.div2Class === "aovivo" 
-  ? "md:rounded-r-none" 
-  : "md:rounded-l-none",
+  props.div2Class === "aovivo" ? "md:rounded-r-none" : "md:rounded-l-none",
 );
 const toggleImage = computed<string>(() =>
-  props.divImage === "aovivo" 
-  ? "fotocarro1" 
-  : "fotocarro2",
+  props.divImage === "aovivo" ? "fotocarro1" : "fotocarro2",
 );
 
 onMounted(() => {

@@ -11,7 +11,6 @@
 
 <script lang="ts" setup>
 import anime from "animejs";
-import { onMounted } from "vue";
 
 defineProps<{
   imageUrl: string;

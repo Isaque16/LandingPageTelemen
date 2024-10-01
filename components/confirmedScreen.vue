@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="confirm-screen"
-    class="vermelho opacity-70 p-5 text-2xl rounded-xl text-center"
-  >
+  <div class="bg-red-600 opacity-70 p-5 text-2xl rounded-xl text-center">
     <div class="flex flex-col items-center p-5 text-center">
       <h1 class="font-bold text-5xl">Agendamento realizado!</h1>
       <p class="text-2xl font-bold">
@@ -15,37 +12,38 @@
       </div>
     </div>
     <p>
-      <a href="../../../index.html" class="hover:underline hover:text-blue-400"
-        >Voltar</a
-      >
+      <NuxtLink to="/" class="hover:underline hover:text-blue-400">Voltar</NuxtLink>
     </p>
     <div>
-      Qualquer dúvida, entre em contato através do nosso
-      <a
-        href="https://wa.me/556899111571"
+      Em caso de dúvida, entre em contato através do nosso
+      <NuxtLink
+        to="https://wa.me/556899111571"
         class="text-green-400 underline"
         target="_blank"
-        >Whatsapp</a
+        external
+        >Whatsapp</NuxtLink
       >
     </div>
     <div class="flex flex-col gap-3 items-center">
       <h2 class="text-xl">Aproveite e veja mais sobre nosso trabalho!</h2>
       <ul class="flex flex-row gap-10">
         <li class="w-10">
-          <a
-            href="https://www.facebook.com/telemensagem.rosadesarom"
+          <NuxtLink
+            to="https://www.facebook.com/telemensagem.rosadesarom"
             target="_blank"
+            external
           >
             <img src="../assets/SVG/facebook_logo.svg" alt="Facebook"
-          /></a>
+          /></NuxtLink>
         </li>
         <li class="w-10">
-          <a
-            href="https://www.instagram.com/telemensagem_rosadesarom_acre/"
+          <NuxtLink
+            to="https://www.instagram.com/telemensagem_rosadesarom_acre/"
             target="_blank"
+            external
           >
             <img src="../assets/SVG/instagram_logo.svg" alt="Instagram"
-          /></a>
+          /></NuxtLink>
         </li>
       </ul>
     </div>
@@ -53,8 +51,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onUnmounted, onMounted } from "vue";
-
 const emit = defineEmits(["agendamentoAtivo"]);
 
 const props = defineProps<{
@@ -64,7 +60,7 @@ const props = defineProps<{
 
 const timeRemaining = ref<string>("");
 
-function updateTimeRemaining(): void {
+function updateTimeRemaining(): string {
   const now = new Date();
   const target = new Date(props.propSentDate);
 
@@ -72,8 +68,10 @@ function updateTimeRemaining(): void {
 
   if (diff <= 0) {
     emit("agendamentoAtivo", false);
-    return;
+    localStorage.clear();
+    return "0d 0h 0m 0s"; // Se o tempo acabou, retorna zero
   }
+  else emit("agendamentoAtivo", true)
 
   const days: number = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours: number = Math.floor(
@@ -82,15 +80,17 @@ function updateTimeRemaining(): void {
   const minutes: number = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   const seconds: number = Math.floor((diff % (1000 * 60)) / 1000);
 
-  timeRemaining.value = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
 // Atualiza a cada segundo
 let intervalId: any;
 
 onMounted(() => {
-  updateTimeRemaining(); // Atualiza imediatamente ao montar
-  intervalId = setInterval(updateTimeRemaining, 1000); // Atualiza a cada segundo
+  timeRemaining.value = updateTimeRemaining(); // Atualiza imediatamente ao montar
+  intervalId = setInterval(() => {
+    timeRemaining.value = updateTimeRemaining(); // Atualiza o valor a cada segundo
+  }, 1000);
 });
 
 onUnmounted(() => {

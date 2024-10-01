@@ -53,7 +53,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
 import mensagens from "../../server/database/mensagens.json";
 import { useFormStore } from "~/store/userFormStore";
 
