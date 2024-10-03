@@ -271,6 +271,7 @@
       <confirmed-screen
         v-if="isAgendado"
         @agendamentoAtivo="(isAtivado: boolean) => (isAgendado = isAtivado)"
+        :prop-modelo="form.radioValue"
         :prop-sent-time="form.hora"
         :prop-sent-date="form.data"
       ></confirmed-screen>

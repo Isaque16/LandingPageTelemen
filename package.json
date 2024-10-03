@@ -21,6 +21,7 @@
     "nodemailer": "^6.9.15",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.2",
+    "stripe": "^17.0.0",
     "uuid": "^10.0.0",
     "vue": "latest",
     "vue-router": "latest"
