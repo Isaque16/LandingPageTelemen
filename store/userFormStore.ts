@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const useFormStore = defineStore('form', {
   state: () => ({
     formData: {
-      radioValue: 'Ao Vivo',
+      modelo: 'Ao Vivo',
       nome: '',
       para: '',
       hora: setCurrentTime(),
@@ -13,7 +13,8 @@ export const useFormStore = defineStore('form', {
       destinatariotel: '',
       mensagem: '',
       musica: '',
-      endereco: ''
+      endereco: '',
+      isAgendado: false,
     }
   })
 })

@@ -31,31 +31,31 @@
 </template>
 
 <script lang="ts" setup>
-const emit = defineEmits([
-  "closeDialog",
-  "agendarBtnBadRequest",
-  "agendadoResponse",
-]);
+import Stripe from "stripe";
+import { loadStripe } from "@stripe/stripe-js";
+import { useFormStore } from "~/store/userFormStore";
+
+const emit = defineEmits(["closeDialog", "agendarBtnBadRequest"]);
 
 // Input refs
-const props = defineProps({
-  propInputRadio: String,
-  propNome: String,
-  propPara: String,
-  propHora: String,
-  propData: String,
-  propOcasiao: String,
-  propContato: String,
-  propDestinatariotel: String,
-  propMensagem: String,
-  propMusica: String,
-  propEndereco: String,
-});
+const props = defineProps<{
+  propModelo: string;
+  propNome: string;
+  propPara: string;
+  propHora: string;
+  propData: string;
+  propOcasiao: string;
+  propContato: string;
+  propDestinatariotel: string;
+  propMensagem: string;
+  propMusica: string;
+  propEndereco: string;
+}>();
 
 // Computed para mostrar apenas dados que satisfazem a condição do inputRadio
 const showContent = computed(() => {
   let content = [
-    { contentTitle: "Modelo de Mensagem", data: props.propInputRadio },
+    { contentTitle: "Modelo de Mensagem", data: props.propModelo },
     { contentTitle: "Nome de Quem Envia", data: props.propNome },
     { contentTitle: "Nome de Quem Receberá", data: props.propPara },
     { contentTitle: "Horário da Mensagem", data: props.propHora },
@@ -64,14 +64,14 @@ const showContent = computed(() => {
     { contentTitle: "Telefone para Contato", data: props.propContato },
   ];
 
-  const variableItems = []; // Adicionar itens variáveis com base no valor de propInputRadio
+  const variableItems = []; // Adicionar itens variáveis com base no valor de propModelo
 
-  if (props.propInputRadio === "Ao Vivo") {
+  if (props.propModelo === "Ao Vivo") {
     variableItems.push(
       { contentTitle: "Música para chegar tocando", data: props.propMusica },
       { contentTitle: "Endereço da Comemoração", data: props.propEndereco },
     );
-  } else if (props.propInputRadio === "Por Telefone") {
+  } else if (props.propModelo === "Por Telefone") {
     variableItems.push(
       {
         contentTitle: "Telefone do Destinatário",
@@ -80,7 +80,6 @@ const showContent = computed(() => {
       { contentTitle: "Mensagem", data: props.propMensagem },
     );
   }
-
   // Retornar a combinação dos itens fixos e variáveis
   return [...content, ...variableItems];
 });
@@ -88,22 +87,53 @@ const showContent = computed(() => {
 // Agendamento
 const confirmBtn = ref<string>("Confirmar");
 async function handleAgendar() {
-  const result = showContent.value.reduce((acc: any, item: any) => {
-    acc[item.contentTitle] = item.data; // Atualiza o acumulador
-    return acc; // Retorna o acumulador atualizado
-  }, {}); // Inicializa o acumulador como um objeto vazio
+  // Se o modelo for "Por Telefone", o pagamento deve ser realizado
+  if (props.propModelo === "Por Telefone") {
+    // Enviar os dados para a url da rota POST
+    const stripe = await loadStripe("sua_chave_publica");
+
+    try {
+      // Chama a API para criar a sessão de checkout
+      const response: { id: string } = await $fetch("/api/processPayment", {
+        method: "POST",
+      });
+
+      // Pega o id da sessão do Stripe retornada pelo backend
+      const sessionId: string = response.id;
+
+      // Redireciona o usuário para o checkout do Stripe
+      const { error } = await stripe!.redirectToCheckout({ sessionId });
+
+      if (error) {
+        console.error(
+          "Erro no redirecionamento para o checkout:",
+          error.message,
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao criar sessão:", (error as Error).message);
+    }
+  }
 
   confirmBtn.value = "Agendando..."; // Envia feedback para o usuário de espera
 
-  // Primeiro tenta enviar os dados para a url da rota POST
+  // Envia os dados para a url da rota POST
   try {
+    const result = showContent.value.reduce((acc: any, item: any) => {
+      acc[item.contentTitle] = item.data; // Atualiza o acumulador
+      return acc; // Retorna o acumulador atualizado
+    }, {}); // Inicializa o acumulador como um objeto vazio
+
     await $fetch("/api/submitData", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(result),
     });
 
-    emit("agendadoResponse");
+    localStorage.setItem(
+      "agendado",
+      String((useFormStore().formData.isAgendado = true)),
+    );
   } catch (error) {
     // Caso ocorra um erro, mostra no botão do formulário
     emit("agendarBtnBadRequest");

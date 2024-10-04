@@ -74,12 +74,12 @@
 </template>
 
 <script lang="ts" setup>
-import PlayIcon from "./svg/PlayIcon.vue";
-import PauseIcon from "./svg/PauseIcon.vue";
-import Back15Icon from "./svg/Back15Icon.vue";
-import Ahead15Icon from "./svg/Ahead15Icon.vue";
-import VolumeIcon from "./svg/VolumeIcon.vue";
-import VolumeMutedIcon from "./svg/VolumeMutedIcon.vue";
+import PlayIcon from "./PlayerSvg/PlayIcon.vue";
+import PauseIcon from "./PlayerSvg/PauseIcon.vue";
+import Back15Icon from "./PlayerSvg/Back15Icon.vue";
+import Ahead15Icon from "./PlayerSvg/Ahead15Icon.vue";
+import VolumeIcon from "./PlayerSvg/VolumeIcon.vue";
+import VolumeMutedIcon from "./PlayerSvg/VolumeMutedIcon.vue";
 
 defineProps({
   file: { type: String, required: true },
@@ -166,8 +166,8 @@ watch(
 onMounted(() => {
   audioFile.value?.addEventListener("timeupdate", update);
   audioFile.value?.addEventListener("loadeddata", load);
-  audioFile.value?.addEventListener("pause", () => state.playing = false);
-  audioFile.value?.addEventListener("play", () => state.playing = true);
+  audioFile.value?.addEventListener("pause", () => (state.playing = false));
+  audioFile.value?.addEventListener("play", () => (state.playing = true));
 
   window.addEventListener("keydown", (event) => {
     switch (event.code) {

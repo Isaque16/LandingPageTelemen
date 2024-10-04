@@ -26,7 +26,6 @@
         class="flex flex-col gap-2 w-full"
         action="/submit"
         method="post"
-        v-if="!isAgendado"
       >
         <h2 class="bg-red-600 p-2 rounded-xl w-fit text-2xl font-bold">
           Modelo de mensagem
@@ -40,7 +39,7 @@
               type="radio"
               name="modelo"
               value="Ao Vivo"
-              v-model="form.radioValue"
+              v-model="form.modelo"
               @change="updateForm"
             />
           </div>
@@ -54,7 +53,7 @@
               type="radio"
               name="modelo"
               value="Por Telefone"
-              v-model="form.radioValue"
+              v-model="form.modelo"
               @change="updateForm"
             />
           </div>
@@ -116,12 +115,8 @@
                 v-model="form.ocasiao"
               >
                 <optgroup label="Aniversário">
-                  <option value="Aniversário de Mãe">
-                    Aniversário de Mãe
-                  </option>
-                  <option value="Aniversário de Pai">
-                    Aniversário de Pai
-                  </option>
+                  <option value="Aniversário de Mãe">Aniversário de Mãe</option>
+                  <option value="Aniversário de Pai">Aniversário de Pai</option>
                   <option value="Aniversário de Irmã">
                     Aniversário de Irmã
                   </option>
@@ -172,24 +167,12 @@
                   </option>
                 </optgroup>
                 <optgroup label="Datas comemorativas">
-                  <option value="Dia das Mães">
-                    Dia das Mães
-                  </option>
-                  <option value="Dia dos Pais">
-                    Dia dos Pais
-                  </option>
-                  <option value="Dia dos Namorados">
-                    Dia dos Namorados
-                  </option>
-                  <option value="Dia da Mulher">
-                    Dia da Mulher
-                  </option>
-                  <option value="Natal">
-                    Natal
-                  </option>
-                  <option value="Ano Novo">
-                    Ano Novo
-                  </option>
+                  <option value="Dia das Mães">Dia das Mães</option>
+                  <option value="Dia dos Pais">Dia dos Pais</option>
+                  <option value="Dia dos Namorados">Dia dos Namorados</option>
+                  <option value="Dia da Mulher">Dia da Mulher</option>
+                  <option value="Natal">Natal</option>
+                  <option value="Ano Novo">Ano Novo</option>
                 </optgroup>
               </select>
             </div>
@@ -206,7 +189,7 @@
           ></input-component>
 
           <input-component
-            v-if="form.radioValue == 'Por Telefone'"
+            v-if="form.modelo == 'Por Telefone'"
             forLabel="destinatariotel"
             inputTitle="Número do destinatário"
             inputType="text"
@@ -216,10 +199,7 @@
             error-message="Precisamos do contato para o envio da mensagem"
           ></input-component>
 
-          <div
-            class="flex flex-col p-2"
-            v-if="form.radioValue == 'Por Telefone'"
-          >
+          <div class="flex flex-col p-2" v-if="form.modelo == 'Por Telefone'">
             <div
               class="bg-red-600 p-4 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"
             >
@@ -232,7 +212,7 @@
           </div>
 
           <input-component
-            v-if="form.radioValue == 'Ao Vivo'"
+            v-if="form.modelo == 'Ao Vivo'"
             forLabel="musica"
             inputTitle="Nome da música"
             inputType="text"
@@ -243,7 +223,7 @@
           ></input-component>
 
           <input-component
-            v-if="form.radioValue == 'Ao Vivo'"
+            v-if="form.modelo == 'Ao Vivo'"
             forLabel="endereco"
             inputTitle="Endereço da comemoração"
             inputType="text"
@@ -269,8 +249,7 @@
         <confirmation-screen
           @closeDialog="dialogScreen?.close()"
           @agendarBtnBadRequest="agendarBtn = 'Horário indisponível nessa data'"
-          @agendadoResponse="isAgendado = true"
-          :prop-input-radio="form.radioValue"
+          :prop-modelo="form.modelo"
           :prop-nome="form.nome"
           :prop-para="form.para"
           :prop-hora="form.hora"
@@ -283,14 +262,6 @@
           :prop-mensagem="form.mensagem"
         ></confirmation-screen>
       </dialog>
-
-      <confirmed-screen
-        v-if="isAgendado"
-        @agendamentoAtivo="(isAtivado: boolean) => (isAgendado = isAtivado)"
-        :prop-modelo="form.radioValue"
-        :prop-sent-time="form.hora"
-        :prop-sent-date="form.data"
-      ></confirmed-screen>
     </section>
   </main>
 </template>
@@ -299,19 +270,18 @@
 import { useFormStore } from "~/store/userFormStore";
 
 // Armazenando variáveis globais com Pinia
-const formStore = useFormStore();
-const form = formStore.formData;
+const form = useFormStore().formData;
 
 const modeloParams = useRoute().query.modelo; // Muda os inputs mostrados no form de acordo com o radio
 // Verifica a query do header quando a página é carregada
 onMounted(() => {
   if (modeloParams === "Ao Vivo" || modeloParams === "Ao+Vivo")
-    form.radioValue = "Ao Vivo";
+    form.modelo = "Ao Vivo";
   else if (modeloParams === "Por Telefone" || modeloParams === "Por+Telefone")
-    form.radioValue = "Por Telefone";
+    form.modelo = "Por Telefone";
 });
 
-const updateForm = () => form.radioValue; // Altera o valor do formulário quando alterado
+const updateForm = () => form.modelo; // Altera o valor do formulário quando alterado
 
 const agendarBtn = ref("AGENDAR");
 const dialogScreen = ref<HTMLDialogElement | null>();
@@ -327,12 +297,11 @@ const formDefaultSet = computed(
     !form.contato,
 );
 const aovivoSet = computed(
-  () => form.radioValue === "Ao Vivo" && (!form.musica || !form.endereco),
+  () => form.modelo === "Ao Vivo" && (!form.musica || !form.endereco),
 );
 const portelefoneSet = computed(
   () =>
-    form.radioValue === "Por Telefone" &&
-    (!form.destinatariotel || !form.mensagem),
+    form.modelo === "Por Telefone" && (!form.destinatariotel || !form.mensagem),
 );
 // Lógica de verificação: será falso se qualquer um deles for falso
 const isThereEmptyFields = computed(
@@ -350,15 +319,12 @@ watch(agendarBtn, (agendarBtnValue: string) => {
     setTimeout(() => (agendarBtn.value = "AGENDAR"), 5000);
 });
 
-const isAgendado = ref<boolean>(false); // Status de agendamento
-
 // Verifica se já houve agendamento ou não
-onMounted(() => {
+onBeforeMount(() => {
   const isAgendadoActive = localStorage.getItem("agendado");
-  if (isAgendadoActive !== null) isAgendado.value = isAgendadoActive == "true";
+  if (isAgendadoActive !== null) {
+    form.isAgendado = isAgendadoActive == "true";
+    useRouter().replace("/agendado");
+  }
 });
-
-watch(isAgendado, (newAgendado: boolean) =>
-  localStorage.setItem("agendado", String(newAgendado)),
-); // Observa o valor do isAgendado
 </script>
