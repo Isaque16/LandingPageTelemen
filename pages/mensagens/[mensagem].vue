@@ -26,18 +26,22 @@
   </main>
 
   <dialog
-    class="bg-transparent text-black text-2xl w-full md:w-1/2 h-1/2 flex justify-center rounded-2xl"
+    class="bg-transparent text-2xl w-full md:w-1/2 h-1/2 rounded-2xl"
     ref="dialogScreen"
   >
     <div
-      class="bg-white text-black p-5 text-center flex flex-col justify-center rounded-xl w-full border-black border-2 m-10"
+      class="bg-white text-white text-center flex flex-col justify-center rounded-xl w-full border-black border-2"
     >
-      <p class="text-3xl p-2">{{ dialogTitle }}</p>
-      <p class="py-5">audio</p>
+      <p class="text-3xl p-2 bg-red-600">{{ dialogTitle }}</p>
+      <vue-sound
+        :title="dialogTitle"
+        file="dasd"
+      ></vue-sound>
+
       <div class="flex flex-col py-5 md:flex-row justify-center gap-10">
         <button
           class="bg-red-700 hover:vermelho px-5 py-1 rounded-2xl text-white text-2xl"
-          @click="closeDialog"
+          @click="dialogScreen?.close()"
         >
           Outro
         </button>
@@ -56,18 +60,15 @@
 import mensagens from "../../server/database/mensagens.json";
 import { useFormStore } from "~/store/userFormStore";
 
-const route = useRouter();
-
 const dialogScreen = ref<HTMLDialogElement>();
 const dialogTitle = ref<string>("");
 const setDialog = (title: string) => {
   dialogTitle.value = title;
   dialogScreen.value?.showModal();
 };
-const closeDialog = () => dialogScreen.value?.close();
 
 const sendSelectedMensagem = () => {
   useFormStore().formData.mensagem = dialogTitle.value;
-  route.go(-1);
+  useRouter().go(-1);
 };
 </script>

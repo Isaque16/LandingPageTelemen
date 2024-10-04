@@ -116,8 +116,12 @@
                 v-model="form.ocasiao"
               >
                 <optgroup label="Aniversário">
-                  <option value="Aniversário de Mãe">Aniversário de Mãe</option>
-                  <option value="Aniversário de Pai">Aniversário de Pai</option>
+                  <option value="Aniversário de Mãe">
+                    Aniversário de Mãe
+                  </option>
+                  <option value="Aniversário de Pai">
+                    Aniversário de Pai
+                  </option>
                   <option value="Aniversário de Irmã">
                     Aniversário de Irmã
                   </option>
@@ -168,12 +172,24 @@
                   </option>
                 </optgroup>
                 <optgroup label="Datas comemorativas">
-                  <option value="Dia das Mães">Dia das Mães</option>
-                  <option value="Dia dos Pais">Dia dos Pais</option>
-                  <option value="Dia dos Namorados">Dia dos Namorados</option>
-                  <option value="Dia da Mulher">Dia da Mulher</option>
-                  <option value="Natal">Natal</option>
-                  <option value="Ano Novo">Ano Novo</option>
+                  <option value="Dia das Mães">
+                    Dia das Mães
+                  </option>
+                  <option value="Dia dos Pais">
+                    Dia dos Pais
+                  </option>
+                  <option value="Dia dos Namorados">
+                    Dia dos Namorados
+                  </option>
+                  <option value="Dia da Mulher">
+                    Dia da Mulher
+                  </option>
+                  <option value="Natal">
+                    Natal
+                  </option>
+                  <option value="Ano Novo">
+                    Ano Novo
+                  </option>
                 </optgroup>
               </select>
             </div>

@@ -7,7 +7,9 @@
       </p>
       <p class="text-2xl">Agora basta confiar e aguardar</p>
       <p class="text-2xl">Faltam {{ timeRemaining }} até a data da mensagem</p>
-      <p class="text-2xl">Quando esta tela sumir, quer dizer que sua mensagem foi enviada</p>
+      <p class="text-2xl">
+        Quando esta tela sumir, quer dizer que sua mensagem foi enviada
+      </p>
       <div>
         <img src="/images/check-icon-gif.gif" alt="Check" class="w-40" />
       </div>
@@ -18,7 +20,10 @@
       >
     </p>
     <div>
-      <p class="text-2xl">Em caso de dúvida, cancelamento ou reagendamento, <br>entre em contato através do nosso</p>
+      <p class="text-2xl">
+        Em caso de dúvida, cancelamento ou reagendamento, <br />entre em contato
+        através do nosso
+      </p>
       <NuxtLink
         to="https://wa.me/556899111571"
         class="text-green-400 underline"
@@ -86,7 +91,10 @@ function updateTimeRemaining(): string {
 const timeRemaining = ref<string>("");
 onMounted(() => {
   timeRemaining.value = updateTimeRemaining(); // Atualiza imediatamente ao montar
-  intervalId = setInterval(() => timeRemaining.value = updateTimeRemaining(), 1000);
+  intervalId = setInterval(
+    () => (timeRemaining.value = updateTimeRemaining()),
+    1000,
+  );
 });
 
 let intervalId: any;

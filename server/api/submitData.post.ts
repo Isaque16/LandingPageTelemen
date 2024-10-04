@@ -21,8 +21,8 @@ export default defineEventHandler(async (event: H3Event) => {
     service: 'gmail',
     secure: false,
     auth: {
-      user: process.env.SendersEmail,
-      pass: process.env.SendersPassword
+      user: process.env.SENDERS_EMAIL,
+      pass: process.env.SENDERS_PASSWORD
     }
   });
 
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event: H3Event) => {
   ${Object.entries(result).map(([key, value]) => `${key}: ${value}`).join('\n')}`;
 
   const message = {
-    from: process.env.SendersEmail,
+    from: process.env.SENDERS_EMAIL,
     to: 'clubpenguinganball14@gmail.com',
     subject: `Mensagem ${result["Modelo de Mensagem"]} de ${result["Nome de Quem Envia"]} para ${result["Horário da Mensagem"]}`,
     text: sendMessage
