@@ -4,7 +4,7 @@
     viewBox="0 0 576 512"
     height="32"
     width="32"
-    class="fill-white"
+    class="fill-black"
     role="img"
   >
     <title>Volume</title>

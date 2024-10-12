@@ -4,7 +4,7 @@
     viewBox="0 0 512 512"
     height="32"
     width="32"
-    class="fill-white"
+    class="fill-black"
     role="img"
   >
     <title>Pause</title>

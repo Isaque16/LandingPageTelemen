@@ -43,15 +43,13 @@ const props = defineProps<{
 }>();
 
 const toggleDiv1Class = computed<string>(() =>
-  props.div1Class === "aovivo"
-    ? "md:flex-row md:w-full"
-    : "md:flex-row-reverse",
+  props.div1Class === "aovivo" ? "md:flex-row md:w-full" : "md:flex-row-reverse"
 );
 const toggleDiv2Class = computed<string>(() =>
-  props.div2Class === "aovivo" ? "md:rounded-r-none" : "md:rounded-l-none",
+  props.div2Class === "aovivo" ? "md:rounded-r-none" : "md:rounded-l-none"
 );
 const toggleImage = computed<string>(() =>
-  props.divImage === "aovivo" ? "fotocarro1" : "fotocarro2",
+  props.divImage === "aovivo" ? "fotocarro1" : "fotocarro2"
 );
 
 onMounted(() => {

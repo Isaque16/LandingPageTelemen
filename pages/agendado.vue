@@ -16,7 +16,10 @@
   <div class="bg-red-600 opacity-70 p-5 text-2xl rounded-xl text-center">
     <div class="flex flex-col items-center p-5 text-center">
       <h1 class="font-bold text-5xl">Agendamento realizado!</h1>
-      <p class="text-2xl font-bold underline">
+      <p
+        class="text-2xl font-bold"
+        v-if="userFormStore().formData.modelo == 'Ao Vivo'"
+      >
         O pagamento é feito no local da mensagem ao vivo
       </p>
       <p class="text-2xl">Agora basta confiar e aguardar</p>
@@ -70,19 +73,22 @@
 </template>
 
 <script lang="ts" setup>
-import { useFormStore } from "~/store/userFormStore";
+import { userFormStore } from "~/store/userFormStore";
 
 const timeRemaining = ref<string>("");
 function updateTimeRemaining(): void {
   const now = new Date();
-  const target = new Date(useFormStore().formData.hora);
+  const target = new Date(userFormStore().formData.hora);
   const diff: number = Math.abs(target.getTime() - now.getTime());
 
-  if (diff <= 0) localStorage.clear();
+  if (diff <= 0) {
+    localStorage.clear();
+    return;
+  }
 
   const days: number = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours: number = Math.floor(
-    (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+    (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
   );
   const minutes: number = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   const seconds: number = Math.floor((diff % (1000 * 60)) / 1000);
@@ -94,7 +100,7 @@ let intervalId: any;
 // Verifica se já houve agendamento ou não
 onBeforeMount(() => {
   const isAgendadoActive = localStorage.getItem("agendado");
-  if (isAgendadoActive === null) return useRouter().replace("/agendamento");
+  if (isAgendadoActive == "false") return useRouter().replace("/agendamento");
 
   updateTimeRemaining(); // Atualiza imediatamente ao montar
   intervalId = setInterval(updateTimeRemaining, 1000);

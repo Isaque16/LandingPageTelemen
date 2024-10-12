@@ -199,18 +199,6 @@
             error-message="Precisamos do contato para o envio da mensagem"
           ></input-component>
 
-          <div class="flex flex-col p-2" v-if="form.modelo == 'Por Telefone'">
-            <div
-              class="bg-red-600 p-4 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"
-            >
-              <nuxt-link
-                :to="`/mensagens/${form.ocasiao}`"
-                class="p-2 text-2xl font-bold hover:cursor-pointer"
-                >Escolher mensagem: {{ form.mensagem }}</nuxt-link
-              >
-            </div>
-          </div>
-
           <input-component
             v-if="form.modelo == 'Ao Vivo'"
             forLabel="musica"
@@ -221,6 +209,18 @@
             info-message="Escreva o nome da música preferida do destinatário, pois ela tocará na chegada ao local."
             error-message="A escolha de uma música de sua preferencia é necessário"
           ></input-component>
+
+          <div class="flex flex-col p-2">
+            <div
+              class="bg-red-600 p-4 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"
+            >
+              <nuxt-link
+                :to="`/mensagens/${form.ocasiao}`"
+                class="p-2 text-2xl font-bold hover:cursor-pointer"
+                >Escolher mensagem: {{ form.mensagem }}</nuxt-link
+              >
+            </div>
+          </div>
 
           <input-component
             v-if="form.modelo == 'Ao Vivo'"
@@ -267,10 +267,23 @@
 </template>
 
 <script lang="ts" setup>
-import { useFormStore } from "~/store/userFormStore";
+// Verifica se já houve agendamento ou não ao acessar a página
+onBeforeMount(() => {
+  const isAgendadoActive = localStorage.getItem("agendado");
+  if (isAgendadoActive === null)
+    return localStorage.setItem("agendado", JSON.stringify(false));
+  else {
+    const isAgendado = computed(() => JSON.parse(isAgendadoActive));
+    if (isAgendado.value) {
+      form.isAgendado = isAgendado.value;
+      useRouter().replace("/agendado");
+    }
+  }
+});
 
 // Armazenando variáveis globais com Pinia
-const form = useFormStore().formData;
+import { userFormStore } from "~/store/userFormStore";
+const form = userFormStore().formData;
 
 const modeloParams = useRoute().query.modelo; // Muda os inputs mostrados no form de acordo com o radio
 // Verifica a query do header quando a página é carregada
@@ -294,18 +307,19 @@ const formDefaultSet = computed(
     !form.hora ||
     !form.data ||
     !form.ocasiao ||
-    !form.contato,
+    !form.contato || 
+    !form.mensagem
 );
 const aovivoSet = computed(
-  () => form.modelo === "Ao Vivo" && (!form.musica || !form.endereco),
+  () => form.modelo === "Ao Vivo" && (!form.musica || !form.endereco)
 );
 const portelefoneSet = computed(
   () =>
-    form.modelo === "Por Telefone" && (!form.destinatariotel || !form.mensagem),
+    form.modelo === "Por Telefone" && (!form.destinatariotel)
 );
 // Lógica de verificação: será falso se qualquer um deles for falso
 const isThereEmptyFields = computed(
-  () => formDefaultSet.value || aovivoSet.value || portelefoneSet.value,
+  () => formDefaultSet.value || aovivoSet.value || portelefoneSet.value
 );
 // Verifica se há algum campo não preenchido
 const toggleButtonClass = computed(() => {
@@ -317,14 +331,5 @@ const toggleButtonClass = computed(() => {
 watch(agendarBtn, (agendarBtnValue: string) => {
   if (agendarBtnValue != "AGENDAR")
     setTimeout(() => (agendarBtn.value = "AGENDAR"), 5000);
-});
-
-// Verifica se já houve agendamento ou não
-onBeforeMount(() => {
-  const isAgendadoActive = localStorage.getItem("agendado");
-  if (isAgendadoActive !== null) {
-    form.isAgendado = isAgendadoActive == "true";
-    useRouter().replace("/agendado");
-  }
 });
 </script>

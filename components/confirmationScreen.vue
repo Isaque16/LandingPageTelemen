@@ -31,9 +31,8 @@
 </template>
 
 <script lang="ts" setup>
-import Stripe from "stripe";
 import { loadStripe } from "@stripe/stripe-js";
-import { useFormStore } from "~/store/userFormStore";
+import { userFormStore } from "~/store/userFormStore";
 
 const emit = defineEmits(["closeDialog", "agendarBtnBadRequest"]);
 
@@ -69,7 +68,7 @@ const showContent = computed(() => {
   if (props.propModelo === "Ao Vivo") {
     variableItems.push(
       { contentTitle: "Música para chegar tocando", data: props.propMusica },
-      { contentTitle: "Endereço da Comemoração", data: props.propEndereco },
+      { contentTitle: "Endereço da Comemoração", data: props.propEndereco }
     );
   } else if (props.propModelo === "Por Telefone") {
     variableItems.push(
@@ -77,7 +76,7 @@ const showContent = computed(() => {
         contentTitle: "Telefone do Destinatário",
         data: props.propDestinatariotel,
       },
-      { contentTitle: "Mensagem", data: props.propMensagem },
+      { contentTitle: "Mensagem", data: props.propMensagem }
     );
   }
   // Retornar a combinação dos itens fixos e variáveis
@@ -88,37 +87,38 @@ const showContent = computed(() => {
 const confirmBtn = ref<string>("Confirmar");
 async function handleAgendar() {
   // Se o modelo for "Por Telefone", o pagamento deve ser realizado
-  if (props.propModelo === "Por Telefone") {
-    // Enviar os dados para a url da rota POST
-    const stripe = await loadStripe("sua_chave_publica");
+  // if (props.propModelo === "Por Telefone") {
+  //   // Enviar os dados para a url da rota POST
+  //   const stripe = await loadStripe(
+  //     "pk_live_51Q5rVPDzbkNorRzP4U6Wk6Nm64Own1aSvOuquQyPJmoa6MDtyilvUb6fHlDO3mFMqjnbGshwASBNUYe9tEkatwT500KwAjMJPl",
+  //   );
 
-    try {
-      // Chama a API para criar a sessão de checkout
-      const response: { id: string } = await $fetch("/api/processPayment", {
-        method: "POST",
-      });
+  //   try {
+  //     // Chama a API para criar a sessão de checkout
+  //     const response: { id: string } = await $fetch("/api/processPayment", {
+  //       method: "POST",
+  //     });
 
-      // Pega o id da sessão do Stripe retornada pelo backend
-      const sessionId: string = response.id;
+  //     // Pega o id da sessão do Stripe retornada pelo backend
+  //     const sessionId: string = response.id;
 
-      // Redireciona o usuário para o checkout do Stripe
-      const { error } = await stripe!.redirectToCheckout({ sessionId });
+  //     // Redireciona o usuário para o checkout do Stripe
+  //     const { error } = await stripe!.redirectToCheckout({ sessionId });
 
-      if (error) {
-        console.error(
-          "Erro no redirecionamento para o checkout:",
-          error.message,
-        );
-      }
-    } catch (error) {
-      console.error("Erro ao criar sessão:", (error as Error).message);
-    }
-  }
-
-  confirmBtn.value = "Agendando..."; // Envia feedback para o usuário de espera
+  //     if (error) {
+  //       console.error(
+  //         "Erro no redirecionamento para o checkout:",
+  //         error.message,
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Erro ao criar sessão:", (error as Error).message);
+  //   }
+  // }
 
   // Envia os dados para a url da rota POST
   try {
+    confirmBtn.value = "Agendando..."; // Envia feedback para o usuário de espera
     const result = showContent.value.reduce((acc: any, item: any) => {
       acc[item.contentTitle] = item.data; // Atualiza o acumulador
       return acc; // Retorna o acumulador atualizado
@@ -130,10 +130,8 @@ async function handleAgendar() {
       body: JSON.stringify(result),
     });
 
-    localStorage.setItem(
-      "agendado",
-      String((useFormStore().formData.isAgendado = true)),
-    );
+    localStorage.setItem("agendado", JSON.stringify(true));
+    userFormStore().formData.isAgendado = true;
   } catch (error) {
     // Caso ocorra um erro, mostra no botão do formulário
     emit("agendarBtnBadRequest");
