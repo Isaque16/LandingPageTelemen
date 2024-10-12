@@ -21,7 +21,7 @@
         Cancelar
       </button>
       <button
-        @click.prevent="handleAgendar()"
+        @click.prevent="handleAgendamento()"
         class="p-2 bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer text-2xl font-workSans w-1/2"
       >
         {{ confirmBtn }}
@@ -31,7 +31,6 @@
 </template>
 
 <script lang="ts" setup>
-import { loadStripe } from "@stripe/stripe-js";
 import { userFormStore } from "~/store/userFormStore";
 
 const emit = defineEmits(["closeDialog", "agendarBtnBadRequest"]);
@@ -61,6 +60,7 @@ const showContent = computed(() => {
     { contentTitle: "Data da Mensagem", data: props.propData },
     { contentTitle: "Ocasião da Mensagem", data: props.propOcasiao },
     { contentTitle: "Telefone para Contato", data: props.propContato },
+    { contentTitle: "Mensagem", data: props.propMensagem }
   ];
 
   const variableItems = []; // Adicionar itens variáveis com base no valor de propModelo
@@ -72,50 +72,44 @@ const showContent = computed(() => {
     );
   } else if (props.propModelo === "Por Telefone") {
     variableItems.push(
-      {
-        contentTitle: "Telefone do Destinatário",
-        data: props.propDestinatariotel,
-      },
-      { contentTitle: "Mensagem", data: props.propMensagem }
+      { contentTitle: "Telefone do Destinatário", data: props.propDestinatariotel },
     );
   }
   // Retornar a combinação dos itens fixos e variáveis
   return [...content, ...variableItems];
 });
 
-// Agendamento
 const confirmBtn = ref<string>("Confirmar");
-async function handleAgendar() {
-  // Se o modelo for "Por Telefone", o pagamento deve ser realizado
-  // if (props.propModelo === "Por Telefone") {
-  //   // Enviar os dados para a url da rota POST
-  //   const stripe = await loadStripe(
-  //     "pk_live_51Q5rVPDzbkNorRzP4U6Wk6Nm64Own1aSvOuquQyPJmoa6MDtyilvUb6fHlDO3mFMqjnbGshwASBNUYe9tEkatwT500KwAjMJPl",
-  //   );
 
-  //   try {
-  //     // Chama a API para criar a sessão de checkout
-  //     const response: { id: string } = await $fetch("/api/processPayment", {
-  //       method: "POST",
-  //     });
+async function handlePayment(): Promise<void> {
+  const { stripe } = useClientStripe(); // Obtém a instância do Stripe uma vez
+  if (stripe.value != undefined) {
+    try {
+      // Chama a API para criar a sessão de checkout
+      const response = await $fetch<{ id: string, error?: string }>('/api/processPayment', { method: 'POST' });
 
-  //     // Pega o id da sessão do Stripe retornada pelo backend
-  //     const sessionId: string = response.id;
+      // Verifica se há erro no retorno da API
+      if (response.error) {
+        console.error('Erro ao criar sessão de checkout:', response.error);
+        return;
+      }
 
-  //     // Redireciona o usuário para o checkout do Stripe
-  //     const { error } = await stripe!.redirectToCheckout({ sessionId });
+      // Redireciona para o checkout usando o ID da sessão retornado pelo backend
+      const { error: redirectError } = await stripe.value.redirectToCheckout({ sessionId: response.id });
 
-  //     if (error) {
-  //       console.error(
-  //         "Erro no redirecionamento para o checkout:",
-  //         error.message,
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error("Erro ao criar sessão:", (error as Error).message);
-  //   }
-  // }
+      if (redirectError) {
+        console.error('Erro ao redirecionar para o checkout:', redirectError.message);
+        return;
+      }
+      // Outros códigos aqui, se necessário
+    } catch (error) {
+      console.error('Erro ao iniciar o pagamento:', error);
+      return;
+    }
+  } else throw new Error("Stripe não está definido");
+}
 
+async function handleSendFormData() {
   // Envia os dados para a url da rota POST
   try {
     confirmBtn.value = "Agendando..."; // Envia feedback para o usuário de espera
@@ -141,5 +135,13 @@ async function handleAgendar() {
     emit("closeDialog");
     confirmBtn.value = "Confirmar";
   }
+}
+
+// Agendamento
+function handleAgendamento(): void {
+  // Se o modelo for "Por Telefone", o pagamento deve ser realizado
+  if (props.propModelo === "Por Telefone") 
+    handlePayment();
+  handleSendFormData();
 }
 </script>

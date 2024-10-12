@@ -15,18 +15,18 @@
         name="greenbtn"
         class="bg-green-400 text-center p-2 mt-6 rounded-xl w-40 cursor-pointer mx-auto"
       >
-        <nuxt-link
+        <NuxtLink
           :to="{ path: '/agendamento', query: { modelo: props.modelo } }"
           ><span class="text-white text-xl"
             >💸 Valor: R${{ preco }},00</span
-          ></nuxt-link
+          ></NuxtLink
         >
       </div>
     </div>
-    <nuxt-img
+    <NuxtImg
       :src="`./images/${toggleImage}.jpg`"
       class="bg-center bg-cover w-full md:w-1/3 h-full"
-    ></nuxt-img>
+    ></NuxtImg>
   </div>
 </template>
 

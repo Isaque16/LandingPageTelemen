@@ -1,6 +1,6 @@
 <template>
   <header class="flex flex-col p-5 w-full h-full" id="cabecalho">
-    <nuxt-link to="/">
+    <NuxtLink to="/">
       <div class="p-2">
         <h1 class="text-4xl md:text-6xl text-center p-2 font-IBM font-bold">
           TELEMENSAGEM <br />
@@ -10,7 +10,7 @@
           💌 Palavras que viram presentes 🎁
         </p>
       </div>
-    </nuxt-link>
+    </NuxtLink>
   </header>
   <hr />
   <div class="bg-red-600 opacity-70 p-5 text-2xl rounded-xl text-center">

@@ -1,6 +1,6 @@
 <template>
   <header class="flex flex-col p-5 w-full h-full" id="cabecalho">
-    <nuxt-link to="/">
+    <NuxtLink to="/">
       <div class="p-2">
         <h1 class="text-4xl md:text-6xl text-center p-2 font-IBM font-bold">
           TELEMENSAGEM <br />
@@ -10,7 +10,7 @@
           💌 Palavras que viram presentes 🎁
         </p>
       </div>
-    </nuxt-link>
+    </NuxtLink>
   </header>
   <hr />
 
@@ -60,7 +60,7 @@
         </div>
 
         <div class="flex flex-col gap-5">
-          <input-component
+          <InputComponent
             forLabel="nome"
             inputTitle="Quem envia"
             inputType="text"
@@ -69,9 +69,9 @@
             autocomplete="name"
             info-message="Preencha com o nome do remetente, que pode ser seu ou de várias pessoas."
             error-message="Informe pelo menos o primeiro nome de quem está enviando!"
-          ></input-component>
+          />
 
-          <input-component
+          <InputComponent
             forLabel="para"
             inputTitle="Para quem"
             inputType="text"
@@ -79,25 +79,25 @@
             placeholder="Nome da homenagiada(o)"
             info-message="Preencha com o nome da pessoa a ser homenageada."
             error-message="Informe pelo menos o primeiro nome da pessoa que vai receber"
-          ></input-component>
+          />
 
-          <input-component
+          <InputComponent
             forLabel="hora"
             inputTitle="Horário da mensagem"
             inputType="time"
             v-model="form.hora"
             info-message="Preencha este campo com a hora em que a mensagem deve ser enviada"
             error-message="É preciso informar o horário de envio da mensagem"
-          ></input-component>
+          />
 
-          <input-component
+          <InputComponent
             forLabel="data"
             inputTitle="Data de envio"
             inputType="date"
             v-model="form.data"
             info-message="Preencha a data de envio da mensagem e agende com antecedência."
             error-message="É preciso informar a data de envio da mensagem"
-          ></input-component>
+          />
 
           <div class="flex flex-col p-2">
             <div>
@@ -178,7 +178,7 @@
             </div>
           </div>
 
-          <input-component
+          <InputComponent
             forLabel="contato"
             inputTitle="Telefone para contato"
             inputType="text"
@@ -186,9 +186,9 @@
             placeholder="ex: 68 12345678"
             info-message="Digite seu número de telefone para mantermos contato"
             error-message="Precisamos manter contato! Nos informe seu número"
-          ></input-component>
+          />
 
-          <input-component
+          <InputComponent
             v-if="form.modelo == 'Por Telefone'"
             forLabel="destinatariotel"
             inputTitle="Número do destinatário"
@@ -197,9 +197,9 @@
             placeholder="ex: 68 12345678"
             info-message="Digite o número de telefone do homenagiada(o)"
             error-message="Precisamos do contato para o envio da mensagem"
-          ></input-component>
+          />
 
-          <input-component
+          <InputComponent
             v-if="form.modelo == 'Ao Vivo'"
             forLabel="musica"
             inputTitle="Nome da música"
@@ -208,21 +208,21 @@
             placeholder="ex: Esse cara sou eu - Roberto Carlos"
             info-message="Escreva o nome da música preferida do destinatário, pois ela tocará na chegada ao local."
             error-message="A escolha de uma música de sua preferencia é necessário"
-          ></input-component>
+          />
 
           <div class="flex flex-col p-2">
             <div
               class="bg-red-600 p-4 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"
             >
-              <nuxt-link
+              <NuxtLink
                 :to="`/mensagens/${form.ocasiao}`"
                 class="p-2 text-2xl font-bold hover:cursor-pointer"
-                >Escolher mensagem: {{ form.mensagem }}</nuxt-link
-              >
+                >Escolher mensagem: {{ form.mensagem }}
+              </NuxtLink>
             </div>
           </div>
 
-          <input-component
+          <InputComponent
             v-if="form.modelo == 'Ao Vivo'"
             forLabel="endereco"
             inputTitle="Endereço da comemoração"
@@ -231,13 +231,13 @@
             placeholder="ex: R. Cumaru, Portal da Amazônia, Rio Branco, Acre"
             info-message="Por último, insira o endereço do local da comemoração."
             error-message="Por favor, digite o endereço da comemoração corretamente"
-          ></input-component>
+          />
 
           <div class="flex flex-col p-2 rounded-xl text-center gap-2">
             <button
               @click.prevent="dialogScreen?.showModal()"
               :disabled="isThereEmptyFields"
-              :class="`${toggleButtonClass} p-2 rounded-xl text-2xl font-workSans w-full md:w-1/2 font-bold`"
+              :class="[toggleButtonClass, 'p-2 rounded-xl text-2xl font-workSans w-full md:w-1/2 font-bold']"
             >
               {{ agendarBtn }}
             </button>
@@ -246,7 +246,7 @@
       </form>
 
       <dialog ref="dialogScreen" class="rounded-lg">
-        <confirmation-screen
+        <ConfirmationScreen
           @closeDialog="dialogScreen?.close()"
           @agendarBtnBadRequest="agendarBtn = 'Horário indisponível nessa data'"
           :prop-modelo="form.modelo"
@@ -260,7 +260,7 @@
           :prop-musica="form.musica"
           :prop-destinatariotel="form.destinatariotel"
           :prop-mensagem="form.mensagem"
-        ></confirmation-screen>
+        />
       </dialog>
     </section>
   </main>

@@ -1,5 +1,5 @@
 <template>
-  <main class="bg-transparent text-black text-2xl text-center p-5">
+  <main class="bg-transparent text-black text-2xl text-center p-5 h-screen">
     <h1
       class="px-10 py-1 border-black border-2 w-full md:w-1/2 mx-auto rounded-xl bg-slate-100 font-bold"
     >
@@ -9,10 +9,10 @@
     <div class="flex flex-row justify-center gap-20">
       <h2 
       @click="selectedCategory = 'feminina'"
-      :class="[classCategorySelected('feminina'), 'p-2 text-white rounded-bl-xl rounded-br-xl mb-10 cursor-pointer']">Voz Feminina</h2>
+      :class="[classCategorySelected('feminina'), 'p-2 text-white rounded-bl-xl rounded-br-xl mb-10']">Voz Feminina</h2>
       <h2 
       @click="selectedCategory = 'masculino'"
-      :class="[classCategorySelected('masculino'), 'p-2 text-white rounded-bl-xl rounded-br-xl mb-10 cursor-pointer']">Voz Masculina</h2>
+      :class="[classCategorySelected('masculino'), 'p-2 text-white rounded-bl-xl rounded-br-xl mb-10']">Voz Masculina</h2>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3">
       <div
@@ -42,7 +42,7 @@
     >
       <div class="flex flex-col gap-5">
         <p class="text-3xl p-2 bg-red-600">{{ dialogTitle }}</p>
-        <vue-sound 
+        <VueSound 
         :controller="controlPlayer"
         :file="dialogAudio" 
         />
@@ -74,21 +74,44 @@ const ocasiaoMensagem = useRoute().params.mensagem;
 
 const selectedCategory = ref<string>('feminina');
 const getMensagens = computed(() => {
-  const categoria = mensagens[ocasiaoMensagem as keyof typeof mensagens];
+  const categoria = mensagens[ocasiaoMensagem as keyof typeof mensagens]; // Verifica se a ocasião existe dentro de mensagens
 
-  // Verifica se a chave selectedCategory.value existe dentro da categoria
-  const mensagem = categoria[selectedCategory.value as keyof typeof categoria];
+  if (!categoria) return []; // Se a categoria for indefinida, retorna um array vazio para evitar erro
 
-  // Retorna a mensagem se ela existir, ou um array vazio se não existir
-  return mensagem ? mensagem : [];
+  let mensagem = categoria[selectedCategory.value as keyof typeof categoria]; // Tenta acessar a categoria selecionada
+
+  // Verifica se a mensagem atual é indefinida ou um array vazio
+  if (!mensagem || mensagem.length === 0) {
+    // Alterna o valor de selectedCategory para verificar a outra opção
+    const novaCategoria = selectedCategory.value === 'feminina' ? 'masculino' : 'feminina';
+    const novaMensagem = categoria[novaCategoria as keyof typeof categoria];
+
+    // Verifica se a nova categoria tem conteúdo, senão mantém vazio
+    if (novaMensagem && (novaMensagem as any[]).length > 0) {
+      // Se a nova categoria for válida, atualiza o selectedCategory e retorna a mensagem
+      selectedCategory.value = novaCategoria;
+      mensagem = novaMensagem;
+    }
+  }
+
+  return mensagem ? mensagem : []; // Retorna a mensagem se ela existir, ou um array vazio se não existir
 });
 
 const isCategorySelected = (category: string): boolean => selectedCategory.value === category;
-const classCategorySelected = (category: string): string => 
-  isCategorySelected(category) 
-    ? 'bg-red-600 hover:bg-red-700' 
-    : 'bg-red-700 hover:bg-red-600';
-    
+const classCategorySelected = (category: string): string => {
+  const categoria = mensagens[ocasiaoMensagem as keyof typeof mensagens];
+  const mensagem = categoria[category as keyof typeof categoria];
+
+  // Verifica se a categoria existe e se a mensagem é um array vazio
+  if (mensagem && mensagem.length === 0) 
+    return 'bg-gray-500 opacity-70 cursor-not-allowed';
+
+  // Verifica se a categoria está selecionada
+  if (isCategorySelected(category)) 
+    return 'bg-red-600 hover:bg-red-700 cursor-pointer';
+  return 'bg-red-700 hover:bg-red-600 cursor-pointer'; // Classe padrão
+};
+  
 const dialogScreen = ref<HTMLDialogElement>();
 const dialogTitle = ref<string>("");
 const dialogAudio = ref<string>("");

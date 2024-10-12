@@ -11,14 +11,14 @@
       <p class="text-center text-lg font-playWrite">
         💌 Palavras que viram presentes 🎁
       </p>
-      <nuxt-link to="/agendamento" class="flex justify-center my-5">
+      <NuxtLink to="/agendamento" class="flex justify-center my-5">
         <div
           name="container"
           class="text-center p-2 bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer text-xl md:text-3xl font-workSans w-fit font-bold"
         >
           FAÇA JÁ SEU AGENDAMENTO!
         </div>
-      </nuxt-link>
+      </NuxtLink>
     </div>
   </header>
   <hr />
@@ -31,7 +31,7 @@
         </h2>
         <div class="bg-white w-1/5 h-2 self-center"></div>
       </div>
-      <servico
+      <Servico
         :div1-class="'aovivo'"
         :div2-class="'aovivo'"
         :div-image="'aovivo'"
@@ -49,9 +49,9 @@
           '✅ Garantia 100%',
         ]"
         :preco="180"
-      ></servico>
+      />
 
-      <servico
+      <Servico
         :div1-class="'portelefone'"
         :div2-class="'portelefone'"
         :div-image="'portelefone'"
@@ -62,7 +62,7 @@
           '🎤 Mensagens gravadas de alta qualidade',
         ]"
         :preco="20"
-      ></servico>
+      />
     </section>
 
     <div class="flex flex-col">
@@ -76,22 +76,22 @@
           <div class="bg-white w-2/12 h-2 self-center mb-10"></div>
         </div>
         <ul class="flex flex-col md:flex-row justify-between gap-10">
-          <instrucao
+          <Instrucao
             image-url="images/contact-us.png"
             alt="Contato"
             title="ENTRE EM CONTATO"
             text="Entre em contato conosco através do Whatsapp e escolha entre os modelos de mensagens acima."
-          ></instrucao>
+          />
 
           <span name="fadeBox" class="flex justify-center text-4xl items-center"
             >ou</span
           >
-          <instrucao
+          <Instrucao
             image-url="/images/formulario-de-contato.png"
             alt="Formulário"
             title="FORNEÇA AS INFORMAÇÕES"
             text="Clicando no botão abaixo preencha o formulário as informações necessárias para a realização do serviço"
-          ></instrucao>
+          />
 
           <span
             name="fadeBox"
@@ -126,24 +126,24 @@
             </svg>
           </span>
 
-          <instrucao
+          <Instrucao
             image-url="images/garantia.png"
             alt="Check"
             title="CONFIE NO NOSSO TRABALHO"
             text="Após a realização de todas as etapas anteriores, basta ficar tranquilo e confiar no nosso trabalho"
-          ></instrucao>
+          />
         </ul>
       </section>
     </div>
 
-    <nuxt-link to="/agendamento" class="flex justify-center my-5">
+    <NuxtLink to="/agendamento" class="flex justify-center my-5">
       <div
         name="container"
         class="text-center p-2 bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer text-2xl md:text-3xl font-workSans w-fit font-bold"
       >
         FAÇA JÁ SEU AGENDAMENTO!
       </div>
-    </nuxt-link>
+    </NuxtLink>
   </main>
 </template>
 
