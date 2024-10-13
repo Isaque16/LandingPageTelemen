@@ -68,7 +68,6 @@
 
 <script lang="ts" setup>
 import mensagens from "../../server/database/mensagens.json";
-import { userFormStore } from "~/store/userFormStore";
 
 const ocasiaoMensagem = useRoute().params.mensagem;
 
@@ -81,13 +80,13 @@ const getMensagens = computed(() => {
   let mensagem = categoria[selectedCategory.value as keyof typeof categoria]; // Tenta acessar a categoria selecionada
 
   // Verifica se a mensagem atual é indefinida ou um array vazio
-  if (!mensagem || mensagem.length === 0) {
+  if (!mensagem || mensagem == undefined || mensagem.length === 0) {
     // Alterna o valor de selectedCategory para verificar a outra opção
-    const novaCategoria = selectedCategory.value === 'feminina' ? 'masculino' : 'feminina';
+    const novaCategoria = selectedCategory.value == 'feminina' ? 'masculino' : 'feminina';
     const novaMensagem = categoria[novaCategoria as keyof typeof categoria];
 
     // Verifica se a nova categoria tem conteúdo, senão mantém vazio
-    if (novaMensagem && (novaMensagem as any[]).length > 0) {
+    if (novaMensagem && novaMensagem.length > 0) {
       // Se a nova categoria for válida, atualiza o selectedCategory e retorna a mensagem
       selectedCategory.value = novaCategoria;
       mensagem = novaMensagem;
@@ -100,7 +99,7 @@ const getMensagens = computed(() => {
 const isCategorySelected = (category: string): boolean => selectedCategory.value === category;
 const classCategorySelected = (category: string): string => {
   const categoria = mensagens[ocasiaoMensagem as keyof typeof mensagens];
-  const mensagem = categoria[category as keyof typeof categoria];
+  const mensagem = categoria[selectedCategory.value as keyof typeof categoria];
 
   // Verifica se a categoria existe e se a mensagem é um array vazio
   if (mensagem && mensagem.length === 0) 

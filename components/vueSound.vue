@@ -29,13 +29,13 @@ import PlayIcon from "./PlayerSvg/PlayIcon.vue";
 import PauseIcon from "./PlayerSvg/PauseIcon.vue";
 // import VolumeIcon from "./PlayerSvg/VolumeIcon.vue";
 
-const props = defineProps<{ 
-  controller: boolean,
-  file: string 
+const props = defineProps<{
+  controller: boolean;
+  file: string;
 }>();
 
 // Refs para controlar o player
-const isPlaying = ref<boolean>(false); 
+const isPlaying = ref<boolean>(false);
 const volume = ref<number>(1.0); // Volume padrão 100%
 const currentTime = ref<number>(0); // Tempo atual
 const duration = ref<number>(0); // Duração total
@@ -55,7 +55,7 @@ const initSound = () => {
       isPlaying.value = false; // Define como não tocando quando acaba
       currentTime.value = 0; // Reseta o tempo atual
     },
-    onload: () => duration.value = sound.duration(), // Define a duração total após o áudio ser carregado
+    onload: () => (duration.value = sound.duration()), // Define a duração total após o áudio ser carregado
     onplay: () => requestAnimationFrame(updateCurrentTime), // Atualiza o tempo atual enquanto está tocando
   });
 };
@@ -67,24 +67,27 @@ const updateCurrentTime = () => {
 };
 
 // Reagir a mudanças em `props.controller`
-watch(() => props.controller, (newVal) => {
-  if (newVal) {
-    if (!isPlaying.value) {
-      initSound();
-      sound.play(); // Toca o som se controller for true
-      isPlaying.value = true;
+watch(
+  () => props.controller,
+  (newVal) => {
+    if (newVal) {
+      if (!isPlaying.value) {
+        initSound();
+        sound.play(); // Toca o som se controller for true
+        isPlaying.value = true;
+      }
+    } else {
+      if (isPlaying.value) {
+        sound.pause(); // Pausa o som se controller for false
+        isPlaying.value = false;
+      }
     }
-  } else {
-    if (isPlaying.value) {
-      sound.pause(); // Pausa o som se controller for false
-      isPlaying.value = false;
-    }
-  }
-});
+  },
+);
 
 // Função para mudar o volume
 // const changeVolume = () => {
-//   if (sound) 
+//   if (sound)
 //     sound.volume(volume.value);
 // }
 
@@ -94,16 +97,14 @@ watch(() => props.controller, (newVal) => {
 // Função para definir o tempo atual
 const setCurrentTime = (event: any) => {
   const newTime = event.target.value;
-  if (sound) 
-    sound.seek(newTime); // Muda a posição do áudio
+  if (sound) sound.seek(newTime); // Muda a posição do áudio
 };
 
 watch(isPlaying, (newVal) => {
-  if (!newVal) 
-    currentTime.value = 0; // Reseta o tempo quando pausa
+  if (!newVal) currentTime.value = 0; // Reseta o tempo quando pausa
 });
 
-onMounted(() => initSound());
+onMounted(initSound);
 
 onBeforeUnmount(() => sound && sound.unload());
 </script>

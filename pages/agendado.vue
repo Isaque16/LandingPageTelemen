@@ -73,8 +73,6 @@
 </template>
 
 <script lang="ts" setup>
-import { userFormStore } from "~/store/userFormStore";
-
 const timeRemaining = ref<string>("");
 function updateTimeRemaining(): void {
   const now = new Date();
@@ -88,7 +86,7 @@ function updateTimeRemaining(): void {
 
   const days: number = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours: number = Math.floor(
-    (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
   );
   const minutes: number = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   const seconds: number = Math.floor((diff % (1000 * 60)) / 1000);

@@ -7,7 +7,7 @@ Site de Landing Page para a empresa **Telemensagem Rosa de Sarom AC**. Este site
 - HTML
 - Tailwind CSS
 - AnimeJs
-- Howlerr.js
+- Howler.js
 - TypeScript
 - Vue.js
 - Nuxt.js

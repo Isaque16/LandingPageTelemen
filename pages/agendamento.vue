@@ -166,14 +166,6 @@
                     Aniversário de Amigo
                   </option>
                 </optgroup>
-                <optgroup label="Datas comemorativas">
-                  <option value="Dia das Mães">Dia das Mães</option>
-                  <option value="Dia dos Pais">Dia dos Pais</option>
-                  <option value="Dia dos Namorados">Dia dos Namorados</option>
-                  <option value="Dia da Mulher">Dia da Mulher</option>
-                  <option value="Natal">Natal</option>
-                  <option value="Ano Novo">Ano Novo</option>
-                </optgroup>
               </select>
             </div>
           </div>
@@ -217,7 +209,9 @@
               <NuxtLink
                 :to="`/mensagens/${form.ocasiao}`"
                 class="p-2 text-2xl font-bold hover:cursor-pointer"
-                >Escolher mensagem: {{ form.mensagem }}
+                >{{
+                  !form.mensagem ? "Escolher mensagem" : "Mensagem escolhida"
+                }}: {{ form.mensagem }}
               </NuxtLink>
             </div>
           </div>
@@ -237,7 +231,10 @@
             <button
               @click.prevent="dialogScreen?.showModal()"
               :disabled="isThereEmptyFields"
-              :class="[toggleButtonClass, 'p-2 rounded-xl text-2xl font-workSans w-full md:w-1/2 font-bold']"
+              :class="[
+                toggleButtonClass,
+                'p-2 rounded-xl text-2xl font-workSans w-full md:w-1/2 font-bold',
+              ]"
             >
               {{ agendarBtn }}
             </button>
@@ -282,8 +279,7 @@ onBeforeMount(() => {
 });
 
 // Armazenando variáveis globais com Pinia
-import { userFormStore } from "~/store/userFormStore";
-const form = userFormStore().formData;
+const { formData: form } = userFormStore();
 
 const modeloParams = useRoute().query.modelo; // Muda os inputs mostrados no form de acordo com o radio
 // Verifica a query do header quando a página é carregada
@@ -307,19 +303,18 @@ const formDefaultSet = computed(
     !form.hora ||
     !form.data ||
     !form.ocasiao ||
-    !form.contato || 
-    !form.mensagem
+    !form.contato ||
+    !form.mensagem,
 );
 const aovivoSet = computed(
-  () => form.modelo === "Ao Vivo" && (!form.musica || !form.endereco)
+  () => form.modelo === "Ao Vivo" && (!form.musica || !form.endereco),
 );
 const portelefoneSet = computed(
-  () =>
-    form.modelo === "Por Telefone" && (!form.destinatariotel)
+  () => form.modelo === "Por Telefone" && !form.destinatariotel,
 );
 // Lógica de verificação: será falso se qualquer um deles for falso
 const isThereEmptyFields = computed(
-  () => formDefaultSet.value || aovivoSet.value || portelefoneSet.value
+  () => formDefaultSet.value || aovivoSet.value || portelefoneSet.value,
 );
 // Verifica se há algum campo não preenchido
 const toggleButtonClass = computed(() => {

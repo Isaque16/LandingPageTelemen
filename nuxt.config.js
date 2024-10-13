@@ -1,7 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss', "@nuxt/image", "@pinia/nuxt", "@unlok-co/nuxt-stripe"],
-  app: {
+  tailwindcss: {
+    configPath: "tailwind.config.ts",
+    cssPath: "./assets/styles/style.css",
+  },
+  pinia: {
+    storesDirs: [ "./store" ]
+  },
+  imports: {
+    autoImport: true,
+  },
+  app: { 
     head: {
       title: "Telemensagem Rosa de Sarom",
       meta: [
@@ -17,20 +27,21 @@ export default defineNuxtConfig({
   },
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  
   stripe: {
-    // Configuração do servidor
     server: {
       key: process.env.STRIPE_TEST_SECRET_KEY,
+      options: {
+        host: 'localhost',
+        typescript: true,
+        protocol: 'http',
+        port: 3000,
+      }
     },
     client: {
-      key: process.env.STRIPE_TEST_PUBLIC_KEY, // Chave pública
-      // manualClientLoad: true, // Se você quiser ter controle sobre onde carregar o cliente
+      key: process.env.STRIPE_TEST_PUBLIC_KEY,
       options: {
-        locale: { locale: 'pt-BR' }, // para definir o idioma para português
-        currency: 'brl',
-        allowedPaymentMethods: ['pix', 'card', 'boleto'], // Métodos de pagamento permitidos
-      },
-    },
-  },
+        locale: 'pt-BR',
+      }
+    }
+  }
 })

@@ -31,8 +31,6 @@
 </template>
 
 <script lang="ts" setup>
-import { userFormStore } from "~/store/userFormStore";
-
 const emit = defineEmits(["closeDialog", "agendarBtnBadRequest"]);
 
 // Input refs
@@ -60,7 +58,7 @@ const showContent = computed(() => {
     { contentTitle: "Data da Mensagem", data: props.propData },
     { contentTitle: "Ocasião da Mensagem", data: props.propOcasiao },
     { contentTitle: "Telefone para Contato", data: props.propContato },
-    { contentTitle: "Mensagem", data: props.propMensagem }
+    { contentTitle: "Mensagem", data: props.propMensagem },
   ];
 
   const variableItems = []; // Adicionar itens variáveis com base no valor de propModelo
@@ -68,56 +66,61 @@ const showContent = computed(() => {
   if (props.propModelo === "Ao Vivo") {
     variableItems.push(
       { contentTitle: "Música para chegar tocando", data: props.propMusica },
-      { contentTitle: "Endereço da Comemoração", data: props.propEndereco }
+      { contentTitle: "Endereço da Comemoração", data: props.propEndereco },
     );
   } else if (props.propModelo === "Por Telefone") {
-    variableItems.push(
-      { contentTitle: "Telefone do Destinatário", data: props.propDestinatariotel },
-    );
+    variableItems.push({
+      contentTitle: "Telefone do Destinatário",
+      data: props.propDestinatariotel,
+    });
   }
   // Retornar a combinação dos itens fixos e variáveis
   return [...content, ...variableItems];
 });
 
-const confirmBtn = ref<string>("Confirmar");
-
 async function handlePayment(): Promise<void> {
   const { stripe } = useClientStripe(); // Obtém a instância do Stripe uma vez
-  if (stripe.value != undefined) {
+  console.log("stripe.value: ", stripe.value);
+  if (stripe.value != undefined || stripe.value != null) {
     try {
       // Chama a API para criar a sessão de checkout
-      const response = await $fetch<{ id: string, error?: string }>('/api/processPayment', { method: 'POST' });
-
+      const { id, error } = await $fetch<{ id: string; error?: string }>(
+        "/api/processPayment",
+        { method: "POST" },
+      );
       // Verifica se há erro no retorno da API
-      if (response.error) {
-        console.error('Erro ao criar sessão de checkout:', response.error);
+      if (error) {
+        console.error("Erro ao criar sessão de checkout:", error);
         return;
       }
 
       // Redireciona para o checkout usando o ID da sessão retornado pelo backend
-      const { error: redirectError } = await stripe.value.redirectToCheckout({ sessionId: response.id });
-
+      const { error: redirectError } = await stripe.value.redirectToCheckout({
+        sessionId: id,
+      });
       if (redirectError) {
-        console.error('Erro ao redirecionar para o checkout:', redirectError.message);
+        console.error(
+          "Erro ao redirecionar para o checkout:",
+          redirectError.message,
+        );
         return;
       }
-      // Outros códigos aqui, se necessário
     } catch (error) {
-      console.error('Erro ao iniciar o pagamento:', error);
+      console.error("Erro ao iniciar o pagamento:", error);
       return;
     }
-  } else throw new Error("Stripe não está definido");
+  } else throw new Error("Stripe é nulo ou não está definido");
 }
 
-async function handleSendFormData() {
-  // Envia os dados para a url da rota POST
+const confirmBtn = ref<string>("Confirmar");
+async function handleSendFormData(): Promise<void> {
+  const result = showContent.value.reduce((acc: any, item: any) => {
+    acc[item.contentTitle] = item.data; // Atualiza o acumulador
+    return acc; // Retorna o acumulador atualizado
+  }, {}); // Inicializa o acumulador como um objeto vazio
   try {
     confirmBtn.value = "Agendando..."; // Envia feedback para o usuário de espera
-    const result = showContent.value.reduce((acc: any, item: any) => {
-      acc[item.contentTitle] = item.data; // Atualiza o acumulador
-      return acc; // Retorna o acumulador atualizado
-    }, {}); // Inicializa o acumulador como um objeto vazio
-
+    // Envia os dados para a url da rota POST
     await $fetch("/api/submitData", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -125,7 +128,10 @@ async function handleSendFormData() {
     });
 
     localStorage.setItem("agendado", JSON.stringify(true));
+    localStorage.setItem("hora", JSON.stringify(props.propHora));
     userFormStore().formData.isAgendado = true;
+    userFormStore().formData.hora = props.propHora;
+    useRouter().replace("/agendado");
   } catch (error) {
     // Caso ocorra um erro, mostra no botão do formulário
     emit("agendarBtnBadRequest");
@@ -138,10 +144,17 @@ async function handleSendFormData() {
 }
 
 // Agendamento
-function handleAgendamento(): void {
-  // Se o modelo for "Por Telefone", o pagamento deve ser realizado
-  if (props.propModelo === "Por Telefone") 
-    handlePayment();
-  handleSendFormData();
+async function handleAgendamento(): Promise<void> {
+  // Se o modelo for "Por Telefone"
+  if (props.propModelo === "Por Telefone") {
+    try {
+      await handlePayment();
+      handleSendFormData();
+    } catch (error) {
+      console.error("Erro ao realizar o pagamento:", error);
+    }
+  }
+  // Modelo diferente
+  else handleSendFormData(); // Executa imediatamente
 }
 </script>
