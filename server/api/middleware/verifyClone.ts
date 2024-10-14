@@ -33,7 +33,7 @@ export default defineEventHandler(async (event: H3Event) => {
     if (isDuplicated)
       throw createError({
         statusCode: 400,
-        message: "Horário indisponível nessa data",
+        statusText: "Horário indisponível nessa data",
       });
   } catch (err: any) {
     if (err instanceof SyntaxError) {

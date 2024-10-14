@@ -31,6 +31,8 @@
 </template>
 
 <script lang="ts" setup>
+import { loadStripe } from "@stripe/stripe-js";
+
 const emit = defineEmits(["closeDialog", "agendarBtnBadRequest"]);
 
 // Input refs
@@ -79,37 +81,36 @@ const showContent = computed(() => {
 });
 
 async function handlePayment(): Promise<void> {
-  const { stripe } = useClientStripe(); // Obtém a instância do Stripe uma vez
-  console.log("stripe.value: ", stripe.value);
-  if (stripe.value != undefined || stripe.value != null) {
-    try {
-      // Chama a API para criar a sessão de checkout
-      const { id, error } = await $fetch<{ id: string; error?: string }>(
-        "/api/processPayment",
-        { method: "POST" },
-      );
-      // Verifica se há erro no retorno da API
-      if (error) {
-        console.error("Erro ao criar sessão de checkout:", error);
-        return;
-      }
-
-      // Redireciona para o checkout usando o ID da sessão retornado pelo backend
-      const { error: redirectError } = await stripe.value.redirectToCheckout({
-        sessionId: id,
-      });
-      if (redirectError) {
-        console.error(
-          "Erro ao redirecionar para o checkout:",
-          redirectError.message,
-        );
-        return;
-      }
-    } catch (error) {
-      console.error("Erro ao iniciar o pagamento:", error);
+  const stripe = await loadStripe(
+    "pk_test_51Q5rVPDzbkNorRzPt6RffYvbkjvnrzMeevSBWoi2yDEyRPzRK9e2wyAbjVa0fLFyahW3ZPpHaLjUkLLwSs1d3GY000226hO4MV",
+  );
+  try {
+    // Chama a API para criar a sessão de checkout
+    const { id, error } = await $fetch<{ id: string; error?: string }>(
+      "/api/processPayment",
+      { method: "POST" },
+    );
+    // Verifica se há erro no retorno da API
+    if (error) {
+      console.error("Erro ao criar sessão de checkout:", error);
       return;
     }
-  } else throw new Error("Stripe é nulo ou não está definido");
+
+    // Redireciona para o checkout usando o ID da sessão retornado pelo backend
+    const { error: redirectError } = await stripe!.redirectToCheckout({
+      sessionId: id,
+    });
+    if (redirectError) {
+      console.error(
+        "Erro ao redirecionar para o checkout:",
+        redirectError.message,
+      );
+      return;
+    }
+  } catch (error) {
+    console.error("Erro ao iniciar o pagamento:", error);
+    return;
+  }
 }
 
 const confirmBtn = ref<string>("Confirmar");
@@ -147,12 +148,8 @@ async function handleSendFormData(): Promise<void> {
 async function handleAgendamento(): Promise<void> {
   // Se o modelo for "Por Telefone"
   if (props.propModelo === "Por Telefone") {
-    try {
-      await handlePayment();
-      handleSendFormData();
-    } catch (error) {
-      console.error("Erro ao realizar o pagamento:", error);
-    }
+    await handlePayment();
+    handleSendFormData();
   }
   // Modelo diferente
   else handleSendFormData(); // Executa imediatamente
