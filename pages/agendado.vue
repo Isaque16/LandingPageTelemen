@@ -76,9 +76,9 @@
 const timeRemaining = ref<string>("");
 function updateTimeRemaining(): void {
   const now = new Date();
-  const target = new Date(userFormStore().formData.hora);
+  const target = new Date(`${userFormStore().formData.data}T${userFormStore().formData.hora}`);
   const diff: number = Math.abs(target.getTime() - now.getTime());
-
+  
   if (diff <= 0) {
     localStorage.clear();
     return;

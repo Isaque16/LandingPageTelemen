@@ -100,6 +100,7 @@ async function handlePayment(): Promise<void> {
     const { error: redirectError } = await stripe!.redirectToCheckout({
       sessionId: id,
     });
+
     if (redirectError) {
       console.error(
         "Erro ao redirecionar para o checkout:",
@@ -130,8 +131,12 @@ async function handleSendFormData(): Promise<void> {
 
     localStorage.setItem("agendado", JSON.stringify(true));
     localStorage.setItem("hora", JSON.stringify(props.propHora));
+    localStorage.setItem("data", JSON.stringify(props.propData));
+    localStorage.setItem("modelo", JSON.stringify(props.propModelo));
     userFormStore().formData.isAgendado = true;
     userFormStore().formData.hora = props.propHora;
+    userFormStore().formData.data = props.propData;
+    userFormStore().formData.modelo = props.propModelo;
     useRouter().replace("/agendado");
   } catch (error) {
     // Caso ocorra um erro, mostra no botão do formulário
@@ -147,11 +152,7 @@ async function handleSendFormData(): Promise<void> {
 // Agendamento
 async function handleAgendamento(): Promise<void> {
   // Se o modelo for "Por Telefone"
-  if (props.propModelo === "Por Telefone") {
-    await handlePayment();
-    handleSendFormData();
-  }
-  // Modelo diferente
-  else handleSendFormData(); // Executa imediatamente
+  if (props.propModelo == "Por Telefone") await handlePayment();
+  handleSendFormData(); // Executa imediatamente
 }
 </script>

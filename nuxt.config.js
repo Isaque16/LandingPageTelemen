@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', "@nuxt/image", "@pinia/nuxt", "@unlok-co/nuxt-stripe"],
+  modules: ['@nuxtjs/tailwindcss', "@nuxt/image", "@pinia/nuxt"],
   tailwindcss: {
     configPath: "tailwind.config.ts",
     cssPath: "./assets/styles/style.css",
