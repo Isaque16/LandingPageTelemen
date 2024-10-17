@@ -129,7 +129,7 @@
                   <option value="Aniversário de Filho">
                     Aniversário de Filho
                   </option>
-                  <option value="Aniversário de Namorda">
+                  <option value="Aniversário de Namorada">
                     Aniversário de Namorada
                   </option>
                   <option value="Aniversário de Namorado">

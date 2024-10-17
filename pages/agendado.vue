@@ -76,13 +76,18 @@
 const timeRemaining = ref<string>("");
 function updateTimeRemaining(): void {
   const now = new Date();
-  const target = new Date(`${userFormStore().formData.data}T${userFormStore().formData.hora}`);
-  const diff: number = Math.abs(target.getTime() - now.getTime());
-  
-  if (diff <= 0) {
-    localStorage.clear();
-    return;
-  }
+  const target = new Date(
+    `${userFormStore().formData.data}T${userFormStore().formData.hora}`,
+  );
+  const diff: number = target.getTime() - now.getTime();
+
+  onBeforeMount(() => {
+    if (diff <= 0) {
+      localStorage.clear();
+      useRouter().replace("/agendamento");
+      return;
+    }
+  });
 
   const days: number = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours: number = Math.floor(

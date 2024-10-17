@@ -1,7 +1,11 @@
 <template>
   <body class="bg-custom-gradient text-white">
     <div class="flex justify-center">
-      <NuxtLink to="https://wa.me/556899111571" rel="noopener noreferrer" target="_blank" external
+      <NuxtLink
+        to="https://wa.me/556899111571"
+        rel="noopener noreferrer"
+        target="_blank"
+        external
         ><div
           class="bg-green-500 fixed bottom-4 right-4 rounded-full p-4 shadow-lg font-semibold z-50"
         >
@@ -56,6 +60,15 @@
         </ul>
       </div>
     </footer>
-    <p class="opacity-70">Desenvolvido por <NuxtLink to="https://github.com/Isaque16" external target="blank" class="font-bold underline">Isaque Costa</NuxtLink></p>
+    <p class="opacity-70">
+      Desenvolvido por
+      <NuxtLink
+        to="https://github.com/Isaque16"
+        external
+        target="blank"
+        class="font-bold underline"
+        >Isaque Costa</NuxtLink
+      >
+    </p>
   </body>
 </template>
