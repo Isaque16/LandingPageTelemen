@@ -81,20 +81,20 @@ const ocasiaoMensagem = useRoute().params.mensagem;
 
 type categoriaType = "feminina" | "masculino";
 const selectedCategory = ref<categoriaType>("feminina");
-const mensagem = mensagens[ocasiaoMensagem as keyof typeof mensagens]; // Verifica se a ocasião existe dentro de mensagens
+const mensagem = mensagens[ocasiaoMensagem as keyof typeof mensagens];
 const getMensagens = computed(() => {
-  if (mensagem.feminina.length == 0) selectedCategory.value = "masculino";
-  else if (mensagem.masculino.length == 0) selectedCategory.value = "feminina";
+  if (mensagem.feminina.length === 0) selectedCategory.value = "masculino";
+  else if (mensagem.masculino.length === 0) selectedCategory.value = "feminina";
   return mensagem[selectedCategory.value];
 });
 
 const classCategorySelected = (category: categoriaType): string => {
   // Verifica se a categoria existe e se a mensagem é um array vazio
-  if (getMensagens.value.length == 0)
+  if (selectedCategory.value != category && mensagem[category].length === 0)
     return "bg-gray-500 opacity-70 cursor-not-allowed";
 
   // Verifica se a categoria está selecionada
-  if (selectedCategory.value === category)
+  if (selectedCategory.value == category)
     return "bg-red-600 hover:bg-red-700 cursor-pointer";
   return "bg-red-700 hover:bg-red-600 cursor-pointer"; // Classe padrão
 };

@@ -147,6 +147,9 @@
                   <option value="Aniversário de Esposa">
                     Aniversário de Esposa
                   </option>
+                  <option value="Aniversário de Esposo">
+                    Aniversário de Esposo
+                  </option>
                   <option value="Aniversário de Sogra">
                     Aniversário de Sogra
                   </option>
