@@ -271,12 +271,11 @@
 onBeforeMount(() => {
   const isAgendadoActive = localStorage.getItem("agendado");
   if (isAgendadoActive === null)
-    return localStorage.setItem("agendado", JSON.stringify(false));
+    return localStorage.setItem("agendado", "false");
   else {
     const isAgendado = computed(() => JSON.parse(isAgendadoActive));
     if (isAgendado.value) {
-      form.isAgendado = isAgendado.value;
-      useRouter().replace("/agendado");
+      return useRouter().replace("/agendado");
     }
   }
 });

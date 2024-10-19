@@ -23,8 +23,7 @@ export default defineEventHandler(async (event: H3Event) => {
       cancel_url: 'http://localhost:3000/agendamento', // URL de cancelamento
     });
     // Retorna o ID da sessão de checkout para o frontend
-    console.log("sessionId: ", session.id);
-    return { id: session.id};
+    return { id: session.id, pagadoStatus: session.payment_status };
   } catch (err) {
     console.error("Erro ao tentar processar pagamento:", err);
     return { error: "Erro ao processar o pagamento" }; // Retorna uma mensagem de erro

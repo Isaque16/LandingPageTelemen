@@ -35,6 +35,8 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const emit = defineEmits(["closeDialog", "agendarBtnBadRequest"]);
 
+const { formData: form } = userFormStore();
+
 // Input refs
 const props = defineProps<{
   propModelo: string;
@@ -49,6 +51,42 @@ const props = defineProps<{
   propMusica: string;
   propEndereco: string;
 }>();
+
+async function handlePayment(): Promise<void> {
+  confirmBtn.value = "Redirecionando para o pagamento...";
+  const stripe = await loadStripe(
+    "pk_test_51Q5rVPDzbkNorRzPt6RffYvbkjvnrzMeevSBWoi2yDEyRPzRK9e2wyAbjVa0fLFyahW3ZPpHaLjUkLLwSs1d3GY000226hO4MV",
+  );
+  try {
+    // Chama a API para criar a sessão de checkout
+    const { id, pagado, error } = await $fetch<{ id: string; pagado: string; error?: string }>(
+      "/api/processPayment",
+      { method: "POST" },
+    );
+    // Verifica se há erro no retorno da API
+    if (error) {
+      console.error("Erro ao criar sessão de checkout:", error);
+      return;
+    }
+
+    // Redireciona para o checkout usando o ID da sessão retornado pelo backend
+    console.log("redirect");
+    const { error: redirectError } = await stripe!.redirectToCheckout({
+      sessionId: id,
+    });
+    
+    if (redirectError) {
+      console.error(
+        "Erro ao redirecionar para o checkout:",
+        redirectError.message,
+      );
+      return;
+    }
+  } catch (error) {
+    console.error("Erro ao iniciar o pagamento:", error);
+    return;
+  }
+}
 
 // Computed para mostrar apenas dados que satisfazem a condição do inputRadio
 const showContent = computed(() => {
@@ -80,40 +118,6 @@ const showContent = computed(() => {
   return [...content, ...variableItems];
 });
 
-async function handlePayment(): Promise<void> {
-  const stripe = await loadStripe(
-    "pk_test_51Q5rVPDzbkNorRzPt6RffYvbkjvnrzMeevSBWoi2yDEyRPzRK9e2wyAbjVa0fLFyahW3ZPpHaLjUkLLwSs1d3GY000226hO4MV",
-  );
-  try {
-    // Chama a API para criar a sessão de checkout
-    const { id, error } = await $fetch<{ id: string; error?: string }>(
-      "/api/processPayment",
-      { method: "POST" },
-    );
-    // Verifica se há erro no retorno da API
-    if (error) {
-      console.error("Erro ao criar sessão de checkout:", error);
-      return;
-    }
-
-    // Redireciona para o checkout usando o ID da sessão retornado pelo backend
-    const { error: redirectError } = await stripe!.redirectToCheckout({
-      sessionId: id,
-    });
-
-    if (redirectError) {
-      console.error(
-        "Erro ao redirecionar para o checkout:",
-        redirectError.message,
-      );
-      return;
-    }
-  } catch (error) {
-    console.error("Erro ao iniciar o pagamento:", error);
-    return;
-  }
-}
-
 const confirmBtn = ref<string>("Confirmar");
 async function handleSendFormData(): Promise<void> {
   const result = showContent.value.reduce((acc: any, item: any) => {
@@ -128,16 +132,12 @@ async function handleSendFormData(): Promise<void> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(result),
     });
-
-    localStorage.setItem("agendado", JSON.stringify(true));
-    localStorage.setItem("hora", JSON.stringify(props.propHora));
-    localStorage.setItem("data", JSON.stringify(props.propData));
-    localStorage.setItem("modelo", JSON.stringify(props.propModelo));
-    userFormStore().formData.isAgendado = true;
-    userFormStore().formData.hora = props.propHora;
-    userFormStore().formData.data = props.propData;
-    userFormStore().formData.modelo = props.propModelo;
+    localStorage.setItem("agendado", "true");
+    localStorage.setItem("hora", props.propHora);
+    localStorage.setItem("data", props.propData);
+    localStorage.setItem("modelo", props.propModelo);
     useRouter().replace("/agendado");
+    console.log("Agendamento enviado");
   } catch (error) {
     // Caso ocorra um erro, mostra no botão do formulário
     emit("agendarBtnBadRequest");
@@ -151,8 +151,9 @@ async function handleSendFormData(): Promise<void> {
 
 // Agendamento
 async function handleAgendamento(): Promise<void> {
-  // Se o modelo for "Por Telefone"
+  console.log("handleAgendamento");
   if (props.propModelo == "Por Telefone") await handlePayment();
-  handleSendFormData(); // Executa imediatamente
+  console.log("handlePayment");
+  await handleSendFormData();
 }
 </script>

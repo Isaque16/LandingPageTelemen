@@ -31,7 +31,7 @@
         </h2>
         <div class="bg-white w-1/5 h-2 self-center"></div>
       </div>
-      <Servico
+      <Modelo
         :div1-class="'aovivo'"
         :div2-class="'aovivo'"
         :div-image="'aovivo'"
@@ -51,7 +51,7 @@
         :preco="180"
       />
 
-      <Servico
+      <Modelo
         :div1-class="'portelefone'"
         :div2-class="'portelefone'"
         :div-image="'portelefone'"

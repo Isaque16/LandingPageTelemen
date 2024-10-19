@@ -27,21 +27,4 @@ export default defineNuxtConfig({
   },
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  stripe: {
-    server: {
-      key: process.env.STRIPE_TEST_SECRET_KEY,
-      options: {
-        host: 'localhost',
-        typescript: true,
-        protocol: 'http',
-        port: 3000,
-      }
-    },
-    client: {
-      key: process.env.STRIPE_TEST_PUBLIC_KEY,
-      options: {
-        locale: 'pt-BR',
-      }
-    }
-  }
 })

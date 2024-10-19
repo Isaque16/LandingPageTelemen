@@ -13,12 +13,12 @@
     </NuxtLink>
   </header>
   <hr />
-  <div class="bg-red-600 opacity-70 p-5 text-2xl rounded-xl text-center">
+  <div class="bg-red-600 opacity-70 p-5 text-2xl text-center">
     <div class="flex flex-col items-center p-5 text-center">
       <h1 class="font-bold text-5xl">Agendamento realizado!</h1>
       <p
         class="text-2xl font-bold"
-        v-if="userFormStore().formData.modelo == 'Ao Vivo'"
+        v-if="modelCli === 'Ao Vivo'"
       >
         O pagamento é feito no local da mensagem ao vivo
       </p>
@@ -73,21 +73,19 @@
 </template>
 
 <script lang="ts" setup>
+const modelCli = localStorage.getItem("modelo");
 const timeRemaining = ref<string>("");
 function updateTimeRemaining(): void {
   const now = new Date();
   const target = new Date(
-    `${userFormStore().formData.data}T${userFormStore().formData.hora}`,
+    `${localStorage.getItem("data")?.split('/').reverse().join('-')}T${localStorage.getItem("hora")}`,
   );
   const diff: number = target.getTime() - now.getTime();
-
-  onBeforeMount(() => {
-    if (diff <= 0) {
-      localStorage.clear();
-      useRouter().replace("/agendamento");
-      return;
-    }
-  });
+  if (diff <= 0) {
+    localStorage.clear();
+    useRouter().replace("/agendamento");
+    return;
+  }
 
   const days: number = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours: number = Math.floor(
