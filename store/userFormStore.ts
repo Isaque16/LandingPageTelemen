@@ -14,7 +14,16 @@ export const userFormStore = defineStore('form', {
       mensagem: '',
       musica: '',
       endereco: '',
+      paymentStatus: '',
       isAgendado: false,
     }
-  })
+  }),
+  persist: {
+    pick: [
+      "formData.modelo", 
+      "formData.hora", 
+      "formData.data", 
+      "formData.isAgendado"
+    ]
+  }
 })

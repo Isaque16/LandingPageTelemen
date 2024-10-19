@@ -59,7 +59,7 @@ async function handlePayment(): Promise<void> {
   );
   try {
     // Chama a API para criar a sessão de checkout
-    const { id, pagado, error } = await $fetch<{ id: string; pagado: string; error?: string }>(
+    const { id, error } = await $fetch<{ id: string; error?: string }>(
       "/api/processPayment",
       { method: "POST" },
     );
@@ -125,25 +125,20 @@ async function handleSendFormData(): Promise<void> {
     return acc; // Retorna o acumulador atualizado
   }, {}); // Inicializa o acumulador como um objeto vazio
   try {
-    confirmBtn.value = "Agendando..."; // Envia feedback para o usuário de espera
-    // Envia os dados para a url da rota POST
+    confirmBtn.value = "Agendando..."; 
     await $fetch("/api/submitData", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(result),
     });
-    localStorage.setItem("agendado", "true");
-    localStorage.setItem("hora", props.propHora);
-    localStorage.setItem("data", props.propData);
-    localStorage.setItem("modelo", props.propModelo);
+
+    form.isAgendado = true;
     useRouter().replace("/agendado");
     console.log("Agendamento enviado");
   } catch (error) {
-    // Caso ocorra um erro, mostra no botão do formulário
     emit("agendarBtnBadRequest");
     console.error("Houve um erro ao enviar os dados: ", error);
   } finally {
-    // Qualquer que seja o resultado fecha a tela de confirmação
     emit("closeDialog");
     confirmBtn.value = "Confirmar";
   }
@@ -152,8 +147,7 @@ async function handleSendFormData(): Promise<void> {
 // Agendamento
 async function handleAgendamento(): Promise<void> {
   console.log("handleAgendamento");
+  handleSendFormData();
   if (props.propModelo == "Por Telefone") await handlePayment();
-  console.log("handlePayment");
-  await handleSendFormData();
 }
 </script>

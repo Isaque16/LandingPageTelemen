@@ -5,13 +5,14 @@ import type { H3Event } from "h3";
 
 import verifyClone from "./middleware/verifyClone";
 import registScheduling from "./middleware/logData";
+import awaitPayment from "./middleware/awaitPayment";
 
 dotenv.config();
 cors();
 
 export default defineEventHandler(async (event: H3Event) => {
-  // Chama os middlewares antes de prosseguir com o envio do e-mail
   await verifyClone(event);
+  await awaitPayment(event);
   await registScheduling(event);
 
   const result = await readBody(event);

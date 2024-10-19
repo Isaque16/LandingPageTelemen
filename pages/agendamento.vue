@@ -256,10 +256,11 @@
           :prop-data="form.data.split('-').reverse().join('/')"
           :prop-ocasiao="form.ocasiao"
           :prop-contato="form.contato"
+          :prop-mensagem="form.mensagem"
           :prop-endereco="form.endereco"
           :prop-musica="form.musica"
           :prop-destinatariotel="form.destinatariotel"
-          :prop-mensagem="form.mensagem"
+          :prop-payment-status="form.paymentStatus"
         />
       </dialog>
     </section>
@@ -267,21 +268,14 @@
 </template>
 
 <script lang="ts" setup>
-// Verifica se já houve agendamento ou não ao acessar a página
-onBeforeMount(() => {
-  const isAgendadoActive = localStorage.getItem("agendado");
-  if (isAgendadoActive === null)
-    return localStorage.setItem("agendado", "false");
-  else {
-    const isAgendado = computed(() => JSON.parse(isAgendadoActive));
-    if (isAgendado.value) {
-      return useRouter().replace("/agendado");
-    }
-  }
-});
-
 // Armazenando variáveis globais com Pinia
 const { formData: form } = userFormStore();
+
+// Verifica se já houve agendamento ou não ao acessar a página
+onBeforeMount(() => {
+  if (form.isAgendado || form.paymentStatus == 'paid') 
+    return useRouter().replace("/agendado");
+});
 
 const modeloParams = useRoute().query.modelo; // Muda os inputs mostrados no form de acordo com o radio
 // Verifica a query do header quando a página é carregada

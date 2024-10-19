@@ -18,7 +18,7 @@
       <h1 class="font-bold text-5xl">Agendamento realizado!</h1>
       <p
         class="text-2xl font-bold"
-        v-if="modelCli === 'Ao Vivo'"
+        v-if="form.modelo === 'Ao Vivo'"
       >
         O pagamento é feito no local da mensagem ao vivo
       </p>
@@ -73,16 +73,16 @@
 </template>
 
 <script lang="ts" setup>
-const modelCli = localStorage.getItem("modelo");
+const { formData: form } = userFormStore();
 const timeRemaining = ref<string>("");
 function updateTimeRemaining(): void {
   const now = new Date();
   const target = new Date(
-    `${localStorage.getItem("data")?.split('/').reverse().join('-')}T${localStorage.getItem("hora")}`,
+    `${form.data.split('/').reverse().join('-')}T${form.hora}`,
   );
   const diff: number = target.getTime() - now.getTime();
   if (diff <= 0) {
-    localStorage.clear();
+    userFormStore().$reset();
     useRouter().replace("/agendamento");
     return;
   }
@@ -100,9 +100,8 @@ function updateTimeRemaining(): void {
 let intervalId: any;
 // Verifica se já houve agendamento ou não
 onBeforeMount(() => {
-  const isAgendadoActive = localStorage.getItem("agendado");
-  if (isAgendadoActive == "false") return useRouter().replace("/agendamento");
-
+  if (form.isAgendado == false || form.paymentStatus != 'paid') return useRouter().replace("/agendamento");
+  
   updateTimeRemaining(); // Atualiza imediatamente ao montar
   intervalId = setInterval(updateTimeRemaining, 1000);
 });
