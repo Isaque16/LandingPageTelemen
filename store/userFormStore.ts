@@ -14,7 +14,6 @@ export const userFormStore = defineStore('form', {
       mensagem: '',
       musica: '',
       endereco: '',
-      paymentStatus: '',
       isAgendado: false,
     }
   }),

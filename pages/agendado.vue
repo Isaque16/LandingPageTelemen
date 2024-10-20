@@ -100,7 +100,53 @@ function updateTimeRemaining(): void {
 let intervalId: any;
 // Verifica se já houve agendamento ou não
 onBeforeMount(() => {
-  if (form.isAgendado == false || form.paymentStatus != 'paid') return useRouter().replace("/agendamento");
+  if (useRoute().redirectedFrom?.fullPath.includes("agendamento")) {
+    form.isAgendado = true;
+    const showContent = computed(() => {
+      let content = [
+        { contentTitle: "Modelo de Mensagem", data: form.modelo },
+        { contentTitle: "Nome de Quem Envia", data: form.nome },
+        { contentTitle: "Nome de Quem Receberá", data: form.para },
+        { contentTitle: "Horário da Mensagem", data: form.hora },
+        { contentTitle: "Data da Mensagem", data: form.data },
+        { contentTitle: "Ocasião da Mensagem", data: form.ocasiao },
+        { contentTitle: "Telefone para Contato", data: form.contato },
+        { contentTitle: "Mensagem", data: form.mensagem },
+      ];
+
+      const variableItems = []; // Adicionar itens variáveis com base no valor de propModelo
+
+      if (form.modelo === "Ao Vivo") {
+        variableItems.push(
+          { contentTitle: "Música para chegar tocando", data: form.musica },
+          { contentTitle: "Endereço da Comemoração", data: form.endereco },
+        );
+      } else if (form.modelo === "Por Telefone") {
+        variableItems.push({
+          contentTitle: "Telefone do Destinatário",
+          data: form.destinatariotel,
+        });
+      }
+      // Retornar a combinação dos itens fixos e variáveis
+      return [...content, ...variableItems];
+    });
+
+    const result = showContent.value.reduce((acc: any, item: any) => {
+      acc[item.contentTitle] = item.data; // Atualiza o acumulador
+      return acc; // Retorna o acumulador atualizado
+    }, {}); // Inicializa o acumulador como um objeto vazio
+    try {
+      $fetch("/api/submitData", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(result),
+      });
+      console.log("Agendamento enviado");
+    } catch (error) {
+      console.error("Houve um erro ao enviar os dados: ", error);
+    }
+  }
+  else if (form.isAgendado == false) return useRouter().replace("/agendamento");
   
   updateTimeRemaining(); // Atualiza imediatamente ao montar
   intervalId = setInterval(updateTimeRemaining, 1000);

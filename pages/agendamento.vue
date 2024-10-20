@@ -260,7 +260,6 @@
           :prop-endereco="form.endereco"
           :prop-musica="form.musica"
           :prop-destinatariotel="form.destinatariotel"
-          :prop-payment-status="form.paymentStatus"
         />
       </dialog>
     </section>
@@ -273,7 +272,7 @@ const { formData: form } = userFormStore();
 
 // Verifica se já houve agendamento ou não ao acessar a página
 onBeforeMount(() => {
-  if (form.isAgendado || form.paymentStatus == 'paid') 
+  if (form.isAgendado) 
     return useRouter().replace("/agendado");
 });
 

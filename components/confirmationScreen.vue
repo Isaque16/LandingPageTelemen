@@ -61,7 +61,7 @@ async function handlePayment(): Promise<void> {
     // Chama a API para criar a sessão de checkout
     const { id, error } = await $fetch<{ id: string; error?: string }>(
       "/api/processPayment",
-      { method: "POST" },
+      { method: "GET" },
     );
     // Verifica se há erro no retorno da API
     if (error) {
@@ -147,7 +147,7 @@ async function handleSendFormData(): Promise<void> {
 // Agendamento
 async function handleAgendamento(): Promise<void> {
   console.log("handleAgendamento");
-  handleSendFormData();
   if (props.propModelo == "Por Telefone") await handlePayment();
+  await handleSendFormData();
 }
 </script>
