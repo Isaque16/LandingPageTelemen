@@ -115,8 +115,12 @@
                 v-model="form.ocasiao"
               >
                 <optgroup label="Aniversário">
-                  <option value="Aniversário de Mãe">Aniversário de Mãe</option>
-                  <option value="Aniversário de Pai">Aniversário de Pai</option>
+                  <option value="Aniversário de Mãe">
+                    Aniversário de Mãe
+                  </option>
+                  <option value="Aniversário de Pai">
+                    Aniversário de Pai
+                  </option>
                   <option value="Aniversário de Irmã">
                     Aniversário de Irmã
                   </option>
@@ -249,17 +253,6 @@
         <ConfirmationScreen
           @closeDialog="dialogScreen?.close()"
           @agendarBtnBadRequest="agendarBtn = 'Horário indisponível nessa data'"
-          :prop-modelo="form.modelo"
-          :prop-nome="form.nome"
-          :prop-para="form.para"
-          :prop-hora="form.hora"
-          :prop-data="form.data.split('-').reverse().join('/')"
-          :prop-ocasiao="form.ocasiao"
-          :prop-contato="form.contato"
-          :prop-mensagem="form.mensagem"
-          :prop-endereco="form.endereco"
-          :prop-musica="form.musica"
-          :prop-destinatariotel="form.destinatariotel"
         />
       </dialog>
     </section>
@@ -272,8 +265,7 @@ const { formData: form } = userFormStore();
 
 // Verifica se já houve agendamento ou não ao acessar a página
 onBeforeMount(() => {
-  if (form.isAgendado) 
-    return useRouter().replace("/agendado");
+  if (form.isAgendado) return useRouter().replace("/agendado");
 });
 
 const modeloParams = useRoute().query.modelo; // Muda os inputs mostrados no form de acordo com o radio

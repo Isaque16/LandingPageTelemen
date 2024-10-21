@@ -16,10 +16,7 @@
   <div class="bg-red-600 opacity-70 p-5 text-2xl text-center">
     <div class="flex flex-col items-center p-5 text-center">
       <h1 class="font-bold text-5xl">Agendamento realizado!</h1>
-      <p
-        class="text-2xl font-bold"
-        v-if="form.modelo === 'Ao Vivo'"
-      >
+      <p class="text-2xl font-bold" v-if="form.modelo === 'Ao Vivo'">
         O pagamento é feito no local da mensagem ao vivo
       </p>
       <p class="text-2xl">Agora basta confiar e aguardar</p>
@@ -35,7 +32,7 @@
     </p>
     <div>
       <p class="text-2xl">
-        Em caso de dúvida, cancelamento ou reagendamento, <br />entre em contato
+        Em caso de dúvida, reagendamento ou cancelamento, <br />entre em contato
         através do nosso
       </p>
       <NuxtLink
@@ -78,7 +75,7 @@ const timeRemaining = ref<string>("");
 function updateTimeRemaining(): void {
   const now = new Date();
   const target = new Date(
-    `${form.data.split('/').reverse().join('-')}T${form.hora}`,
+    `${form.data.split("/").reverse().join("-")}T${form.hora}`,
   );
   const diff: number = target.getTime() - now.getTime();
   if (diff <= 0) {
@@ -100,54 +97,25 @@ function updateTimeRemaining(): void {
 let intervalId: any;
 // Verifica se já houve agendamento ou não
 onBeforeMount(() => {
-  if (useRoute().redirectedFrom?.fullPath.includes("agendamento")) {
+  if (useRoute().query.session_id && form.isAgendado != true) {
     form.isAgendado = true;
-    const showContent = computed(() => {
-      let content = [
-        { contentTitle: "Modelo de Mensagem", data: form.modelo },
-        { contentTitle: "Nome de Quem Envia", data: form.nome },
-        { contentTitle: "Nome de Quem Receberá", data: form.para },
-        { contentTitle: "Horário da Mensagem", data: form.hora },
-        { contentTitle: "Data da Mensagem", data: form.data },
-        { contentTitle: "Ocasião da Mensagem", data: form.ocasiao },
-        { contentTitle: "Telefone para Contato", data: form.contato },
-        { contentTitle: "Mensagem", data: form.mensagem },
-      ];
 
-      const variableItems = []; // Adicionar itens variáveis com base no valor de propModelo
-
-      if (form.modelo === "Ao Vivo") {
-        variableItems.push(
-          { contentTitle: "Música para chegar tocando", data: form.musica },
-          { contentTitle: "Endereço da Comemoração", data: form.endereco },
-        );
-      } else if (form.modelo === "Por Telefone") {
-        variableItems.push({
-          contentTitle: "Telefone do Destinatário",
-          data: form.destinatariotel,
-        });
-      }
-      // Retornar a combinação dos itens fixos e variáveis
-      return [...content, ...variableItems];
-    });
-
-    const result = showContent.value.reduce((acc: any, item: any) => {
-      acc[item.contentTitle] = item.data; // Atualiza o acumulador
-      return acc; // Retorna o acumulador atualizado
-    }, {}); // Inicializa o acumulador como um objeto vazio
+    const result = userFormStore().showContent.reduce((acc: any, item: any) => {
+      acc[item.contentTitle] = item.data; 
+      return acc; 
+    }, {}); 
     try {
       $fetch("/api/submitData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(result),
       });
-      console.log("Agendamento enviado");
     } catch (error) {
       console.error("Houve um erro ao enviar os dados: ", error);
     }
-  }
-  else if (form.isAgendado == false) return useRouter().replace("/agendamento");
-  
+  } else if (form.isAgendado == false)
+    return useRouter().replace("/agendamento");
+
   updateTimeRemaining(); // Atualiza imediatamente ao montar
   intervalId = setInterval(updateTimeRemaining, 1000);
 });

@@ -36,21 +36,7 @@ import { loadStripe } from "@stripe/stripe-js";
 const emit = defineEmits(["closeDialog", "agendarBtnBadRequest"]);
 
 const { formData: form } = userFormStore();
-
-// Input refs
-const props = defineProps<{
-  propModelo: string;
-  propNome: string;
-  propPara: string;
-  propHora: string;
-  propData: string;
-  propOcasiao: string;
-  propContato: string;
-  propDestinatariotel: string;
-  propMensagem: string;
-  propMusica: string;
-  propEndereco: string;
-}>();
+const { showContent } = userFormStore();
 
 async function handlePayment(): Promise<void> {
   confirmBtn.value = "Redirecionando para o pagamento...";
@@ -70,11 +56,10 @@ async function handlePayment(): Promise<void> {
     }
 
     // Redireciona para o checkout usando o ID da sessão retornado pelo backend
-    console.log("redirect");
     const { error: redirectError } = await stripe!.redirectToCheckout({
       sessionId: id,
     });
-    
+
     if (redirectError) {
       console.error(
         "Erro ao redirecionar para o checkout:",
@@ -88,44 +73,14 @@ async function handlePayment(): Promise<void> {
   }
 }
 
-// Computed para mostrar apenas dados que satisfazem a condição do inputRadio
-const showContent = computed(() => {
-  let content = [
-    { contentTitle: "Modelo de Mensagem", data: props.propModelo },
-    { contentTitle: "Nome de Quem Envia", data: props.propNome },
-    { contentTitle: "Nome de Quem Receberá", data: props.propPara },
-    { contentTitle: "Horário da Mensagem", data: props.propHora },
-    { contentTitle: "Data da Mensagem", data: props.propData },
-    { contentTitle: "Ocasião da Mensagem", data: props.propOcasiao },
-    { contentTitle: "Telefone para Contato", data: props.propContato },
-    { contentTitle: "Mensagem", data: props.propMensagem },
-  ];
-
-  const variableItems = []; // Adicionar itens variáveis com base no valor de propModelo
-
-  if (props.propModelo === "Ao Vivo") {
-    variableItems.push(
-      { contentTitle: "Música para chegar tocando", data: props.propMusica },
-      { contentTitle: "Endereço da Comemoração", data: props.propEndereco },
-    );
-  } else if (props.propModelo === "Por Telefone") {
-    variableItems.push({
-      contentTitle: "Telefone do Destinatário",
-      data: props.propDestinatariotel,
-    });
-  }
-  // Retornar a combinação dos itens fixos e variáveis
-  return [...content, ...variableItems];
-});
-
 const confirmBtn = ref<string>("Confirmar");
 async function handleSendFormData(): Promise<void> {
-  const result = showContent.value.reduce((acc: any, item: any) => {
+  const result = showContent.reduce((acc: any, item: any) => {
     acc[item.contentTitle] = item.data; // Atualiza o acumulador
     return acc; // Retorna o acumulador atualizado
   }, {}); // Inicializa o acumulador como um objeto vazio
   try {
-    confirmBtn.value = "Agendando..."; 
+    confirmBtn.value = "Agendando...";
     await $fetch("/api/submitData", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -134,7 +89,6 @@ async function handleSendFormData(): Promise<void> {
 
     form.isAgendado = true;
     useRouter().replace("/agendado");
-    console.log("Agendamento enviado");
   } catch (error) {
     emit("agendarBtnBadRequest");
     console.error("Houve um erro ao enviar os dados: ", error);
@@ -144,10 +98,30 @@ async function handleSendFormData(): Promise<void> {
   }
 }
 
+async function handleVerifyClone(): Promise<void> {
+  const result = showContent.reduce((acc: any, item: any) => {
+    acc[item.contentTitle] = item.data; // Atualiza o acumulador
+    return acc; // Retorna o acumulador atualizado
+  }, {}); // Inicializa o acumulador como um objeto vazio
+  try {
+    confirmBtn.value = "Verificando...";
+    await $fetch("/api/middleware/verifyClone", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(result),
+    });
+  } catch (error) {
+    emit("agendarBtnBadRequest");
+    console.error("Houve um erro ao enviar os dados: ", error);
+  }
+}
+
 // Agendamento
 async function handleAgendamento(): Promise<void> {
-  console.log("handleAgendamento");
-  if (props.propModelo == "Por Telefone") await handlePayment();
-  await handleSendFormData();
+  if (form.modelo == "Por Telefone") {
+    await handleVerifyClone();
+    return handlePayment();
+  }
+  return await handleSendFormData();
 }
 </script>

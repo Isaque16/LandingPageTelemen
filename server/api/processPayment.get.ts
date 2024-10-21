@@ -18,7 +18,7 @@ export default defineEventHandler(async () => {
         },
       ],
       mode: 'payment',
-      success_url: 'http://localhost:3000/agendado', // URL de sucesso
+      success_url: 'http://localhost:3000/agendado?session_id={CHECKOUT_SESSION_ID}', // URL de sucesso
       cancel_url: 'http://localhost:3000/agendamento', // URL de cancelamento
     });
     // Retorna o ID da sessão de checkout para o frontend

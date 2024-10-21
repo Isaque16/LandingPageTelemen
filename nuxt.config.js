@@ -15,7 +15,7 @@ export default defineNuxtConfig({
     head: {
       title: "Telemensagem Rosa de Sarom",
       meta: [
-        { name: 'description', content: 'descrição do meu site'},
+        { name: 'Telemensagem Rosa de Sarom', content: 'Telemensagem Rosa de Sarom: Palavras que viram presentes' },
         { name: "viewport", content: "width=device-width, initial-scale=1"},
         { charset: "utf-8" },
       ],
@@ -26,5 +26,4 @@ export default defineNuxtConfig({
     }
   },
   compatibilityDate: "2024-04-03",
-  devtools: { enabled: true },
 })
