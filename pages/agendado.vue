@@ -70,57 +70,63 @@
 </template>
 
 <script lang="ts" setup>
-const { formData: form } = userFormStore();
+const { formData: form, showContent, $reset } = userFormStore();
 const timeRemaining = ref<string>("");
+
+// Função para calcular o tempo restante até a data e hora do agendamento
 function updateTimeRemaining(): void {
   const now = new Date();
   const target = new Date(
     `${form.data.split("/").reverse().join("-")}T${form.hora}`,
   );
-  const diff: number = target.getTime() - now.getTime();
+  const diff = target.getTime() - now.getTime();
+
   if (diff <= 0) {
-    userFormStore().$reset();
+    $reset();
     useRouter().replace("/agendamento");
     return;
   }
 
-  const days: number = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours: number = Math.floor(
-    (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-  );
-  const minutes: number = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds: number = Math.floor((diff % (1000 * 60)) / 1000);
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
   timeRemaining.value = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
-let intervalId: any;
-// Verifica se já houve agendamento ou não
-onBeforeMount(() => {
-  if (useRoute().query.session_id && form.isAgendado != true) {
+let intervalId: ReturnType<typeof setInterval>;
+
+// Verifica se houve agendamento e envia os dados
+onBeforeMount(async () => {
+  const router = useRouter();
+  const route = useRoute();
+
+  if (route.query.session_id && !form.isAgendado) {
     form.isAgendado = true;
 
-    const result = userFormStore().showContent.reduce((acc: any, item: any) => {
-      acc[item.contentTitle] = item.data; 
-      return acc; 
-    }, {}); 
+    const result = showContent.reduce((acc: Record<string, any>, item: any) => {
+      acc[item.contentTitle] = item.data;
+      return acc;
+    }, {});
+
     try {
-      $fetch("/api/submitData", {
+      await $fetch("/api/submitData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(result),
       });
     } catch (error) {
-      console.error("Houve um erro ao enviar os dados: ", error);
+      console.error("Erro ao enviar os dados: ", error);
     }
-  } else if (form.isAgendado == false)
-    return useRouter().replace("/agendamento");
+  } else if (!form.isAgendado) return router.replace("/agendamento");
 
-  updateTimeRemaining(); // Atualiza imediatamente ao montar
-  intervalId = setInterval(updateTimeRemaining, 1000);
+  updateTimeRemaining(); // Atualiza o tempo restante imediatamente
+  intervalId = setInterval(updateTimeRemaining, 1000); // Atualiza a cada segundo
 });
 
+// Limpa o intervalo quando o componente é desmontado
 onUnmounted(() => {
-  if (intervalId !== undefined) clearInterval(intervalId); // Limpa o intervalo quando o componente é desmontado
+  if (intervalId) clearInterval(intervalId);
 });
 </script>

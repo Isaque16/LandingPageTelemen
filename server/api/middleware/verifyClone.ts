@@ -35,6 +35,7 @@ export default defineEventHandler(async (event: H3Event) => {
         statusCode: 400,
         message: "Horário indisponível nessa data",
       });
+      
   } catch (err: any) {
     if (err instanceof SyntaxError) {
       console.error("Erro ao analisar o JSON: ", err);

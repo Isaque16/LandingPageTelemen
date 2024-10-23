@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 
 export default defineEventHandler(async () => {
-  const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY!);
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   try {
     // Cria a sessão de checkout
     const session = await stripe.checkout.sessions.create({

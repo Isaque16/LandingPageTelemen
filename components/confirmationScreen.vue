@@ -33,54 +33,42 @@
 <script lang="ts" setup>
 import { loadStripe } from "@stripe/stripe-js";
 
+// Emissões do componente
 const emit = defineEmits(["closeDialog", "agendarBtnBadRequest"]);
 
-const { formData: form } = userFormStore();
-const { showContent } = userFormStore();
+// Estado do formulário e dados
+const { formData: form, showContent } = userFormStore();
+const confirmBtn = ref<string>("Confirmar");
 
+// Preparação de dados do formulário
+const result = showContent.reduce((acc: Record<string, any>, item: any) => {
+  acc[item.contentTitle] = item.data;
+  return acc;
+}, {});
+
+// Função para redirecionar ao pagamento via Stripe
 async function handlePayment(): Promise<void> {
   confirmBtn.value = "Redirecionando para o pagamento...";
-  const stripe = await loadStripe(
-    "pk_test_51Q5rVPDzbkNorRzPt6RffYvbkjvnrzMeevSBWoi2yDEyRPzRK9e2wyAbjVa0fLFyahW3ZPpHaLjUkLLwSs1d3GY000226hO4MV",
-  );
+  
   try {
-    // Chama a API para criar a sessão de checkout
-    const { id, error } = await $fetch<{ id: string; error?: string }>(
-      "/api/processPayment",
-      { method: "GET" },
-    );
-    // Verifica se há erro no retorno da API
-    if (error) {
-      console.error("Erro ao criar sessão de checkout:", error);
-      return;
-    }
-
-    // Redireciona para o checkout usando o ID da sessão retornado pelo backend
-    const { error: redirectError } = await stripe!.redirectToCheckout({
-      sessionId: id,
-    });
-
-    if (redirectError) {
-      console.error(
-        "Erro ao redirecionar para o checkout:",
-        redirectError.message,
-      );
-      return;
-    }
+    const stripe = await loadStripe("pk_live_51Q5rVPDzbkNorRzP4U6Wk6Nm64Own1aSvOuquQyPJmoa6MDtyilvUb6fHlDO3mFMqjnbGshwASBNUYe9tEkatwT500KwAjMJPl");
+    
+    const { id, error } = await $fetch<{ id: string; error?: string }>("/api/processPayment", { method: "GET" });
+    if (error) throw new Error(`Erro ao criar sessão de checkout: ${error}`);
+    
+    const { error: redirectError } = await stripe!.redirectToCheckout({ sessionId: id });
+    if (redirectError) throw new Error(`Erro ao redirecionar: ${redirectError.message}`);
+    
   } catch (error) {
-    console.error("Erro ao iniciar o pagamento:", error);
-    return;
+    console.error("Houve um erro ao tentar carregar o pagamento: ", error);
   }
 }
 
-const confirmBtn = ref<string>("Confirmar");
+// Função para envio de dados do formulário
 async function handleSendFormData(): Promise<void> {
-  const result = showContent.reduce((acc: any, item: any) => {
-    acc[item.contentTitle] = item.data; // Atualiza o acumulador
-    return acc; // Retorna o acumulador atualizado
-  }, {}); // Inicializa o acumulador como um objeto vazio
+  confirmBtn.value = "Agendando...";
+  
   try {
-    confirmBtn.value = "Agendando...";
     await $fetch("/api/submitData", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -89,39 +77,40 @@ async function handleSendFormData(): Promise<void> {
 
     form.isAgendado = true;
     useRouter().replace("/agendado");
+    
   } catch (error) {
     emit("agendarBtnBadRequest");
-    console.error("Houve um erro ao enviar os dados: ", error);
+    console.error("Erro ao enviar dados: ", error);
+    
   } finally {
     emit("closeDialog");
     confirmBtn.value = "Confirmar";
   }
 }
 
+// Verificação de clonagem
 async function handleVerifyClone(): Promise<void> {
-  const result = showContent.reduce((acc: any, item: any) => {
-    acc[item.contentTitle] = item.data; // Atualiza o acumulador
-    return acc; // Retorna o acumulador atualizado
-  }, {}); // Inicializa o acumulador como um objeto vazio
+  confirmBtn.value = "Verificando...";
+  
   try {
-    confirmBtn.value = "Verificando...";
     await $fetch("/api/middleware/verifyClone", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(result),
     });
+    
   } catch (error) {
     emit("agendarBtnBadRequest");
-    console.error("Houve um erro ao enviar os dados: ", error);
+    console.error("Erro ao verificar clone: ", error);
   }
 }
 
-// Agendamento
+// Função principal de agendamento
 async function handleAgendamento(): Promise<void> {
-  if (form.modelo == "Por Telefone") {
+  if (form.modelo === "Por Telefone") {
     await handleVerifyClone();
-    return handlePayment();
-  }
-  return await handleSendFormData();
+    await handlePayment();
+  } else 
+    await handleSendFormData();
 }
 </script>

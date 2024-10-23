@@ -115,12 +115,8 @@
                 v-model="form.ocasiao"
               >
                 <optgroup label="Aniversário">
-                  <option value="Aniversário de Mãe">
-                    Aniversário de Mãe
-                  </option>
-                  <option value="Aniversário de Pai">
-                    Aniversário de Pai
-                  </option>
+                  <option value="Aniversário de Mãe">Aniversário de Mãe</option>
+                  <option value="Aniversário de Pai">Aniversário de Pai</option>
                   <option value="Aniversário de Irmã">
                     Aniversário de Irmã
                   </option>
@@ -139,14 +135,8 @@
                   <option value="Aniversário de Namorado">
                     Aniversário de Namorado
                   </option>
-                  <option value="Aniversário de Noiva">
-                    Aniversário de Noiva
-                  </option>
-                  <option value="Aniversário de Noivo">
-                    Aniversário de Noivo
-                  </option>
-                  <option value="Aniversário de Marido">
-                    Aniversário de Marido
+                  <option value="Aniversário de Esposo">
+                    Aniversário de Esposo
                   </option>
                   <option value="Aniversário de Esposa">
                     Aniversário de Esposa
@@ -157,9 +147,9 @@
                   <option value="Aniversário de Sogra">
                     Aniversário de Sogra
                   </option>
-                  <option value="Aniversário de Sogro">
+                  <!-- <option value="Aniversário de Sogro">
                     Aniversário de Sogro
-                  </option>
+                  </option> -->
                   <option value="Aniversário de Cunhada">
                     Aniversário de Cunhada
                   </option>
@@ -263,26 +253,25 @@
 // Armazenando variáveis globais com Pinia
 const { formData: form } = userFormStore();
 
-// Verifica se já houve agendamento ou não ao acessar a página
+// Redireciona se já houver agendamento
 onBeforeMount(() => {
-  if (form.isAgendado) return useRouter().replace("/agendado");
+  if (form.isAgendado) useRouter().replace("/agendado");
 });
 
-const modeloParams = useRoute().query.modelo; // Muda os inputs mostrados no form de acordo com o radio
-// Verifica a query do header quando a página é carregada
+// Captura parâmetros da rota para definir o modelo do formulário
+const modeloParams = useRoute().query.modelo;
 onMounted(() => {
-  if (modeloParams === "Ao Vivo" || modeloParams === "Ao+Vivo")
-    form.modelo = "Ao Vivo";
-  else if (modeloParams === "Por Telefone" || modeloParams === "Por+Telefone")
-    form.modelo = "Por Telefone";
+  const modelo = modeloParams?.toString().replace("+", " ");
+  if (modelo === "Ao Vivo" || modelo === "Por Telefone") form.modelo = modelo;
 });
 
-const updateForm = () => form.modelo; // Altera o valor do formulário quando alterado
+// Atualiza o valor do formulário quando necessário
+const updateForm = () => form.modelo;
 
 const agendarBtn = ref("AGENDAR");
-const dialogScreen = ref<HTMLDialogElement | null>();
+const dialogScreen = ref<HTMLDialogElement | null>(null);
 
-// Lógica da verificação do preenchimento dos inputs
+// Computados para verificar o preenchimento dos inputs
 const formDefaultSet = computed(
   () =>
     !form.nome ||
@@ -299,19 +288,22 @@ const aovivoSet = computed(
 const portelefoneSet = computed(
   () => form.modelo === "Por Telefone" && !form.destinatariotel,
 );
-// Lógica de verificação: será falso se qualquer um deles for falso
+
+// Verifica se há campos vazios
 const isThereEmptyFields = computed(
   () => formDefaultSet.value || aovivoSet.value || portelefoneSet.value,
 );
-// Verifica se há algum campo não preenchido
-const toggleButtonClass = computed(() => {
-  if (isThereEmptyFields.value)
-    return "bg-gray-500 opacity-70 cursor-not-allowed";
-  return "bg-red-700 hover:bg-red-600";
-});
 
-watch(agendarBtn, (agendarBtnValue: string) => {
-  if (agendarBtnValue != "AGENDAR")
+// Altera a classe do botão com base nos campos preenchidos
+const toggleButtonClass = computed(() =>
+  isThereEmptyFields.value
+    ? "bg-gray-500 opacity-70 cursor-not-allowed"
+    : "bg-red-700 hover:bg-red-600",
+);
+
+// Observa o estado do botão de agendar e reseta após 5 segundos
+watch(agendarBtn, (newVal) => {
+  if (newVal !== "AGENDAR")
     setTimeout(() => (agendarBtn.value = "AGENDAR"), 5000);
 });
 </script>

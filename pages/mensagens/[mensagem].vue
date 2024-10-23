@@ -79,43 +79,52 @@
 import mensagens from "../../server/database/mensagens.json";
 const ocasiaoMensagem = useRoute().params.mensagem;
 
-type categoriaType = "feminina" | "masculino";
-const selectedCategory = ref<categoriaType>("feminina");
+// Definição do tipo de categoria
+type CategoriaType = "feminina" | "masculino";
+const selectedCategory = ref<CategoriaType>("feminina");
+
+// Obtenção da mensagem baseada na ocasião
 const mensagem = mensagens[ocasiaoMensagem as keyof typeof mensagens];
+
+// Computado que retorna as mensagens filtradas pela categoria selecionada
 const getMensagens = computed(() => {
-  if (mensagem.feminina.length === 0) selectedCategory.value = "masculino";
-  else if (mensagem.masculino.length === 0) selectedCategory.value = "feminina";
+  if (!mensagem.feminina.length) selectedCategory.value = "masculino";
+  else if (!mensagem.masculino.length) selectedCategory.value = "feminina";
   return mensagem[selectedCategory.value];
 });
 
-const classCategorySelected = (category: categoriaType): string => {
-  // Verifica se a categoria existe e se a mensagem é um array vazio
-  if (selectedCategory.value != category && mensagem[category].length === 0)
-    return "bg-gray-500 opacity-70 cursor-not-allowed";
+// Função para determinar a classe da categoria selecionada
+const classCategorySelected = (category: CategoriaType): string => {
+  if (selectedCategory.value !== category && !mensagem[category].length)
+    return "bg-gray-500 opacity-70 cursor-not-allowed"; // Categoria indisponível
 
-  // Verifica se a categoria está selecionada
-  if (selectedCategory.value == category)
-    return "bg-red-600 hover:bg-red-700 cursor-pointer";
-  return "bg-red-700 hover:bg-red-600 cursor-pointer"; // Classe padrão
+  return selectedCategory.value === category
+    ? "bg-red-600 hover:bg-red-700 cursor-pointer" // Categoria selecionada
+    : "bg-red-700 hover:bg-red-600 cursor-pointer"; // Classe padrão
 };
 
-const dialogScreen = ref<HTMLDialogElement>();
+// Controle do diálogo de exibição da mensagem e do player de áudio
+const dialogScreen = ref<HTMLDialogElement | null>(null);
 const dialogTitle = ref<string>("");
 const dialogAudio = ref<string>("");
 const controlPlayer = ref<boolean>(false);
+
+// Exibe o diálogo com o título e caminho do áudio
 const setDialog = (title: string, audioPath: string): void => {
   dialogAudio.value = `/aniversarios/${audioPath}`;
   dialogTitle.value = title;
   dialogScreen.value?.showModal();
-  controlPlayer.value = true; // Bota a música pra toca
+  controlPlayer.value = true; // Toca o áudio
 };
 
-const otherMensagem = () => {
+// Fecha o diálogo e para o player
+const otherMensagem = (): void => {
   controlPlayer.value = false; // Para a música
   dialogScreen.value?.close();
 };
 
-const sendSelectedMensagem = () => {
+// Envia a mensagem selecionada e navega de volta
+const sendSelectedMensagem = (): void => {
   userFormStore().formData.mensagem = dialogTitle.value;
   useRouter().go(-1);
 };

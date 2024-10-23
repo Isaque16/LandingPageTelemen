@@ -26,7 +26,7 @@
       <address>
         Tel. 68999111571 <br />
         Email. rosadesarom_ac2@hotmail.com <br />
-        CNPJ.
+        CNPJ. 14.469.911.0001/77 <br />
       </address>
       <nav class="p-4" aria-label="footer">
         <ul class="flex flex-col md:justify-center gap-5">
