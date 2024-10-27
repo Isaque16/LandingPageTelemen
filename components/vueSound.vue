@@ -2,11 +2,11 @@
   <div class="flex flex-row w-full items-center justify-center gap-10">
     <!-- Botão de Play/Pause -->
     <button>
-      <span v-if="isPlaying">
+      <span v-if="isPlaying" @click="togglePlayPause">
         <!-- Ícone de Pausa -->
         <PauseIcon />
       </span>
-      <span v-else>
+      <span v-else @click="togglePlayPause">
         <!-- Ícone de Play -->
         <PlayIcon />
       </span>
@@ -18,7 +18,7 @@
       :max="duration"
       :value="currentTime"
       @input="setCurrentTime"
-      class="appearance-none bg-red-600 h-2 rounded-full w-1/2"
+      class="appearance-none bg-red-700 h-2 rounded-full w-1/2 range range-error "
     />
   </div>
 </template>
@@ -66,24 +66,28 @@ const updateCurrentTime = () => {
   requestAnimationFrame(updateCurrentTime); // Chama novamente para atualizar
 };
 
+const togglePlayPause = () => {
+  if (isPlaying.value) {
+    sound.pause();
+    isPlaying.value = false;
+  } else {
+    sound.play();
+    isPlaying.value = true;
+  }
+}
+
 // Reagir a mudanças em `props.controller`
-watch(
-  () => props.controller,
-  (newVal) => {
-    if (newVal) {
-      if (!isPlaying.value) {
-        initSound();
-        sound.play(); // Toca o som se controller for true
-        isPlaying.value = true;
-      }
-    } else {
-      if (isPlaying.value) {
-        sound.pause(); // Pausa o som se controller for false
-        isPlaying.value = false;
-      }
-    }
-  },
-);
+watch(() => props.controller, (newVal: boolean) => {
+  if (newVal) {
+    initSound();
+    sound.play(); // Toca o som se controller for true
+    isPlaying.value = true;
+  }
+  else {
+    sound.pause(); // Pausa o som se controller for false
+    isPlaying.value = false;
+  }
+});
 
 // Função para mudar o volume
 // const changeVolume = () => {

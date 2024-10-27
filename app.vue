@@ -6,7 +6,7 @@
       target="_blank"
       external
       ><div
-        class="bg-green-500 fixed bottom-4 right-4 rounded-full p-4 shadow-lg font-semibold z-50"
+        class="bg-green-500 fixed bottom-4 right-4 rounded-badge p-4 shadow-lg font-semibold z-50"
       >
         <img
           src="./assets/SVG/whatsapp.svg"
@@ -20,7 +20,7 @@
 
   <hr />
   <footer
-    class="bg-transparent p-5 flex flex-col-reverse md:flex-row justify-between gap-10"
+    class="p-5 flex flex-col-reverse md:flex-row justify-between gap-10"
   >
     <address>
       Tel. 68999111571 <br />
@@ -59,7 +59,7 @@
       </ul>
     </div>
   </footer>
-  <p class="opacity-70">
+  <p class="opacity-70 px-5">
     Desenvolvido por
     <NuxtLink
       to="https://github.com/Isaque16"

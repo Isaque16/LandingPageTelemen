@@ -1,12 +1,9 @@
 <template>
-  <li
-    name="fadeBox"
-    class="flex flex-col items-center bg-red-600 p-5 rounded-2xl"
-  >
+  <div class="flex flex-col items-center bg-red-600 p-5 rounded-box" name="fadeBox">
     <img :src="imageUrl" :alt="alt" name="svg" class="w-20" />
     <h3 class="text-2xl font-bold">{{ title }}</h3>
     <p>{{ text }}</p>
-  </li>
+  </div>
 </template>
 
 <script lang="ts" setup>

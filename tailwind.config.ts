@@ -1,3 +1,4 @@
+import daisyui from 'daisyui'
 /** @type {import('tailwindcss').Config} */
 module.exports = { 
   content: [
@@ -20,6 +21,14 @@ module.exports = {
         IBM: ['IBM Plex Sans']
       },
     },
+  },
+  plugins: [ daisyui ],
+  daisyui: {
+    themes: [{
+      light: {
+        backgroundImage: "linear-gradient(45deg, #5F2981, #F1BC4A, #F01823)",
+      }
+    }],
   },
 }
 

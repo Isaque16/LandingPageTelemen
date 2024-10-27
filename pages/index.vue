@@ -5,16 +5,16 @@
   >
     <div class="p-5">
       <h1 class="text-4xl md:text-6xl text-center p-2 font-IBM font-bold">
-        TELEMENSAGEM <br />
-        ROSA DE SAROM
+        <span class="block">TELEMENSAGEM</span>
+        <span class="block">ROSA DE SAROM</span>
       </h1>
-      <p class="text-center text-lg font-playWrite">
+      <p class="text-center text-xl font-playWrite">
         💌 Palavras que viram presentes 🎁
       </p>
       <NuxtLink to="/agendamento" class="flex justify-center my-5">
         <div
           name="container"
-          class="text-center p-2 bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer text-xl md:text-3xl font-workSans w-fit font-bold"
+          class="text-center p-2 bg-red-600 hover:bg-red-700 rounded-box cursor-pointer text-xl md:text-3xl font-workSans w-fit font-bold"
         >
           FAÇA JÁ SEU AGENDAMENTO!
         </div>

@@ -4,7 +4,7 @@
       <label
         v-if="forLabel !== 'mensagem'"
         :for="forLabel"
-        class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center"
+        class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center label"
       >
         {{ inputTitle }}
       </label>
@@ -12,7 +12,8 @@
     <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl flex">
       <input
         v-if="forLabel !== 'ocasiao' && forLabel !== 'mensagem'"
-        class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50"
+        :id="forLabel"
+        :class="['px-2 py-1 text-black text-xl rounded-xl w-full md:w-50 input input-error', inputErrorStyle]"
         :type="inputType"
         v-model="modelValue"
         :placeholder="placeholder"
@@ -24,13 +25,13 @@
     </div>
     <p
       v-if="isFocused && isValid"
-      class="opacity-70 text-xl font-bold w-full md:w-1/2"
+      class="opacity-80 text-xl font-bold w-full md:w-1/2"
     >
       {{ infoMessage }}
     </p>
     <p
       v-if="!isValid"
-      class="text-red-600 text-xl italic font-bold w-full md:w-1/2 p-2"
+      class="text-red-600 text-xl font-bold w-full md:w-1/2 p-2"
     >
       {{ errorMessage }}
     </p>
@@ -58,6 +59,10 @@ const hideInfoMessage = () => (isFocused.value = false);
 // Verifica se o input foi preenchido ou não
 const modelValue = defineModel<string>("modelValue");
 const isValid = ref<boolean>(true);
+
+const inputErrorStyle = computed(() => {
+  if (!isValid.value) return "input-warining";
+})
 
 const verifyInput = () => (isValid.value = !!modelValue.value);
 </script>

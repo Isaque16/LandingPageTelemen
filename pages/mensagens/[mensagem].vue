@@ -1,13 +1,13 @@
 <template>
   <main class="bg-transparent text-black text-2xl text-center p-5 h-screen">
     <h1
-      class="px-10 py-1 border-black border-2 w-full md:w-1/2 mx-auto rounded-xl bg-slate-100 font-bold"
+      class="text-2xl md:text-3xl px-10 py-1 border-black border-2 w-full md:w-1/2 mx-auto rounded-xl bg-slate-100 font-bold"
     >
       {{ ocasiaoMensagem }}
     </h1>
 
     <div class="flex flex-row justify-center gap-20">
-      <h2
+      <button
         @click="selectedCategory = 'feminina'"
         :class="[
           classCategorySelected('feminina'),
@@ -15,8 +15,8 @@
         ]"
       >
         Voz Feminina
-      </h2>
-      <h2
+      </button>
+      <button
         @click="selectedCategory = 'masculino'"
         :class="[
           classCategorySelected('masculino'),
@@ -24,7 +24,7 @@
         ]"
       >
         Voz Masculina
-      </h2>
+      </button>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3">
       <div
@@ -53,19 +53,19 @@
       class="bg-white text-white text-center flex flex-col justify-center rounded-xl w-full border-black border-2"
     >
       <div class="flex flex-col gap-5">
-        <p class="text-3xl p-2 bg-red-600">{{ dialogTitle }}</p>
+        <p class="text-3xl p-2 bg-red-600 box-content font-bold">{{ dialogTitle }}</p>
         <VueSound :controller="controlPlayer" :file="dialogAudio" />
       </div>
 
       <div class="flex flex-col p-5 md:flex-row justify-center gap-10">
         <button
-          class="bg-red-700 hover:vermelho px-5 py-1 rounded-2xl text-white text-2xl"
+          class="bg-red-700 hover:bg-red-600 px-5 py-1 rounded-2xl text-white text-2xl btn btn-secondary"
           @click="otherMensagem"
         >
           Outro
         </button>
         <button
-          class="bg-red-700 hover:vermelho px-5 py-1 rounded-2xl text-white text-2xl"
+          class="bg-red-700 hover:bg-red-600 px-5 py-1 rounded-2xl text-white text-2xl btn btn-primary"
           @click="sendSelectedMensagem"
         >
           Selecionar

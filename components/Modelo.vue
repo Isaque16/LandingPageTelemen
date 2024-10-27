@@ -1,7 +1,7 @@
 <template>
-  <div :class="`flex flex-col justify-center ${toggleDiv1Class}`">
+  <div :class="['flex flex-col justify-center', toggleDiv1Class]">
     <div
-      :class="`bg-white p-6 rounded-b-none rounded-lg md:rounded-b-lg shadow-md w-full md:w-1/2 flex flex-col items-center justify-center ${toggleDiv2Class}`"
+      :class="['bg-white p-6 rounded-b-none rounded-lg md:rounded-b-lg shadow-md w-full md:w-1/2 flex flex-col items-center justify-center', toggleDiv2Class]"
     >
       <h3 class="text-4xl text-center mb-4 font-bold text-purple-800">
         {{ modelo }}

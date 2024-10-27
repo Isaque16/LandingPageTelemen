@@ -23,7 +23,7 @@
       </h2>
       <form
         id="form"
-        class="flex flex-col gap-2 w-full"
+        class="flex flex-col gap-2 w-full form-control"
         action="/submit"
         method="post"
       >
@@ -32,10 +32,11 @@
         </h2>
         <div class="flex flex-row-reverse md:flex-row gap-4 text-xl">
           <div
-            class="bg-red-600 p-2 w-fit flex flex-row gap-2 rounded-b-xl rounded-tr-xl"
+            class="bg-red-600 p-2 w-fit flex flex-row gap-2 rounded-b-xl rounded-tr-xl items-center"
           >
-            <label class="text-2xl" for="Ao Vivo"> R$180 | Ao Vivo </label>
+            <label class="text-2xl label" for="Ao Vivo"> R$180 | Ao Vivo </label>
             <input
+              class="radio radio-md"
               type="radio"
               name="modelo"
               value="Ao Vivo"
@@ -44,12 +45,13 @@
             />
           </div>
           <div
-            class="bg-red-600 p-2 w-fit flex flex-row gap-2 rounded-b-xl rounded-tr-xl"
+            class="bg-red-600 p-2 w-fit flex flex-row gap-2 rounded-b-xl rounded-tr-xl items-center"
           >
-            <label class="text-2xl" for="Por Telefone">
+            <label class="text-2xl label" for="Por Telefone">
               R$20 | Telefone <br />
             </label>
             <input
+              class="radio radio-md"
               type="radio"
               name="modelo"
               value="Por Telefone"
@@ -102,66 +104,32 @@
           <div class="flex flex-col p-2">
             <div>
               <label
-                class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center"
+                class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center label"
               >
                 Ocasião da mensagem
               </label>
             </div>
-            <div
-              class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"
-            >
+            <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl">
               <select
-                class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50"
+                class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50 select select-bordered"
                 v-model="form.ocasiao"
               >
                 <optgroup label="Aniversário">
                   <option value="Aniversário de Mãe">Aniversário de Mãe</option>
                   <option value="Aniversário de Pai">Aniversário de Pai</option>
-                  <option value="Aniversário de Irmã">
-                    Aniversário de Irmã
-                  </option>
-                  <option value="Aniversário de Irmão">
-                    Aniversário de Irmão
-                  </option>
-                  <option value="Aniversário de Filha">
-                    Aniversário de Filha
-                  </option>
-                  <option value="Aniversário de Filho">
-                    Aniversário de Filho
-                  </option>
-                  <option value="Aniversário de Namorada">
-                    Aniversário de Namorada
-                  </option>
-                  <option value="Aniversário de Namorado">
-                    Aniversário de Namorado
-                  </option>
-                  <option value="Aniversário de Esposo">
-                    Aniversário de Esposo
-                  </option>
-                  <option value="Aniversário de Esposa">
-                    Aniversário de Esposa
-                  </option>
-                  <option value="Aniversário de Esposo">
-                    Aniversário de Esposo
-                  </option>
-                  <option value="Aniversário de Sogra">
-                    Aniversário de Sogra
-                  </option>
-                  <!-- <option value="Aniversário de Sogro">
-                    Aniversário de Sogro
-                  </option> -->
-                  <option value="Aniversário de Cunhada">
-                    Aniversário de Cunhada
-                  </option>
-                  <option value="Aniversário de Cunhado">
-                    Aniversário de Cunhado
-                  </option>
-                  <option value="Aniversário de Amiga">
-                    Aniversário de Amiga
-                  </option>
-                  <option value="Aniversário de Amigo">
-                    Aniversário de Amigo
-                  </option>
+                  <option value="Aniversário de Irmã">Aniversário de Irmã</option>
+                  <option value="Aniversário de Irmão">Aniversário de Irmão</option>
+                  <option value="Aniversário de Filha">Aniversário de Filha</option>
+                  <option value="Aniversário de Filho">Aniversário de Filho</option>
+                  <option value="Aniversário de Namorada">Aniversário de Namorada</option>
+                  <option value="Aniversário de Namorado">Aniversário de Namorado</option>
+                  <option value="Aniversário de Esposo">Aniversário de Esposo</option>
+                  <option value="Aniversário de Esposa">Aniversário de Esposa</option>
+                  <option value="Aniversário de Sogra">Aniversário de Sogra</option>
+                  <option value="Aniversário de Cunhada">Aniversário de Cunhada</option>
+                  <option value="Aniversário de Cunhado">Aniversário de Cunhado</option>
+                  <option value="Aniversário de Amiga">Aniversário de Amiga</option>
+                  <option value="Aniversário de Amigo">Aniversário de Amigo</option>
                 </optgroup>
               </select>
             </div>
@@ -205,7 +173,7 @@
             >
               <NuxtLink
                 :to="`/mensagens/${form.ocasiao}`"
-                class="p-2 text-2xl font-bold hover:cursor-pointer"
+                class="p-2 text-2xl md:text-3xl font-bold hover:cursor-pointer"
                 >{{
                   !form.mensagem ? "Escolher mensagem" : "Mensagem escolhida"
                 }}: {{ form.mensagem }}
@@ -230,7 +198,7 @@
               :disabled="isThereEmptyFields"
               :class="[
                 toggleButtonClass,
-                'p-2 rounded-xl text-2xl font-workSans w-full md:w-1/2 font-bold',
+                'p-2 rounded-xl text-2xl font-workSans w-full md:w-1/2 font-bold btn btn-primary',
               ]"
             >
               {{ agendarBtn }}
@@ -297,7 +265,7 @@ const isThereEmptyFields = computed(
 // Altera a classe do botão com base nos campos preenchidos
 const toggleButtonClass = computed(() =>
   isThereEmptyFields.value
-    ? "bg-gray-500 opacity-70 cursor-not-allowed"
+    ? "btn-disabled cursor-not-allowed"
     : "bg-red-700 hover:bg-red-600",
 );
 
