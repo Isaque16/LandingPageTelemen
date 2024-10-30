@@ -1,5 +1,5 @@
 <template>
-  <main class="bg-transparent text-black text-2xl text-center p-5 h-screen">
+  <main class="bg-transparent text-black text-2xl text-center p-5 h-full md:h-screen">
     <h1
       class="text-2xl md:text-3xl px-10 py-1 border-black border-2 w-full md:w-1/2 mx-auto rounded-xl bg-slate-100 font-bold"
     >
@@ -36,7 +36,7 @@
           {{ mensagem.name }}
         </p>
         <button
-          class="bg-red-700 hover:bg-red-600 px-5 py-1 rounded-tr-xl rounded-br-xl text-white text-xl text-center h-full ml-5"
+          class="dark-red hover:light-red px-5 py-1 rounded-tr-xl rounded-br-xl text-white text-xl text-center h-full ml-5  btn btn-error"
           @click="setDialog(mensagem.name, mensagem.path)"
         >
           Ouvir
@@ -53,7 +53,7 @@
       class="bg-white text-white text-center flex flex-col justify-center rounded-xl w-full border-black border-2"
     >
       <div class="flex flex-col gap-5">
-        <p class="text-3xl p-2 bg-red-600 box-content font-bold">
+        <p class="text-3xl p-2 light-red box-content font-bold">
           {{ dialogTitle }}
         </p>
         <VueSound :controller="controlPlayer" :file="dialogAudio" />
@@ -61,13 +61,13 @@
 
       <div class="flex flex-col p-5 md:flex-row justify-center gap-10">
         <button
-          class="bg-red-700 hover:bg-red-600 px-5 py-1 rounded-2xl text-white text-2xl btn btn-secondary"
+          class="dark-red hover:light-red px-5 py-1 rounded-2xl text-white text-2xl btn btn-secondary"
           @click="otherMensagem"
         >
           Outro
         </button>
         <button
-          class="bg-red-700 hover:bg-red-600 px-5 py-1 rounded-2xl text-white text-2xl btn btn-primary"
+          class="dark-red hover:light-red px-5 py-1 rounded-2xl text-white text-2xl btn btn-primary"
           @click="sendSelectedMensagem"
         >
           Selecionar
@@ -101,8 +101,8 @@ const classCategorySelected = (category: CategoriaType): string => {
     return "bg-gray-500 opacity-70 cursor-not-allowed"; // Categoria indisponível
 
   return selectedCategory.value === category
-    ? "bg-red-600 hover:bg-red-700 cursor-pointer" // Categoria selecionada
-    : "bg-red-700 hover:bg-red-600 cursor-pointer"; // Classe padrão
+    ? "light-red hover:dark-red cursor-pointer" // Categoria selecionada
+    : "dark-red hover:light-red cursor-pointer"; // Classe padrão
 };
 
 // Controle do diálogo de exibição da mensagem e do player de áudio

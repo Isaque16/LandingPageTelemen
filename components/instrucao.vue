@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center bg-red-600 p-5 rounded-box"
+    class="flex flex-col items-center light-red p-5 rounded-box"
     name="fadeBox"
   >
     <img :src="imageUrl" :alt="alt" name="svg" class="w-20" />

@@ -4,12 +4,12 @@
       <label
         v-if="forLabel !== 'mensagem'"
         :for="forLabel"
-        class="bg-red-600 p-2 rounded-t-xl w-fit text-2xl font-bold text-center label"
+        class="light-red p-2 rounded-t-xl w-fit text-2xl font-bold text-center label"
       >
         {{ inputTitle }}
       </label>
     </div>
-    <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl flex">
+    <div class="light-red p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl flex">
       <input
         v-if="forLabel !== 'ocasiao' && forLabel !== 'mensagem'"
         :id="forLabel"

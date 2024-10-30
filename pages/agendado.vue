@@ -13,7 +13,7 @@
     </NuxtLink>
   </header>
   <hr />
-  <div class="bg-red-600 opacity-70 p-5 text-2xl text-center">
+  <div class="light-red opacity-70 p-5 text-2xl text-center">
     <div class="flex flex-col items-center p-5 text-center">
       <h1 class="font-bold text-5xl">Agendamento realizado!</h1>
       <p class="text-2xl font-bold" v-if="form.modelo === 'Ao Vivo'">

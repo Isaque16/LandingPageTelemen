@@ -14,7 +14,7 @@
       <NuxtLink to="/agendamento" class="flex justify-center my-5">
         <div
           name="container"
-          class="text-center p-2 bg-red-600 hover:bg-red-700 rounded-box cursor-pointer text-xl md:text-3xl font-workSans w-fit font-bold"
+          class="text-center p-2 light-red hover:dark-red rounded-box cursor-pointer text-xl md:text-3xl font-workSans w-fit font-bold"
         >
           FAÇA JÁ SEU AGENDAMENTO!
         </div>
@@ -102,7 +102,7 @@
               height="44px"
               viewBox="0 -960 960 960"
               width="44px"
-              fill="#e8eaed"
+              fill="#ffffff"
             >
               <path
                 d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"
@@ -118,7 +118,7 @@
               height="44px"
               viewBox="0 -960 960 960"
               width="44px"
-              fill="#e8eaed"
+              fill="#ffffff"
             >
               <path
                 d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"
@@ -139,7 +139,7 @@
     <NuxtLink to="/agendamento" class="flex justify-center my-5">
       <div
         name="container"
-        class="text-center p-2 bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer text-2xl md:text-3xl font-workSans w-fit font-bold"
+        class="text-center p-2 light-red hover:dark-red rounded-xl cursor-pointer text-2xl md:text-3xl font-workSans w-fit font-bold"
       >
         FAÇA JÁ SEU AGENDAMENTO!
       </div>

@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .light-red {
+    background-color: #dc2626;
+  }
+  .dark-red {
+    background-color: #b91c1c;
+  }
+}

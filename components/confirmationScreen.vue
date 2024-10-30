@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-red-600 p-4 rounded-lg shadow-lg max-w-screen max-h-screen backdrop:bg-black text-white"
+    class="light-red p-4 rounded-lg shadow-lg max-w-screen max-h-screen backdrop:bg-black text-white"
   >
     <h1 class="text-2xl text-center p-2 font-bold text-primary">
       Confime suas informações antes de enviar
@@ -16,13 +16,13 @@
     <div class="flex flex-row p-2 rounded-xl gap-2">
       <button
         @click="emit('closeDialog')"
-        class="p-2 bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer text-2xl font-workSans w-1/2 btn btn-secondary"
+        class="p-2 light-red hover:dark-red rounded-xl cursor-pointer text-2xl font-workSans w-1/2 btn btn-secondary"
       >
         Cancelar
       </button>
       <button
         @click.prevent="handleAgendamento()"
-        class="p-2 bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer text-2xl font-workSans w-1/2 btn btn-primary"
+        class="p-2 light-red hover:dark-red rounded-xl cursor-pointer text-2xl font-workSans w-1/2 btn btn-primary"
       >
         {{ confirmBtn }}
       </button>
