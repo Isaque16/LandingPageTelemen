@@ -49,16 +49,23 @@ const result = showContent.reduce((acc: Record<string, any>, item: any) => {
 // Função para redirecionar ao pagamento via Stripe
 async function handlePayment(): Promise<void> {
   confirmBtn.value = "Redirecionando para o pagamento...";
-  
+
   try {
-    const stripe = await loadStripe("pk_live_51Q5rVPDzbkNorRzP4U6Wk6Nm64Own1aSvOuquQyPJmoa6MDtyilvUb6fHlDO3mFMqjnbGshwASBNUYe9tEkatwT500KwAjMJPl");
-    
-    const { id, error } = await $fetch<{ id: string; error?: string }>("/api/processPayment", { method: "GET" });
+    const stripe = await loadStripe(
+      "pk_live_51Q5rVPDzbkNorRzP4U6Wk6Nm64Own1aSvOuquQyPJmoa6MDtyilvUb6fHlDO3mFMqjnbGshwASBNUYe9tEkatwT500KwAjMJPl",
+    );
+
+    const { id, error } = await $fetch<{ id: string; error?: string }>(
+      "/api/processPayment",
+      { method: "GET" },
+    );
     if (error) throw new Error(`Erro ao criar sessão de checkout: ${error}`);
-    
-    const { error: redirectError } = await stripe!.redirectToCheckout({ sessionId: id });
-    if (redirectError) throw new Error(`Erro ao redirecionar: ${redirectError.message}`);
-    
+
+    const { error: redirectError } = await stripe!.redirectToCheckout({
+      sessionId: id,
+    });
+    if (redirectError)
+      throw new Error(`Erro ao redirecionar: ${redirectError.message}`);
   } catch (error) {
     console.error("Houve um erro ao tentar carregar o pagamento: ", error);
   }
@@ -67,7 +74,7 @@ async function handlePayment(): Promise<void> {
 // Função para envio de dados do formulário
 async function handleSendFormData(): Promise<void> {
   confirmBtn.value = "Agendando...";
-  
+
   try {
     await $fetch("/api/submitData", {
       method: "POST",
@@ -77,11 +84,9 @@ async function handleSendFormData(): Promise<void> {
 
     form.isAgendado = true;
     useRouter().replace("/agendado");
-    
   } catch (error) {
     emit("agendarBtnBadRequest");
     console.error("Erro ao enviar dados: ", error);
-    
   } finally {
     emit("closeDialog");
     confirmBtn.value = "Confirmar";
@@ -91,14 +96,13 @@ async function handleSendFormData(): Promise<void> {
 // Verificação de clonagem
 async function handleVerifyClone(): Promise<void> {
   confirmBtn.value = "Verificando...";
-  
+
   try {
     await $fetch("/api/middleware/verifyClone", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(result),
     });
-    
   } catch (error) {
     emit("agendarBtnBadRequest");
     console.error("Erro ao verificar clone: ", error);
@@ -110,7 +114,6 @@ async function handleAgendamento(): Promise<void> {
   if (form.modelo === "Por Telefone") {
     await handleVerifyClone();
     await handlePayment();
-  } else 
-    await handleSendFormData();
+  } else await handleSendFormData();
 }
 </script>

@@ -18,7 +18,7 @@
       :max="duration"
       :value="currentTime"
       @input="setCurrentTime"
-      class="appearance-none bg-red-700 h-2 rounded-full w-1/2 range range-error "
+      class="appearance-none bg-red-700 h-2 rounded-full w-1/2 range range-error"
     />
   </div>
 </template>
@@ -74,20 +74,22 @@ const togglePlayPause = () => {
     sound.play();
     isPlaying.value = true;
   }
-}
+};
 
 // Reagir a mudanças em `props.controller`
-watch(() => props.controller, (newVal: boolean) => {
-  if (newVal) {
-    initSound();
-    sound.play(); // Toca o som se controller for true
-    isPlaying.value = true;
-  }
-  else {
-    sound.pause(); // Pausa o som se controller for false
-    isPlaying.value = false;
-  }
-});
+watch(
+  () => props.controller,
+  (newVal: boolean) => {
+    if (newVal) {
+      initSound();
+      sound.play(); // Toca o som se controller for true
+      isPlaying.value = true;
+    } else {
+      sound.pause(); // Pausa o som se controller for false
+      isPlaying.value = false;
+    }
+  },
+);
 
 // Função para mudar o volume
 // const changeVolume = () => {

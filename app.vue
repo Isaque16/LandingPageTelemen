@@ -8,20 +8,14 @@
       ><div
         class="bg-green-500 fixed bottom-4 right-4 rounded-badge p-4 shadow-lg font-semibold z-50"
       >
-        <img
-          src="./assets/SVG/whatsapp.svg"
-          alt="Whatsapp"
-          class="w-9"
-        /></div
+        <img src="./assets/SVG/whatsapp.svg" alt="Whatsapp" class="w-9" /></div
     ></NuxtLink>
   </div>
 
   <NuxtPage />
 
   <hr />
-  <footer
-    class="p-5 flex flex-col-reverse md:flex-row justify-between gap-10"
-  >
+  <footer class="p-5 flex flex-col-reverse md:flex-row justify-between gap-10">
     <address>
       Tel. 68999111571 <br />
       Email. rosadesarom_ac2@hotmail.com <br />

@@ -34,7 +34,9 @@
           <div
             class="bg-red-600 p-2 w-fit flex flex-row gap-2 rounded-b-xl rounded-tr-xl items-center"
           >
-            <label class="text-2xl label" for="Ao Vivo"> R$180 | Ao Vivo </label>
+            <label class="text-2xl label" for="Ao Vivo">
+              R$180 | Ao Vivo
+            </label>
             <input
               class="radio radio-md"
               type="radio"
@@ -109,7 +111,9 @@
                 Ocasião da mensagem
               </label>
             </div>
-            <div class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl">
+            <div
+              class="bg-red-600 p-2 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"
+            >
               <select
                 class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50 select select-bordered"
                 v-model="form.ocasiao"
@@ -117,19 +121,45 @@
                 <optgroup label="Aniversário">
                   <option value="Aniversário de Mãe">Aniversário de Mãe</option>
                   <option value="Aniversário de Pai">Aniversário de Pai</option>
-                  <option value="Aniversário de Irmã">Aniversário de Irmã</option>
-                  <option value="Aniversário de Irmão">Aniversário de Irmão</option>
-                  <option value="Aniversário de Filha">Aniversário de Filha</option>
-                  <option value="Aniversário de Filho">Aniversário de Filho</option>
-                  <option value="Aniversário de Namorada">Aniversário de Namorada</option>
-                  <option value="Aniversário de Namorado">Aniversário de Namorado</option>
-                  <option value="Aniversário de Esposo">Aniversário de Esposo</option>
-                  <option value="Aniversário de Esposa">Aniversário de Esposa</option>
-                  <option value="Aniversário de Sogra">Aniversário de Sogra</option>
-                  <option value="Aniversário de Cunhada">Aniversário de Cunhada</option>
-                  <option value="Aniversário de Cunhado">Aniversário de Cunhado</option>
-                  <option value="Aniversário de Amiga">Aniversário de Amiga</option>
-                  <option value="Aniversário de Amigo">Aniversário de Amigo</option>
+                  <option value="Aniversário de Irmã">
+                    Aniversário de Irmã
+                  </option>
+                  <option value="Aniversário de Irmão">
+                    Aniversário de Irmão
+                  </option>
+                  <option value="Aniversário de Filha">
+                    Aniversário de Filha
+                  </option>
+                  <option value="Aniversário de Filho">
+                    Aniversário de Filho
+                  </option>
+                  <option value="Aniversário de Namorada">
+                    Aniversário de Namorada
+                  </option>
+                  <option value="Aniversário de Namorado">
+                    Aniversário de Namorado
+                  </option>
+                  <option value="Aniversário de Esposo">
+                    Aniversário de Esposo
+                  </option>
+                  <option value="Aniversário de Esposa">
+                    Aniversário de Esposa
+                  </option>
+                  <option value="Aniversário de Sogra">
+                    Aniversário de Sogra
+                  </option>
+                  <option value="Aniversário de Cunhada">
+                    Aniversário de Cunhada
+                  </option>
+                  <option value="Aniversário de Cunhado">
+                    Aniversário de Cunhado
+                  </option>
+                  <option value="Aniversário de Amiga">
+                    Aniversário de Amiga
+                  </option>
+                  <option value="Aniversário de Amigo">
+                    Aniversário de Amigo
+                  </option>
                 </optgroup>
               </select>
             </div>

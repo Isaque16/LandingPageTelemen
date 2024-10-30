@@ -8,16 +8,16 @@ export default defineEventHandler(async () => {
       line_items: [
         {
           price_data: {
-            currency: 'brl',
+            currency: "brl",
             product_data: {
-              name: 'Mensagem por Telefone',
+              name: "Mensagem por Telefone",
             },
             unit_amount: 2000, // Preço em centavos (R$20,00)
           },
-          quantity: 1, 
+          quantity: 1,
         },
       ],
-      mode: 'payment',
+      mode: "payment",
       success_url: `${process.env.DOMAIN}/agendado?session_id={CHECKOUT_SESSION_ID}`, // URL de sucesso
       cancel_url: `${process.env.DOMAIN}/agendamento`, // URL de cancelamento
     });

@@ -13,7 +13,10 @@
       <input
         v-if="forLabel !== 'ocasiao' && forLabel !== 'mensagem'"
         :id="forLabel"
-        :class="['px-2 py-1 text-black text-xl rounded-xl w-full md:w-50 input input-error', inputErrorStyle]"
+        :class="[
+          'px-2 py-1 text-black text-xl rounded-xl w-full md:w-50 input input-error',
+          inputErrorStyle,
+        ]"
         :type="inputType"
         v-model="modelValue"
         :placeholder="placeholder"
@@ -62,7 +65,7 @@ const isValid = ref<boolean>(true);
 
 const inputErrorStyle = computed(() => {
   if (!isValid.value) return "input-warining";
-})
+});
 
 const verifyInput = () => (isValid.value = !!modelValue.value);
 </script>

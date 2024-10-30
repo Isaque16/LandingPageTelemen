@@ -9,7 +9,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "tailwind": "npx tailwindcss -i ./assets/styles/input.css -o ./assets/styles/style.css --watch",
-    "prettier": "npx prettier --write ./app.vue ./pages/*.vue ./pages/**/*.vue ./components/*.vue ./components/**/*.vue"
+    "prettier": "npx prettier --write ./app.vue ./pages/*.vue ./pages/**/*.vue ./components/*.vue ./components/**/*.vue server/api/**/*.ts"
   },
   "dependencies": {
     "@nuxt/image": "^1.8.0",

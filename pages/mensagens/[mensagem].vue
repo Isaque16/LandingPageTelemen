@@ -53,7 +53,9 @@
       class="bg-white text-white text-center flex flex-col justify-center rounded-xl w-full border-black border-2"
     >
       <div class="flex flex-col gap-5">
-        <p class="text-3xl p-2 bg-red-600 box-content font-bold">{{ dialogTitle }}</p>
+        <p class="text-3xl p-2 bg-red-600 box-content font-bold">
+          {{ dialogTitle }}
+        </p>
         <VueSound :controller="controlPlayer" :file="dialogAudio" />
       </div>
 
