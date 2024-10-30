@@ -90,7 +90,7 @@
             image-url="/images/formulario-de-contato.png"
             alt="Formulário"
             title="FORNEÇA AS INFORMAÇÕES"
-            text="Clicando no botão abaixo preencha o formulário as informações necessárias para a realização do serviço"
+            text="Clicando no botão abaixo preencha o formulário com as informações necessárias para a realização do serviço"
           />
 
           <span
