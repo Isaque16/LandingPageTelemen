@@ -9,7 +9,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "tailwind": "npx tailwindcss -i ./assets/styles/input.css -o ./assets/styles/style.css --watch",
-    "prettier": "npx prettier --write ./app.vue ./pages/*.vue ./pages/**/*.vue ./components/*.vue ./components/**/*.vue server/api/**/*.ts"
+    "prettier": "npx prettier --write ./app.vue ./pages/*.vue ./pages/**/*.vue ./components/*.vue ./components/**/*.vue server/api/**/*.ts",
+    "e2e": "cypress open"
   },
   "dependencies": {
     "@nuxt/image": "^1.8.0",
@@ -17,13 +18,16 @@
     "@stripe/stripe-js": "^4.6.0",
     "animejs": "^3.2.2",
     "cors": "^2.8.5",
+    "cypress": "^13.16.1",
     "dotenv": "^16.4.5",
     "howler": "^2.2.4",
+    "mongoose": "^8.8.3",
     "nodemailer": "^6.9.15",
     "nuxt": "^3.13.2",
     "pinia": "^2.2.2",
     "pinia-plugin-persistedstate": "^4.1.1",
     "stripe": "^17.0.0",
+    "typescript": "^5.7.2",
     "uuid": "^10.0.0",
     "vue": "latest",
     "vue-router": "latest"

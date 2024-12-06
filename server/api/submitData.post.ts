@@ -4,10 +4,12 @@ import cors from "cors";
 import type { H3Event } from "h3";
 
 import verifyClone from "./middleware/verifyClone";
-import registScheduling from "./middleware/logData";
+import registScheduling from "./middleware/registScheduling";
+import connectToDatabase from "../database/connectDB";
 
 dotenv.config();
 cors();
+connectToDatabase();
 
 export default defineEventHandler(async (event: H3Event) => {
   await verifyClone(event);
@@ -26,7 +28,9 @@ export default defineEventHandler(async (event: H3Event) => {
   });
 
   const sendMessage = `
-  Uma nova mensagem foi agendada para ${result["Horário da Mensagem"]} às ${result["Data da Mensagem"]}!
+  Uma nova mensagem foi agendada para ${result["Horário da Mensagem"]} às ${
+    result["Data da Mensagem"]
+  }!
   Informações abaixo:
   ${Object.entries(result)
     .map(([key, value]) => `${key}: ${value}`)
@@ -34,7 +38,8 @@ export default defineEventHandler(async (event: H3Event) => {
 
   const message = {
     from: process.env.SENDERS_EMAIL,
-    to: "rosadesarom_ac2@hotmail.com",
+    // to: "rosadesarom_ac2@hotmail.com",
+    to: "clubpenguinganboll46@gmail.com",
     subject: `Mensagem ${result["Modelo de Mensagem"]} de ${result["Nome de Quem Envia"]} para ${result["Horário da Mensagem"]}`,
     text: sendMessage,
   };
