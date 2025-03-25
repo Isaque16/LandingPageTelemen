@@ -12,7 +12,6 @@
       </div>
     </NuxtLink>
   </header>
-  <hr />
 
   <main class="p-5 w-full">
     <section class="flex flex-col my-10">
@@ -43,7 +42,6 @@
               name="modelo"
               value="Ao Vivo"
               v-model="form.modelo"
-              @change="updateForm"
             />
           </div>
           <div
@@ -58,7 +56,6 @@
               name="modelo"
               value="Por Telefone"
               v-model="form.modelo"
-              @change="updateForm"
             />
           </div>
         </div>
@@ -90,6 +87,7 @@
             inputTitle="Horário da mensagem"
             inputType="time"
             v-model="form.hora"
+            :min="currentTime"
             info-message="Preencha este campo com a hora em que a mensagem deve ser enviada"
             error-message="É preciso informar o horário de envio da mensagem"
           />
@@ -99,6 +97,7 @@
             inputTitle="Data de envio"
             inputType="date"
             v-model="form.data"
+            :min="currentDate"
             info-message="Preencha a data de envio da mensagem e agende com antecedência."
             error-message="É preciso informar a data de envio da mensagem"
           />
@@ -249,12 +248,15 @@
 
 <script lang="ts" setup>
 // Armazenando variáveis globais com Pinia
-const { formData: form } = userFormStore();
+const { formData: form } = useUserFormStore();
 
 // Redireciona se já houver agendamento
 onBeforeMount(() => {
   if (form.isAgendado) useRouter().replace("/agendado");
 });
+
+const currentDate = new Date().toISOString().split("T")[0];
+const currentTime = new Date().toISOString().split("T")[1];
 
 // Captura parâmetros da rota para definir o modelo do formulário
 const modeloParams = useRoute().query.modelo;
@@ -262,9 +264,6 @@ onMounted(() => {
   const modelo = modeloParams?.toString().replace("+", " ");
   if (modelo === "Ao Vivo" || modelo === "Por Telefone") form.modelo = modelo;
 });
-
-// Atualiza o valor do formulário quando necessário
-const updateForm = () => form.modelo;
 
 const agendarBtn = ref("AGENDAR");
 const dialogScreen = ref<HTMLDialogElement | null>(null);
@@ -278,25 +277,25 @@ const formDefaultSet = computed(
     !form.data ||
     !form.ocasiao ||
     !form.contato ||
-    !form.mensagem,
+    !form.mensagem
 );
 const aovivoSet = computed(
-  () => form.modelo === "Ao Vivo" && (!form.musica || !form.endereco),
+  () => form.modelo === "Ao Vivo" && (!form.musica || !form.endereco)
 );
 const portelefoneSet = computed(
-  () => form.modelo === "Por Telefone" && !form.destinatariotel,
+  () => form.modelo === "Por Telefone" && !form.destinatariotel
 );
 
 // Verifica se há campos vazios
 const isThereEmptyFields = computed(
-  () => formDefaultSet.value || aovivoSet.value || portelefoneSet.value,
+  () => formDefaultSet.value || aovivoSet.value || portelefoneSet.value
 );
 
 // Altera a classe do botão com base nos campos preenchidos
 const toggleButtonClass = computed(() =>
   isThereEmptyFields.value
     ? "btn-disabled cursor-not-allowed"
-    : "bg-red-700 hover:bg-red-600",
+    : "bg-red-700 hover:bg-red-600"
 );
 
 // Observa o estado do botão de agendar e reseta após 5 segundos

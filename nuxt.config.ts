@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
+    "@vite-pwa/nuxt",
   ],
   tailwindcss: {
     configPath: "tailwind.config.ts",
@@ -22,7 +23,7 @@ export default defineNuxtConfig({
       viewport: "width=device-width, initial-scale=1",
       meta: [
         {
-          key: "keywords",
+          name: "keywords",
           content:
             "Telemensagem Rosa de Sarom: Palavras que viram presentes, Rio Branco - Acre",
         },

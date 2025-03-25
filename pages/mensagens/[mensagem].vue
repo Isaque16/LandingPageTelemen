@@ -127,7 +127,7 @@ const otherMensagem = (): void => {
 
 // Envia a mensagem selecionada e navega de volta
 const sendSelectedMensagem = (): void => {
-  userFormStore().formData.mensagem = dialogTitle.value;
+  useUserFormStore().formData.mensagem = dialogTitle.value;
   useRouter().go(-1);
 };
 </script>

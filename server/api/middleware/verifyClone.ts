@@ -8,7 +8,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
   try {
     const isDuplicated = await Agendamento.exists({
-      Horário_da_Mensagem: result["Horário da Mensagem"],
+      Horario_da_Mensagem: result["Horário da Mensagem"],
       Data_da_Mensagem: result["Data da Mensagem"],
     });
 

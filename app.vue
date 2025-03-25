@@ -53,14 +53,4 @@
       </ul>
     </div>
   </footer>
-  <p class="opacity-70 px-5">
-    Desenvolvido por
-    <NuxtLink
-      to="https://github.com/Isaque16"
-      external
-      target="blank"
-      class="font-bold underline"
-      >Isaque Costa</NuxtLink
-    >
-  </p>
 </template>

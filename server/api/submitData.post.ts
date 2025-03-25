@@ -1,23 +1,22 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import cors from "cors";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 import type { H3Event } from "h3";
 
+import connectToDatabase from "../database/connectDB";
 import verifyClone from "./middleware/verifyClone";
 import registScheduling from "./middleware/registScheduling";
-import connectToDatabase from "../database/connectDB";
 
 dotenv.config();
 cors();
 connectToDatabase();
 
-export default defineEventHandler(async (event: H3Event) => {
-  await verifyClone(event);
-  await registScheduling(event);
-
-  const result = await readBody(event);
-
-  // Configuração do transportador do Nodemailer
+async function sendEmail(
+  to: string,
+  subject: string,
+  text: string
+): Promise<SMTPTransport.SentMessageInfo> {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     secure: false,
@@ -26,6 +25,22 @@ export default defineEventHandler(async (event: H3Event) => {
       pass: process.env.SENDERS_PASSWORD,
     },
   });
+
+  const mailOptions = {
+    from: process.env.SENDERS_EMAIL,
+    to,
+    subject,
+    text,
+  };
+
+  return transporter.sendMail(mailOptions);
+}
+
+export default defineEventHandler(async (event: H3Event) => {
+  await verifyClone(event);
+  await registScheduling(event);
+
+  const result = await readBody(event);
 
   const sendMessage = `
   Uma nova mensagem foi agendada para ${result["Horário da Mensagem"]} às ${
@@ -38,21 +53,11 @@ export default defineEventHandler(async (event: H3Event) => {
 
   const message = {
     from: process.env.SENDERS_EMAIL,
-    // to: "rosadesarom_ac2@hotmail.com",
     to: "clubpenguinganboll46@gmail.com",
+    // to: "rosadesarom_ac2@hotmail.com",
     subject: `Mensagem ${result["Modelo de Mensagem"]} de ${result["Nome de Quem Envia"]} para ${result["Horário da Mensagem"]}`,
     text: sendMessage,
   };
 
-  try {
-    await transporter.sendMail(message);
-    console.log("Email enviado com sucesso!");
-    return { status: 200 };
-  } catch (error) {
-    console.error("Erro ao enviar o email:", error);
-    throw createError({
-      statusCode: 400,
-      statusMessage: "Erro ao agendar, tente novamente",
-    });
-  }
+  await sendEmail(message.to, message.subject, message.text);
 });

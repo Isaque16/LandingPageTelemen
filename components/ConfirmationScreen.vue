@@ -37,11 +37,11 @@ import { loadStripe } from "@stripe/stripe-js";
 const emit = defineEmits(["closeDialog", "agendarBtnBadRequest"]);
 
 // Estado do formulário e dados
-const { formData: form, showContent } = userFormStore();
+const { formData: form, showContent } = useUserFormStore();
 const confirmBtn = ref<string>("Confirmar");
 
 // Preparação de dados do formulário
-const result = showContent.reduce((acc: Record<string, any>, item: any) => {
+const result = showContent.reduce((acc: Record<string, string>, item: any) => {
   acc[item.contentTitle] = item.data;
   return acc;
 }, {});
@@ -52,12 +52,12 @@ async function handlePayment(): Promise<void> {
 
   try {
     const stripe = await loadStripe(
-      "pk_live_51Q5rVPDzbkNorRzP4U6Wk6Nm64Own1aSvOuquQyPJmoa6MDtyilvUb6fHlDO3mFMqjnbGshwASBNUYe9tEkatwT500KwAjMJPl",
+      "pk_live_51Q5rVPDzbkNorRzP4U6Wk6Nm64Own1aSvOuquQyPJmoa6MDtyilvUb6fHlDO3mFMqjnbGshwASBNUYe9tEkatwT500KwAjMJPl"
     );
 
     const { id, error } = await $fetch<{ id: string; error?: string }>(
       "/api/processPayment",
-      { method: "GET" },
+      { method: "GET" }
     );
     if (error) throw new Error(`Erro ao criar sessão de checkout: ${error}`);
 

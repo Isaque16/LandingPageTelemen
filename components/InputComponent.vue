@@ -17,6 +17,7 @@
           'px-2 py-1 text-black text-xl rounded-xl w-full md:w-50 input input-error',
           inputErrorStyle,
         ]"
+        :min="min"
         :type="inputType"
         v-model="modelValue"
         :placeholder="placeholder"
@@ -46,10 +47,11 @@
 defineProps<{
   forLabel: string;
   inputTitle: string;
-  inputType?: string;
   modelValue: string;
+  inputType?: string;
   placeholder?: string;
   autocomplete?: string;
+  min?: string;
   infoMessage?: string;
   errorMessage?: string;
 }>();

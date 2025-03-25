@@ -70,7 +70,9 @@
 </template>
 
 <script lang="ts" setup>
-const { formData: form, showContent, $reset } = userFormStore();
+const formStore = useUserFormStore();
+const { formData: form, showContent } = formStore;
+
 const timeRemaining = ref<string>("");
 
 // Função para calcular o tempo restante até a data e hora do agendamento
@@ -82,7 +84,7 @@ function updateTimeRemaining(): void {
   const diff = target.getTime() - now.getTime();
 
   if (diff <= 0) {
-    $reset();
+    formStore.$reset();
     useRouter().replace("/agendamento");
     return;
   }
