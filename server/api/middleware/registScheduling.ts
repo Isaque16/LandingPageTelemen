@@ -9,7 +9,11 @@ export default defineEventHandler(async (event: H3Event) => {
   const result = await readBody(event);
 
   const formattedResult = Object.keys(result).reduce((acc, key) => {
-    const formattedKey = key.replaceAll(" ", "_");
+    const formattedKey = key
+        .normalize("NFD") // Separa os acentos dos caracteres
+        .replace(/[\u0300-\u036f]/g, "") // Remove os acentos
+        .replace(/ç/g, "c") // Substitui "ç" por "c"
+        .replaceAll(" ", "_"); // Substitui espaços por "_"
     acc[formattedKey as keyof IAgendamento] = result[key];
     return acc;
   }, {} as IAgendamento);
