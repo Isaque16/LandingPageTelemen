@@ -53,8 +53,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
   const message = {
     from: process.env.SENDERS_EMAIL,
-    to: "clubpenguinganboll46@gmail.com",
-    // to: "rosadesarom_ac2@hotmail.com",
+    to: "rosadesarom_ac2@hotmail.com",
     subject: `Mensagem ${result["Modelo de Mensagem"]} de ${result["Nome de Quem Envia"]} para ${result["Horário da Mensagem"]}`,
     text: sendMessage,
   };

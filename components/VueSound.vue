@@ -27,8 +27,6 @@
 import { Howl } from "howler";
 import PlayIcon from "./PlayerSvg/PlayIcon.vue";
 import PauseIcon from "./PlayerSvg/PauseIcon.vue";
-// import VolumeIcon from "./PlayerSvg/VolumeIcon.vue";
-
 const props = defineProps<{
   controller: boolean;
   file: string;
