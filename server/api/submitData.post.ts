@@ -15,7 +15,7 @@ connectToDatabase();
 async function sendEmail(
   to: string,
   subject: string,
-  text: string
+  text: string,
 ): Promise<SMTPTransport.SentMessageInfo> {
   const transporter = nodemailer.createTransport({
     service: "gmail",

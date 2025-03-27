@@ -1,5 +1,7 @@
 <template>
-  <main class="bg-transparent text-black text-2xl text-center p-5 h-full md:h-screen">
+  <main
+    class="bg-transparent text-black text-2xl text-center p-5 h-full md:h-screen"
+  >
     <h1
       class="text-2xl md:text-3xl px-10 py-1 border-black border-2 w-full md:w-1/2 mx-auto rounded-xl bg-slate-100 font-bold"
     >
@@ -36,7 +38,7 @@
           {{ mensagem.name }}
         </p>
         <button
-          class="dark-red hover:light-red px-5 py-1 rounded-tr-xl rounded-br-xl text-white text-xl text-center h-full ml-5  btn btn-error"
+          class="dark-red hover:light-red px-5 py-1 rounded-tr-xl rounded-br-xl text-white text-xl text-center h-full ml-5 btn btn-error"
           @click="setDialog(mensagem.name, mensagem.path)"
         >
           Ouvir

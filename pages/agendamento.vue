@@ -277,25 +277,25 @@ const formDefaultSet = computed(
     !form.data ||
     !form.ocasiao ||
     !form.contato ||
-    !form.mensagem
+    !form.mensagem,
 );
 const aovivoSet = computed(
-  () => form.modelo === "Ao Vivo" && (!form.musica || !form.endereco)
+  () => form.modelo === "Ao Vivo" && (!form.musica || !form.endereco),
 );
 const portelefoneSet = computed(
-  () => form.modelo === "Por Telefone" && !form.destinatariotel
+  () => form.modelo === "Por Telefone" && !form.destinatariotel,
 );
 
 // Verifica se há campos vazios
 const isThereEmptyFields = computed(
-  () => formDefaultSet.value || aovivoSet.value || portelefoneSet.value
+  () => formDefaultSet.value || aovivoSet.value || portelefoneSet.value,
 );
 
 // Altera a classe do botão com base nos campos preenchidos
 const toggleButtonClass = computed(() =>
   isThereEmptyFields.value
     ? "btn-disabled cursor-not-allowed"
-    : "bg-red-700 hover:bg-red-600"
+    : "bg-red-700 hover:bg-red-600",
 );
 
 // Observa o estado do botão de agendar e reseta após 5 segundos

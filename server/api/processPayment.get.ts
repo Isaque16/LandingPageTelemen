@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 import Stripe from "stripe";
 
 dotenv.config();
