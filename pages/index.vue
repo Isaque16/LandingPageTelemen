@@ -75,7 +75,7 @@
           </h2>
           <div class="bg-white w-2/12 h-2 self-center mb-10"></div>
         </div>
-        <ul class="flex flex-col md:flex-row justify-between gap-10">
+        <div class="flex flex-col md:flex-row justify-between gap-10">
           <Instrucao
             image-url="images/contact-us.png"
             alt="Contato"
@@ -132,7 +132,7 @@
             title="CONFIE NO NOSSO TRABALHO"
             text="Após a realização de todas as etapas anteriores, basta ficar tranquilo e confiar no nosso trabalho"
           />
-        </ul>
+        </div>
       </section>
     </div>
 
@@ -162,7 +162,7 @@ onMounted(() => {
             targets: element,
             translateY: [0, -10],
             direction: "alternate",
-            duration: 500,
+            duration: 1000,
             easing: "easeInOutQuad",
           });
         }

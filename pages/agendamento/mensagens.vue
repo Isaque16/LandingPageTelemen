@@ -5,11 +5,10 @@
     <NuxtLink class="flex justify-start p-5" to="/agendamento">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 cursor-pointer"
         fill="none"
         viewBox="0 0 24 24"
         stroke="white"
-        width="50"
+        width="40"
       >
         <path
             stroke-linecap="round"
@@ -144,7 +143,7 @@
 </template>
 
 <script lang="ts" setup>
-import mensagens from "@/server/database/mensagens.json";
+import mensagens from "~/server/database/mensagens.json";
 
 const { formData: form } = useUserFormStore();
 

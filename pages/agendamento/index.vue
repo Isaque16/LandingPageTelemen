@@ -203,7 +203,7 @@
               class="bg-red-600 p-4 w-full md:w-1/2 rounded-b-xl rounded-tr-xl"
             >
               <NuxtLink
-                :to="`/mensagens/${form.ocasiao}`"
+                to="/agendamento/mensagens"
                 class="p-2 text-2xl md:text-3xl font-bold hover:cursor-pointer"
                 >{{
                   !form.mensagem ? "Escolher mensagem" : "Mensagem escolhida"
@@ -270,14 +270,14 @@ onMounted(() => {
   if (modelo === "Ao Vivo" || modelo === "Por Telefone") form.modelo = modelo;
 });
 
-const agendarBtn = ref("AGENDAR");
+const agendarBtn = ref<string>("AGENDAR");
 const dialogScreen = ref<HTMLDialogElement | null>(null);
 
 const clearSelectedMensagem = () => form.mensagem = "";
 
 // Computados para verificar o preenchimento dos inputs
 const formDefaultSet = computed(
-  () =>
+  (): boolean =>
     !form.nome ||
     !form.para ||
     !form.hora ||
@@ -287,19 +287,19 @@ const formDefaultSet = computed(
     !form.mensagem,
 );
 const aovivoSet = computed(
-  () => form.modelo === "Ao Vivo" && (!form.musica || !form.endereco),
+  (): boolean => form.modelo === "Ao Vivo" && (!form.musica || !form.endereco),
 );
 const portelefoneSet = computed(
-  () => form.modelo === "Por Telefone" && !form.destinatariotel,
+  (): boolean => form.modelo === "Por Telefone" && !form.destinatariotel,
 );
 
 // Verifica se há campos vazios
 const isThereEmptyFields = computed(
-  () => formDefaultSet.value || aovivoSet.value || portelefoneSet.value,
+  (): boolean => formDefaultSet.value || aovivoSet.value || portelefoneSet.value,
 );
 
 // Altera a classe do botão com base nos campos preenchidos
-const toggleButtonClass = computed(() =>
+const toggleButtonClass = computed((): string =>
   isThereEmptyFields.value
     ? "btn-disabled cursor-not-allowed"
     : "bg-red-700 hover:bg-red-600",

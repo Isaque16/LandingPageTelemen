@@ -25,7 +25,7 @@ onMounted(() => {
       if (entry.isIntersecting) {
         let fadeBoxes = anime.timeline({
           easing: "easeInOutExpo",
-          duration: 750,
+          duration: 600,
         });
 
         document.getElementsByName("fadeBox").forEach((box) => {
