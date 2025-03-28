@@ -12,6 +12,7 @@
       </div>
     </NuxtLink>
   </header>
+  <hr>
 
   <main class="p-5 w-full">
     <section class="flex flex-col my-10">
@@ -116,6 +117,7 @@
               <select
                 class="px-2 py-1 text-black text-xl rounded-xl w-full md:w-50 select select-bordered"
                 v-model="form.ocasiao"
+                @change="clearSelectedMensagem"
               >
                 <optgroup label="Aniversário">
                   <option value="Aniversário de Mãe">Aniversário de Mãe</option>
@@ -177,7 +179,7 @@
           <InputComponent
             v-if="form.modelo == 'Por Telefone'"
             forLabel="destinatariotel"
-            inputTitle="Número do destinatário"
+            inputTitle="Telefone do destinatário"
             inputType="text"
             v-model="form.destinatariotel"
             placeholder="ex: 68 12345678"
@@ -237,7 +239,7 @@
       </form>
 
       <dialog ref="dialogScreen" class="rounded-lg">
-        <ConfirmationScreen
+        <ConfirmationModal
           @closeDialog="dialogScreen?.close()"
           @agendarBtnBadRequest="agendarBtn = 'Horário indisponível nessa data'"
         />
@@ -256,10 +258,13 @@ onBeforeMount(() => {
 });
 
 const currentDate = new Date().toISOString().split("T")[0];
-const currentTime = new Date().toISOString().split("T")[1];
+const currentTime = new Date(new Date().getTime() + 30 * 60000)
+    .toISOString()
+    .split("T")[1]
+    .slice(0, 5); // Pega "HH:MM"
 
 // Captura parâmetros da rota para definir o modelo do formulário
-const modeloParams = useRoute().query.modelo;
+const { modelo: modeloParams } = useRoute().query;
 onMounted(() => {
   const modelo = modeloParams?.toString().replace("+", " ");
   if (modelo === "Ao Vivo" || modelo === "Por Telefone") form.modelo = modelo;
@@ -267,6 +272,8 @@ onMounted(() => {
 
 const agendarBtn = ref("AGENDAR");
 const dialogScreen = ref<HTMLDialogElement | null>(null);
+
+const clearSelectedMensagem = () => form.mensagem = "";
 
 // Computados para verificar o preenchimento dos inputs
 const formDefaultSet = computed(

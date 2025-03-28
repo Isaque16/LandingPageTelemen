@@ -1,18 +1,21 @@
 // Função que retorna o horário atual e a data de hoje
 const time = new Date(); // Cria uma nova instância da classe Date
+
 // Define o horário atual
 export function setCurrentTime(): string {
+  const newTime = new Date(time.getTime() + 30 * 60000); // Adiciona 30 minutos
   const hours: string | number =
-    time.getHours() < 10
-      ? time.getHours().toString().padStart(2, "0")
-      : time.getHours();
+    newTime.getHours() < 10
+      ? newTime.getHours().toString().padStart(2, "0")
+      : newTime.getHours();
   const minutes: string | number =
-    time.getMinutes() < 10
-      ? time.getMinutes().toString().padStart(2, "0")
-      : time.getMinutes();
+    newTime.getMinutes() < 10
+      ? newTime.getMinutes().toString().padStart(2, "0")
+      : newTime.getMinutes();
 
   return `${hours}:${minutes}` as string;
 }
+
 // Define a data de hoje
 export function setCurrentDate(): string {
   const day: string | number =

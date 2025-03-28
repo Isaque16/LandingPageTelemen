@@ -40,12 +40,12 @@
           '🚗 Carro com balões metalizados 🎈',
           '💌 2(duas) Mensagens',
           '🎵 Músicas a sua escolha',
-          '🎤 Abrimos oportunidade para falar',
+          '🎤 Abrimos  oportunidade para falar',
+          '❤ Brinde: CORAÇÃO de pelúcia',
           '🎇 Chuva de Prata',
           '🎆 Fogos de artifício',
-          '🎙 Locução Diferenciada',
-          '🧸 Brinde: uma almofada com a caneca',
           '📸 Postagem de fotos em nossas redes sociais',
+          '🎙 Locução Diferenciada',
           '✅ Garantia 100%',
         ]"
         :preco="180"
@@ -162,7 +162,7 @@ onMounted(() => {
             targets: element,
             translateY: [0, -10],
             direction: "alternate",
-            duration: 1000,
+            duration: 500,
             easing: "easeInOutQuad",
           });
         }
@@ -171,9 +171,9 @@ onMounted(() => {
   };
   const observer = new IntersectionObserver(handleIntersection, {
     threshold: 0.3,
-  }); // Configuração do Intersection Observer
+  });
   document
     .getElementsByName("container")
-    .forEach((cont) => observer.observe(cont)); // Seleciona os elementos e observa
+    .forEach((cont) => observer.observe(cont));
 });
 </script>

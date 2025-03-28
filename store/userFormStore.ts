@@ -47,5 +47,7 @@ export const useUserFormStore = defineStore("form", {
       return [...content, ...variableItems];
     }
   },
-  persist: true
+  persist: {
+    omit: ["formData.data", "formData.hora"]
+  }
 });

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="light-red p-4 rounded-lg shadow-lg max-w-screen max-h-screen backdrop:bg-black text-white"
+    class="light-red p-4 rounded-lg shadow-lg max-w-screen h-fit backdrop:bg-black text-white"
   >
     <h1 class="text-2xl text-center p-2 font-bold text-primary">
       Confime suas informações antes de enviar
@@ -16,15 +16,16 @@
     <div class="flex flex-row p-2 rounded-xl gap-2">
       <button
         @click="emit('closeDialog')"
-        class="p-2 light-red hover:dark-red rounded-xl cursor-pointer text-2xl font-workSans w-1/2 btn btn-secondary"
+        class="p-2 light-red hover:dark-red rounded-xl cursor-pointer text-2xl font-workSans w-1/2 h-12 btn btn-secondary"
       >
         Cancelar
       </button>
       <button
         @click.prevent="handleAgendamento()"
-        class="p-2 light-red hover:dark-red rounded-xl cursor-pointer text-2xl font-workSans w-1/2 btn btn-primary"
+        class="p-2 light-red hover:dark-red rounded-xl cursor-pointer text-2xl font-workSans w-1/2 h-12 btn btn-primary"
       >
-        {{ confirmBtn }}
+        <span class="loading loading-dots loading-lg" v-if="isLoading"></span>
+        <span v-else>Confirmar</span>
       </button>
     </div>
   </div>
@@ -38,7 +39,7 @@ const emit = defineEmits(["closeDialog", "agendarBtnBadRequest"]);
 
 // Estado do formulário e dados
 const { formData: form, showContent } = useUserFormStore();
-const confirmBtn = ref<string>("Confirmar");
+const isLoading = ref<boolean>(false);
 
 // Preparação de dados do formulário
 const result = showContent.reduce((acc: Record<string, string>, item: any) => {
@@ -48,7 +49,7 @@ const result = showContent.reduce((acc: Record<string, string>, item: any) => {
 
 // Função para redirecionar ao pagamento via Stripe
 async function handlePayment(): Promise<void> {
-  confirmBtn.value = "Redirecionando para o pagamento...";
+  isLoading.value = true;
 
   try {
     const stripe = await loadStripe(
@@ -68,12 +69,14 @@ async function handlePayment(): Promise<void> {
       throw new Error(`Erro ao redirecionar: ${redirectError.message}`);
   } catch (error) {
     console.error("Houve um erro ao tentar carregar o pagamento: ", error);
+  } finally {
+    isLoading.value = false;
   }
 }
 
 // Função para envio de dados do formulário
 async function handleSendFormData(): Promise<void> {
-  confirmBtn.value = "Agendando...";
+  isLoading.value = true;
 
   try {
     await $fetch("/api/submitData", {
@@ -89,13 +92,13 @@ async function handleSendFormData(): Promise<void> {
     console.error("Erro ao enviar dados: ", error);
   } finally {
     emit("closeDialog");
-    confirmBtn.value = "Confirmar";
+    isLoading.value = false;
   }
 }
 
 // Verificação de clonagem
 async function handleVerifyClone(): Promise<void> {
-  confirmBtn.value = "Verificando...";
+  isLoading.value = true;
 
   try {
     await $fetch("/api/middleware/verifyClone", {
@@ -106,6 +109,8 @@ async function handleVerifyClone(): Promise<void> {
   } catch (error) {
     emit("agendarBtnBadRequest");
     console.error("Erro ao verificar clone: ", error);
+  } finally {
+    isLoading.value = false;
   }
 }
 

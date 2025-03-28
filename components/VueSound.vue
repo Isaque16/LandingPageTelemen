@@ -1,7 +1,10 @@
 <template>
   <div class="flex flex-row w-full items-center justify-center gap-10">
+    <!-- Indicador de Loading -->
+    <div v-if="isLoading" class="loading-spinner"></div>
+
     <!-- Botão de Play/Pause -->
-    <button>
+    <button v-else>
       <span v-if="isPlaying" @click="togglePlayPause">
         <!-- Ícone de Pausa -->
         <PauseIcon />
@@ -27,21 +30,20 @@
 import { Howl } from "howler";
 import PlayIcon from "./PlayerSvg/PlayIcon.vue";
 import PauseIcon from "./PlayerSvg/PauseIcon.vue";
+
 const props = defineProps<{
   controller: boolean;
   file: string;
 }>();
 
 // Refs para controlar o player
+const isLoading = ref<boolean>(true);
 const isPlaying = ref<boolean>(false);
 const volume = ref<number>(1.0); // Volume padrão 100%
 const currentTime = ref<number>(0); // Tempo atual
 const duration = ref<number>(0); // Duração total
 
-// Exemplo de caminho do áudio
 let sound: Howl;
-
-// const showVolumeControl = ref(false); // Controle de volume oculto inicialmente
 
 // Função para inicializar o Howler
 const initSound = () => {
@@ -53,7 +55,10 @@ const initSound = () => {
       isPlaying.value = false; // Define como não tocando quando acaba
       currentTime.value = 0; // Reseta o tempo atual
     },
-    onload: () => (duration.value = sound.duration()), // Define a duração total após o áudio ser carregado
+    onload: () => {
+      duration.value = sound.duration(); // Define a duração total após o áudio ser carregado
+      isLoading.value = false; // Define como carregado
+    },
     onplay: () => requestAnimationFrame(updateCurrentTime), // Atualiza o tempo atual enquanto está tocando
   });
 };
@@ -89,15 +94,6 @@ watch(
   },
 );
 
-// Função para mudar o volume
-// const changeVolume = () => {
-//   if (sound)
-//     sound.volume(volume.value);
-// }
-
-// Função para alternar a visibilidade do controle de volume
-// const toggleVolumeControl = () => showVolumeControl.value = !showVolumeControl.value; // Alterna a visibilidade;
-
 // Função para definir o tempo atual
 const setCurrentTime = (event: any) => {
   const newTime = event.target.value;
@@ -112,3 +108,20 @@ onMounted(initSound);
 
 onBeforeUnmount(() => sound && sound.unload());
 </script>
+
+<style scoped>
+.loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #000;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
