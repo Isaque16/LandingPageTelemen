@@ -93,7 +93,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3">
       <div
-        class="bg-gray-100 w-2/3 flex flex-row items-center justify-between text-black text-center rounded-2xl border-black border-2 m-10"
+        class="bg-gray-100 w-4/5 flex flex-row items-center justify-between text-black text-center rounded-2xl border-black border-2 m-10"
         v-for="(mensagem, index) in getMensagens"
         :key="index"
       >

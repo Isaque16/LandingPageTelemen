@@ -41,7 +41,7 @@
           '💌 2(duas) Mensagens',
           '🎵 Músicas a sua escolha',
           '🎤 Abrimos  oportunidade para falar',
-          '❤ Brinde: CORAÇÃO de pelúcia',
+          '❤️ Brinde: CORAÇÃO de pelúcia',
           '🎇 Chuva de Prata',
           '🎆 Fogos de artifício',
           '📸 Postagem de fotos em nossas redes sociais',
